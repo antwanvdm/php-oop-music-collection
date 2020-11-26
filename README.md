@@ -44,7 +44,7 @@ can connect to the vagrant box to use the installed mariadb driver.
     define("BASE_PATH", "/");
     define("LOG_PATH", "../app/logs/");
     define("INCLUDES_PATH", __DIR__ . "/../");
-    define("RESOURCES_PATH", BASE_PATH . "public/");
+    define("RESOURCES_PATH", BASE_PATH);
     
     //Custom error handler, so every error will throw a custom ErrorException
     set_error_handler(function ($severity, $message, $file, $line) {
