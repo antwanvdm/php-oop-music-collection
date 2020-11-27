@@ -69,9 +69,11 @@ includes a `test@test.com` user with the password `test`.
 - Add some kind of event dispatching system
 - Add a translator with translation files
 - Implement CLI bootstrap
-- Add cronjob support ("tasks")
+- ~~Add cronjob support ("tasks")~~
+- Make wrapper for super global $_GET
 - Possibility to extend and re-use templates
 - Extend the logging system to different logging levels (now only error)
+- Make an actual composer package for this (separate music collection from the core)
 - Ok... Add some basic CSS framework to prevent tears
 - Implement PHP 8 Attributes
 

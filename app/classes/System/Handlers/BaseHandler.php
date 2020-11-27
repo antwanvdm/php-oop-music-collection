@@ -51,7 +51,7 @@ abstract class BaseHandler
     /**
      * @param string $name
      * @param array $arguments
-     * @return mixed
+     * @return self
      * @throws \Exception
      */
     public function __call(string $name, array $arguments): self
