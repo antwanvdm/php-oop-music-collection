@@ -1,7 +1,8 @@
 <?php
 /**
- * @var $errors array
- * @var $email string|boolean
+ * @var array $errors
+ * @var string|bool $email
+ * @var callable $route
  */
 ?>
 <h1>Login</h1>
@@ -27,5 +28,5 @@
     </div>
 </form>
 <div>
-    <a href="<?= BASE_PATH; ?>">Go back to the list</a>
+    <a href="<?= $route('home'); ?>">Go back home</a>
 </div>

@@ -63,7 +63,7 @@ the `app/logs` folder.
 includes a `test@test.com` user with the password `test`.
 
 ## Roadmap
-- Routing class for named routes (to prevent refactoring urls in templates)
+- ~~Routing class for named routes (to prevent refactoring urls in templates)~~
 - Add eager loading option for ORM
 - Refactor some stuff in the ORM (see todos in code)
 - Add some kind of event dispatching system
@@ -71,6 +71,7 @@ includes a `test@test.com` user with the password `test`.
 - Implement CLI bootstrap
 - ~~Add cronjob support ("tasks")~~
 - Make wrapper for super global $_GET
+- Configure psalm, phpunit & php-cs-fixer in automated script
 - Possibility to extend and re-use templates
 - Extend the logging system to different logging levels (now only error)
 - Make an actual composer package for this (separate music collection from the core)

@@ -1,8 +1,9 @@
 <?php
 /**
- * @var $errors array
- * @var $totalArtists int
- * @var $artists \System\Databases\Objects\Artist[]
+ * @var array $errors
+ * @var int $totalArtists
+ * @var \System\Databases\Objects\Artist[] $artists
+ * @var callable $route
  */
 ?>
 <h1>Artists</h1>
@@ -14,7 +15,7 @@
     </ul>
 <?php endif; ?>
 
-<a href="<?= BASE_PATH; ?>artists/add">Add new artist</a>
+<a href="<?= $route('artist.add'); ?>">Add new artist</a>
 <?php if (isset($artists) && isset($totalArtists)): ?>
     <table>
         <thead>
@@ -36,14 +37,14 @@
                 <td><?= $artist->id; ?></td>
                 <td><?= $artist->name; ?></td>
                 <td><?= count($artist->albums); ?></td>
-                <td><a href="<?= BASE_PATH; ?>artists/detail?id=<?= $artist->id; ?>">Details</a></td>
-                <td><a href="<?= BASE_PATH; ?>artists/edit?id=<?= $artist->id; ?>">Edit</a></td>
-                <td><a href="<?= BASE_PATH; ?>artists/delete?id=<?= $artist->id; ?>">Delete</a></td>
+                <td><a href="<?= $route('artist.detail'); ?>?id=<?= $artist->id; ?>">Details</a></td>
+                <td><a href="<?= $route('artist.edit'); ?>?id=<?= $artist->id; ?>">Edit</a></td>
+                <td><a href="<?= $route('artist.delete'); ?>?id=<?= $artist->id; ?>">Delete</a></td>
             </tr>
         <?php endforeach; ?>
         </tbody>
     </table>
 <?php endif; ?>
 <div>
-    <a href="<?= BASE_PATH; ?>">Go back home</a>
+    <a href="<?= $route('home'); ?>">Go back home</a>
 </div>

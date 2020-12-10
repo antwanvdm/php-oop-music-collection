@@ -1,8 +1,9 @@
 <?php
 /**
- * @var $errors array
- * @var $success string|boolean
- * @var $genre \System\Databases\Objects\Genre
+ * @var array $errors
+ * @var string|bool $success
+ * @var \System\Databases\Objects\Genre $genre
+ * @var callable $route
  */
 ?>
 <h1>Add genre</h1>
@@ -28,6 +29,6 @@
     </div>
 </form>
 <div>
-    <a href="<?= BASE_PATH; ?>genres">Go back to the list</a>
-    <a href="<?= BASE_PATH; ?>user/logout">Logout</a>
+    <a href="<?= $route('genre.index'); ?>">Go back to the list</a>
+    <a href="<?= $route('account.logout'); ?>">Logout</a>
 </div>

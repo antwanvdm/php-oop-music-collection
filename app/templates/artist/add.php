@@ -1,8 +1,9 @@
 <?php
 /**
- * @var $errors array
- * @var $success string|boolean
- * @var $artist \System\Databases\Objects\Artist
+ * @var array $errors
+ * @var string|boolean $success
+ * @var \System\Databases\Objects\Artist $artist
+ * @var callable $route
  */
 ?>
 <h1>Add artist</h1>
@@ -28,6 +29,6 @@
     </div>
 </form>
 <div>
-    <a href="<?= BASE_PATH; ?>artists">Go back to the list</a>
-    <a href="<?= BASE_PATH; ?>user/logout">Logout</a>
+    <a href="<?= $route('artist.index'); ?>">Go back to the list</a>
+    <a href="<?= $route('account.logout'); ?>">Logout</a>
 </div>

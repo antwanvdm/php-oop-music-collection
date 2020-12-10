@@ -1,7 +1,8 @@
 <?php
 /**
- * @var $errors array
- * @var $artist \System\Databases\Objects\Artist
+ * @var array $errors
+ * @var \System\Databases\Objects\Artist $artist
+ * @var callable $route
  */
 ?>
 <?php if (!empty($errors)): ?>
@@ -26,6 +27,6 @@
 <?php endif; ?>
 
 <div>
-    <a href="<?= BASE_PATH; ?>artists">Go back to the list</a>
+    <a href="<?= $route('artist.index'); ?>">Go back to the list</a>
 </div>
 

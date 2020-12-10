@@ -1,11 +1,12 @@
 <?php
 /**
- * @var $errors array
- * @var $success string|boolean
- * @var $album \System\Databases\Objects\Album
- * @var $albumGenreIds array
- * @var $artists \System\Databases\Objects\Artist[]
- * @var $genres \System\Databases\Objects\Genre[]
+ * @var array $errors
+ * @var string|boolean $success
+ * @var \System\Databases\Objects\Album $album
+ * @var array $albumGenreIds
+ * @var \System\Databases\Objects\Artist[] $artists
+ * @var \System\Databases\Objects\Genre[] $genres
+ * @var callable $route
  */
 ?>
 <h1>Add album</h1>
@@ -62,6 +63,6 @@
     </div>
 </form>
 <div>
-    <a href="<?= BASE_PATH; ?>albums">Go back to the list</a>
-    <a href="<?= BASE_PATH; ?>user/logout">Logout</a>
+    <a href="<?= $route('album.index'); ?>">Go back to the list</a>
+    <a href="<?= $route('account.logout'); ?>">Logout</a>
 </div>

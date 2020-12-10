@@ -1,8 +1,9 @@
 <?php
 /**
- * @var $errors array
- * @var $success string|boolean
- * @var $genre \System\Databases\Objects\Genre
+ * @var array $errors
+ * @var string|boolean $success
+ * @var \System\Databases\Objects\Genre $genre
+ * @var callable $route
  */
 ?>
 <?php if (!empty($errors)): ?>
@@ -30,5 +31,5 @@
     </form>
 <?php endif; ?>
 <div>
-    <a href="<?= BASE_PATH; ?>genres">Go back to the list</a>
+    <a href="<?= $route('genre.index'); ?>">Go back to the list</a>
 </div>

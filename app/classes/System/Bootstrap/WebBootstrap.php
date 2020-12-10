@@ -1,6 +1,7 @@
 <?php namespace System\Bootstrap;
 
 use System\Handlers\BaseHandler;
+use System\Routing\Router;
 use System\Utils\Session;
 use System\Utils\Logger;
 use System\Utils\URL;
@@ -15,6 +16,7 @@ class WebBootstrap implements BootstrapInterface
     private string $action;
     private Session $session;
     private Logger $logger;
+    private Router $router;
 
     public function __construct()
     {
@@ -26,20 +28,20 @@ class WebBootstrap implements BootstrapInterface
 
     /**
      * Setup the route based on current path
-     * @TODO Create a Route class for named routes to use in templates
      */
     public function setup(): void
     {
         //Get the url from the nginx config & check existence (if not: 404!)
-        $route = URL::getCurrentPath();
+        $path = URL::getCurrentPath();
+        $this->router = new Router();
+        //@TODO see if this can be implement more elegant instead of creating a local variable..
+        $router = $this->router;
         require_once INCLUDES_PATH . "config/routes.php";
 
         //Check existence of route & initiate correct Handler & actions based on route
-        /** @var $routes array */
-        if (isset($routes[$route])) {
-            list ($class, $action) = explode("@", $routes[$route]);
-            $this->className = '\\System\\Handlers\\' . $class;
-            $this->action = $action;
+        if (($route = $this->router->getRoute($path)) !== null) {
+            $this->className = $route->className;
+            $this->action = $route->action;
         } else {
             header('HTTP/1.0 404 Not Found');
             $this->className = '\\System\\Handlers\\NotFoundHandler';
@@ -62,6 +64,7 @@ class WebBootstrap implements BootstrapInterface
             $page = new $this->className($this->action);
             $page->session = $this->session;
             $page->logger = $this->logger;
+            $page->router = $this->router;
             return $page->{$this->action}()->getHTML();
         } catch (\Exception $e) {
             $this->logger->error($e);

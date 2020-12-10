@@ -1,7 +1,8 @@
 <?php namespace System\Handlers;
 
-use System\Utils\Logger;
 use System\Utils\Session;
+use System\Utils\Logger;
+use System\Routing\Router;
 
 /**
  * Class BaseHandler
@@ -10,6 +11,7 @@ use System\Utils\Session;
  * Dynamic properties to enable auto complete:
  * @property Session $session
  * @property Logger $logger
+ * @property Router $router
  */
 abstract class BaseHandler
 {
@@ -78,8 +80,15 @@ abstract class BaseHandler
         }
         extract($vars);
         ob_start();
-        /** @noinspection PhpIncludeInspection */
-        require_once INCLUDES_PATH . 'templates/' . $this->templatePath . '.php';
+        try {
+            $route = [$this->router, 'getFullPathByName'];
+            /** @noinspection PhpIncludeInspection */
+            require_once INCLUDES_PATH . 'templates/' . $this->templatePath . '.php';
+        } catch (\Exception $e) {
+            $this->logger->error($e);
+            ob_get_clean();
+            throw new \RuntimeException('Something went wrong in the template');
+        }
         $this->data['content'] = ob_get_clean();
         $this->data = array_merge($this->data, $vars);
     }

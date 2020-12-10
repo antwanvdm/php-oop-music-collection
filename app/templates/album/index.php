@@ -1,8 +1,9 @@
 <?php
 /**
- * @var $errors array
- * @var $totalAlbums int
- * @var $albums \System\Databases\Objects\Album[]
+ * @var array $errors
+ * @var int $totalAlbums
+ * @var \System\Databases\Objects\Album[] $albums
+ * @var callable $route
  */
 ?>
 <h1>Albums</h1>
@@ -14,7 +15,7 @@
     </ul>
 <?php endif; ?>
 
-<a href="<?= BASE_PATH; ?>albums/add">Add new album</a>
+<a href="<?= $route('album.add'); ?>">Add new album</a>
 <?php if (isset($albums) && isset($totalAlbums)): ?>
     <table>
         <thead>
@@ -50,14 +51,14 @@
                 </td>
                 <td><?= $album->year; ?></td>
                 <td><?= $album->tracks; ?></td>
-                <td><a href="<?= BASE_PATH; ?>albums/detail?id=<?= $album->id; ?>">Details</a></td>
-                <td><a href="<?= BASE_PATH; ?>albums/edit?id=<?= $album->id; ?>">Edit</a></td>
-                <td><a href="<?= BASE_PATH; ?>albums/delete?id=<?= $album->id; ?>">Delete</a></td>
+                <td><a href="<?= $route('album.detail'); ?>?id=<?= $album->id; ?>">Details</a></td>
+                <td><a href="<?= $route('album.edit'); ?>?id=<?= $album->id; ?>">Edit</a></td>
+                <td><a href="<?= $route('album.delete'); ?>?id=<?= $album->id; ?>">Delete</a></td>
             </tr>
         <?php endforeach; ?>
         </tbody>
     </table>
 <?php endif; ?>
 <div>
-    <a href="<?= BASE_PATH; ?>">Go back home</a>
+    <a href="<?= $route('home'); ?>">Go back home</a>
 </div>
