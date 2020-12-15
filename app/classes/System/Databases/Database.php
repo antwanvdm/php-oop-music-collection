@@ -36,7 +36,7 @@ class Database
      * @return \PDO
      * @throws \Exception
      */
-    static public function getInstance(): \PDO
+    public static function getInstance(): \PDO
     {
         if (self::$instance === null) {
             self::$instance = (new Database(DB_HOST, DB_USER, DB_PASS, DB_NAME))->getConnection();

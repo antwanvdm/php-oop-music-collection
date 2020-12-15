@@ -140,7 +140,7 @@ abstract class BaseObject
      * @throws \Exception
      * @TODO Connect to delete pivots as well (in case cascade is turned off on mysql table relations)
      */
-    static public function delete($id): bool
+    public static function delete($id): bool
     {
         $db = Database::getInstance();
         $tableName = static::$table;
@@ -155,7 +155,7 @@ abstract class BaseObject
      * @return array
      * @throws \Exception
      */
-    static public function getAll(): array
+    public static function getAll(): array
     {
         $db = Database::getInstance();
         $tableName = static::$table;
@@ -167,7 +167,7 @@ abstract class BaseObject
      * @return self
      * @throws \Exception
      */
-    static public function getById(int $id): self
+    public static function getById(int $id): self
     {
         $db = Database::getInstance();
         $tableName = static::$table;

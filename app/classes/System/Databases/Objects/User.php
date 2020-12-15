@@ -32,7 +32,7 @@ class User extends BaseObject
      * @return User
      * @throws \Exception
      */
-    static public function getByEmail(string $email): User
+    public static function getByEmail(string $email): User
     {
         $db = Database::getInstance();
         $statement = $db->prepare("SELECT * FROM users WHERE email = :email");
