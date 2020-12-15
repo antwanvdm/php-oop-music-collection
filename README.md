@@ -65,21 +65,27 @@ includes a `test@test.com` user with the password `test`.
 ## Roadmap
 - ~~Routing class for named routes (to prevent refactoring urls in templates)~~
 - ~~Provide a parameter in the route dynamically~~
+- Extend Routing system with multiple parameters
 - Add eager loading option for ORM
 - Refactor some stuff in the ORM (see todos in code)
 - Add some kind of event dispatching system
 - Add a translator with translation files
-- Implement CLI bootstrap
+- ~~Implement CLI bootstrap~~
 - ~~Add cronjob support ("tasks")~~
-- Make wrapper for super global $_GET
+- Make wrapper (request object?) for super globals $_GET/$_POST
 - Configure psalm, phpunit & php-cs-fixer in automated script
 - Possibility to extend and re-use templates
 - Extend the logging system to different logging levels (now only error)
+- Rename namespaces to MVC terminology
 - Make an actual composer package for this (separate music collection from the core)
 - Ok... Add some basic CSS framework to prevent tears
 - Implement PHP 8 Attributes
 
 ## Changelog
+### v1.1.0
+- Implemented CLI bootstrap & corresponding tasks
+- Implemented a more advanced routing system
+
 ### v1.0.0
 - First version based on the outcome of my course.
 - Includes templating, magic methods, interfaces, traits, abstract classes, statics,
