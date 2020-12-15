@@ -12,7 +12,7 @@ class GenreHandler extends BaseHandler
 
     private Genre $genre;
 
-    protected function index()
+    protected function index(): void
     {
         //Get all genres
         $genres = Genre::getAll();
@@ -25,7 +25,7 @@ class GenreHandler extends BaseHandler
         ]);
     }
 
-    protected function add()
+    protected function add(): void
     {
         //Set default empty genre & execute POST logic
         $this->genre = new Genre();
@@ -52,11 +52,14 @@ class GenreHandler extends BaseHandler
         ]);
     }
 
-    protected function edit()
+    /**
+     * @param string $id
+     */
+    protected function edit(string $id): void
     {
         try {
             //Get the record from the db & execute POST logic
-            $this->genre = Genre::getById($_GET['id']);
+            $this->genre = Genre::getById($id);
             $this->executePostHandler();
 
             //Database magic when no errors are found
@@ -87,13 +90,13 @@ class GenreHandler extends BaseHandler
     }
 
     /**
-     * @noinspection PhpUnused
+     * @param string $id
      */
-    protected function detail()
+    protected function detail(string $id): void
     {
         try {
             //Get the records from the db
-            $genre = Genre::getById($_GET['id']);
+            $genre = Genre::getById($id);
 
             //Default page title
             $pageTitle = $genre->name;
@@ -111,14 +114,17 @@ class GenreHandler extends BaseHandler
         ]);
     }
 
-    protected function delete()
+    /**
+     * @param string $id
+     */
+    protected function delete(string $id): void
     {
         try {
             //Get the record from the db
-            $genre = Genre::getById($_GET['id']);
+            $genre = Genre::getById($id);
 
             //Database magic when no errors are found
-            if (Genre::delete($_GET['id'])) {
+            if (Genre::delete($id)) {
                 //Redirect to homepage after deletion & exit script
                 header("Location: " . BASE_PATH . "genres");
                 exit;

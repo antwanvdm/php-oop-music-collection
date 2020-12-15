@@ -37,9 +37,9 @@
                 <td><?= $genre->id; ?></td>
                 <td><?= $genre->name; ?></td>
                 <td><?= count($genre->albums); ?></td>
-                <td><a href="<?= $route('genre.detail'); ?>?id=<?= $genre->id; ?>">Details</a></td>
-                <td><a href="<?= $route('genre.edit'); ?>?id=<?= $genre->id; ?>">Edit</a></td>
-                <td><a href="<?= $route('genre.delete'); ?>?id=<?= $genre->id; ?>">Delete</a></td>
+                <td><a href="<?= $route('genre.detail', ['id' => $genre->id]); ?>">Details</a></td>
+                <td><a href="<?= $route('genre.edit', ['id' => $genre->id]); ?>">Edit</a></td>
+                <td><a href="<?= $route('genre.delete', ['id' => $genre->id]); ?>">Delete</a></td>
             </tr>
         <?php endforeach; ?>
         </tbody>

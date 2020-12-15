@@ -6,7 +6,7 @@
  */
 class NotFoundHandler extends BaseHandler
 {
-    protected function index()
+    protected function index(): void
     {
         //Return formatted data
         $this->renderTemplate([

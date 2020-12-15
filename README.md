@@ -64,6 +64,7 @@ includes a `test@test.com` user with the password `test`.
 
 ## Roadmap
 - ~~Routing class for named routes (to prevent refactoring urls in templates)~~
+- ~~Provide a parameter in the route dynamically~~
 - Add eager loading option for ORM
 - Refactor some stuff in the ORM (see todos in code)
 - Add some kind of event dispatching system

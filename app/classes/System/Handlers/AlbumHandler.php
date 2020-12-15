@@ -28,7 +28,7 @@ class AlbumHandler extends BaseHandler
         $this->image = new Image();
     }
 
-    protected function index()
+    protected function index(): void
     {
         //Get all albums
         $albums = Album::getAll();
@@ -41,7 +41,7 @@ class AlbumHandler extends BaseHandler
         ]);
     }
 
-    protected function add()
+    protected function add(): void
     {
         //If not logged in, redirect to login
         if (!$this->session->keyExists('user')) {
@@ -92,11 +92,15 @@ class AlbumHandler extends BaseHandler
         ]);
     }
 
-    protected function edit()
+    /**
+     * @param string $id
+     * @throws \Exception
+     */
+    protected function edit(string $id): void
     {
         try {
             //Get the record from the db & execute POST logic
-            $this->album = Album::getById($_GET['id']);
+            $this->album = Album::getById($id);
             $this->album->genres(); //@TODO blegh
             $this->executePostHandler();
 
@@ -143,13 +147,13 @@ class AlbumHandler extends BaseHandler
     }
 
     /**
-     * @noinspection PhpUnused
+     * @param string id (@TODO see if we can somehow make this an int dynamically)
      */
-    protected function detail()
+    protected function detail(string $id): void
     {
         try {
             //Get the records from the db
-            $album = Album::getById($_GET['id']);
+            $album = Album::getById($id);
 
             //Default page title
             $pageTitle = $album->name;
@@ -167,14 +171,17 @@ class AlbumHandler extends BaseHandler
         ]);
     }
 
-    protected function delete()
+    /**
+     * @param string $id
+     */
+    protected function delete(string $id): void
     {
         try {
             //Get the record from the db
-            $album = Album::getById($_GET['id']);
+            $album = Album::getById($id);
 
             //Database magic when no errors are found
-            if (Album::delete($_GET['id'])) {
+            if (Album::delete($id)) {
                 //Remove image
                 $this->image->delete($album->image);
 

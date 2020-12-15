@@ -12,7 +12,7 @@ class ArtistHandler extends BaseHandler
 
     private Artist $artist;
 
-    protected function index()
+    protected function index(): void
     {
         //Get all artists
         $artists = Artist::getAll();
@@ -25,7 +25,7 @@ class ArtistHandler extends BaseHandler
         ]);
     }
 
-    protected function add()
+    protected function add(): void
     {
         //If not logged in, redirect to login
         if (!$this->session->keyExists('user')) {
@@ -61,11 +61,14 @@ class ArtistHandler extends BaseHandler
         ]);
     }
 
-    protected function edit()
+    /**
+     * @param string $id
+     */
+    protected function edit(string $id): void
     {
         try {
             //Get the record from the db & execute POST logic
-            $this->artist = Artist::getById($_GET['id']);
+            $this->artist = Artist::getById($id);
             $this->executePostHandler();
 
             //Database magic when no errors are found
@@ -96,13 +99,13 @@ class ArtistHandler extends BaseHandler
     }
 
     /**
-     * @noinspection PhpUnused
+     * @param string $id
      */
-    protected function detail()
+    protected function detail(string $id): void
     {
         try {
             //Get the records from the db
-            $artist = Artist::getById($_GET['id']);
+            $artist = Artist::getById($id);
 
             //Default page title
             $pageTitle = $artist->name;
@@ -120,14 +123,17 @@ class ArtistHandler extends BaseHandler
         ]);
     }
 
-    protected function delete()
+    /**
+     * @param string $id
+     */
+    protected function delete(string $id): void
     {
         try {
             //Get the record from the db
-            $artist = Artist::getById($_GET['id']);
+            $artist = Artist::getById($id);
 
             //Database magic when no errors are found
-            if (Artist::delete($_GET['id'])) {
+            if (Artist::delete($id)) {
                 //Redirect to homepage after deletion & exit script
                 header("Location: " . BASE_PATH . "artists");
                 exit;

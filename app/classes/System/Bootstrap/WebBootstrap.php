@@ -12,8 +12,11 @@ use System\Utils\URL;
  */
 class WebBootstrap implements BootstrapInterface
 {
-    private string $className;
-    private string $action;
+    private array $handler = [
+        'className' => '',
+        'action' => '',
+        'params' => [],
+    ];
     private Session $session;
     private Logger $logger;
     private Router $router;
@@ -33,19 +36,20 @@ class WebBootstrap implements BootstrapInterface
     {
         //Get the url from the nginx config & check existence (if not: 404!)
         $path = URL::getCurrentPath();
-        $this->router = new Router();
+        $this->router = new Router($path);
         //@TODO see if this can be implement more elegant instead of creating a local variable..
         $router = $this->router;
         require_once INCLUDES_PATH . "config/routes.php";
 
         //Check existence of route & initiate correct Handler & actions based on route
         if (($route = $this->router->getRoute($path)) !== null) {
-            $this->className = $route->className;
-            $this->action = $route->action;
+            $this->handler['className'] = $route->className;
+            $this->handler['action'] = $route->action;
+            $this->handler['params'] = $route->params;
         } else {
             header('HTTP/1.0 404 Not Found');
-            $this->className = '\\System\\Handlers\\NotFoundHandler';
-            $this->action = 'index';
+            $this->handler['className'] = '\\System\\Handlers\\NotFoundHandler';
+            $this->handler['action'] = 'index';
         }
     }
 
@@ -57,15 +61,15 @@ class WebBootstrap implements BootstrapInterface
     public function render(): string
     {
         try {
-            if (!class_exists($this->className)) {
-                throw new \Exception('Class ' . $this->className . ' does not exist!');
+            if (!class_exists($this->handler['className'])) {
+                throw new \Exception('Class ' . $this->handler['className'] . ' does not exist!');
             }
             /** @var $page BaseHandler */
-            $page = new $this->className($this->action);
+            $page = new $this->handler['className']($this->handler['action']);
             $page->session = $this->session;
             $page->logger = $this->logger;
             $page->router = $this->router;
-            return $page->{$this->action}()->getHTML();
+            return $page->{$this->handler['action']}(...$this->handler['params'])->getHTML();
         } catch (\Exception $e) {
             $this->logger->error($e);
             die("Oops, something went wrong, please contact the site administrator.");

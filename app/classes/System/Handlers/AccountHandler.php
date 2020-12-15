@@ -14,7 +14,7 @@ class AccountHandler extends BaseHandler
     /**
      * @noinspection PhpUnused
      */
-    protected function login()
+    protected function login(): void
     {
         //If already logged in, no need to be here
         if ($this->session->keyExists('user')) {
@@ -64,14 +64,14 @@ class AccountHandler extends BaseHandler
     /**
      * @noinspection PhpUnused
      */
-    protected function logout()
+    protected function logout(): void
     {
         $this->session->destroy();
         header('Location: ' . BASE_PATH);
         exit;
     }
 
-    protected function register()
+    protected function register(): void
     {
         //TEMP script just to add an user.
         $user = new User();

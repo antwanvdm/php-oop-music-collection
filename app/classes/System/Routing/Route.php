@@ -9,6 +9,7 @@ class Route
     public string $path;
     public string $className;
     public string $action;
+    public array $params = [];
     public ?string $name = null;
 
     /**
@@ -23,6 +24,13 @@ class Route
         $this->path = $path;
         $this->className = $className;
         $this->action = $action;
+
+        /**
+         * @TODO Add possibility for nested routes with multiple params (now only 1 works)
+         */
+        if (preg_match("/\{([a-zA-Z0-9]+)\}/", $path, $matches)) {
+            $this->params[] = $matches[1];
+        }
     }
 
     /**

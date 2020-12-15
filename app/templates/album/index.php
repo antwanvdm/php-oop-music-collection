@@ -51,9 +51,9 @@
                 </td>
                 <td><?= $album->year; ?></td>
                 <td><?= $album->tracks; ?></td>
-                <td><a href="<?= $route('album.detail'); ?>?id=<?= $album->id; ?>">Details</a></td>
-                <td><a href="<?= $route('album.edit'); ?>?id=<?= $album->id; ?>">Edit</a></td>
-                <td><a href="<?= $route('album.delete'); ?>?id=<?= $album->id; ?>">Delete</a></td>
+                <td><a href="<?= $route('album.detail', ['id' => $album->id]); ?>">Details</a></td>
+                <td><a href="<?= $route('album.edit', ['id' => $album->id]); ?>">Edit</a></td>
+                <td><a href="<?= $route('album.delete', ['id' => $album->id]); ?>">Delete</a></td>
             </tr>
         <?php endforeach; ?>
         </tbody>
