@@ -13,7 +13,7 @@
     </ul>
 <?php endif; ?>
 
-<?php if (isset($genre)): ?>
+<?php if ($genre): ?>
     <h1><?= $genre->name ; ?></h1>
     <ul>
         <li>Albums:

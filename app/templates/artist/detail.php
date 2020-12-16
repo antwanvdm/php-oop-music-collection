@@ -13,7 +13,7 @@
     </ul>
 <?php endif; ?>
 
-<?php if (isset($artist)): ?>
+<?php if ($artist): ?>
     <h1><?= $artist->name ; ?></h1>
     <ul>
         <li>Albums:

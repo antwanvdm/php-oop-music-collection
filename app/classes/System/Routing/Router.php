@@ -1,5 +1,7 @@
 <?php namespace System\Routing;
 
+use System\Utils\URL;
+
 /**
  * Class Router
  * @package System\Routing
@@ -13,15 +15,10 @@ class Router
     private string $currentPath;
     private array $pathSegments;
 
-    /**
-     * Router constructor.
-     *
-     * @param $currentPath
-     */
-    public function __construct($currentPath)
+    public function __construct()
     {
-        $this->currentPath = $currentPath;
-        $this->pathSegments = explode("/", $currentPath);
+        $this->currentPath = URL::getCurrentPath();
+        $this->pathSegments = explode("/", $this->currentPath);
     }
 
     /**
@@ -64,13 +61,12 @@ class Router
     }
 
     /**
-     * @param string $path
-     * @return Route|null
+     * @return Route
      */
-    public function getRoute(string $path): ?Route
+    public function getRoute(): Route
     {
-        if (isset($this->routes[$path])) {
-            return $this->routes[$path];
+        if (isset($this->routes[$this->currentPath])) {
+            return $this->routes[$this->currentPath];
         } else {
             foreach ($this->routes as $route) {
                 //Get a path except last segment
@@ -79,7 +75,8 @@ class Router
                 $strippedRoutePath = preg_quote(implode("/", $segments) . '/', "/");
 
                 //Check if the path without last segment + dynamic naming exists
-                if (preg_match("/$strippedRoutePath\{([a-zA-Z0-9]+)\}/", $route->path, $matches)) {
+                //@TODO Triple check all possible 404 scenarios to fix exceptions
+                if (count($this->pathSegments) > 1 && preg_match("/$strippedRoutePath\{([a-zA-Z0-9]+)\}/", $route->path, $matches)) {
                     //Replace dynamic parameter with value
                     $index = array_search($matches[1], $route->params);
                     $route->params[$index] = $lastSegment;
@@ -88,7 +85,16 @@ class Router
             }
         }
 
-        return null;
+        return $this->notFoundRoute();
+    }
+
+    /**
+     * @return Route
+     */
+    private function notFoundRoute(): Route
+    {
+        header('HTTP/1.0 404 Not Found');
+        return new Route($this->currentPath, '\\System\\Handlers\\NotFoundHandler', 'index');
     }
 
     /**
