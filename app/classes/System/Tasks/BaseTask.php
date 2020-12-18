@@ -11,6 +11,11 @@ abstract class BaseTask
 {
     protected array $properties = [];
 
+    public function __construct(Logger $logger)
+    {
+        $this->logger = $logger;
+    }
+
     /**
      * @param string $name
      * @param mixed $value

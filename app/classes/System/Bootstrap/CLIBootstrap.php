@@ -1,5 +1,6 @@
 <?php namespace System\Bootstrap;
 
+use System\DI\Container;
 use System\Tasks\BaseTask;
 use System\Utils\Logger;
 
@@ -9,14 +10,13 @@ use System\Utils\Logger;
  */
 class CLIBootstrap implements BootstrapInterface
 {
+    private Container $di;
     private string $className = '';
     private string $action;
     private array $params;
-    private Logger $logger;
 
     public function __construct()
     {
-        $this->logger = new Logger();
         $this->setup();
     }
 
@@ -25,6 +25,10 @@ class CLIBootstrap implements BootstrapInterface
      */
     public function setup(): void
     {
+        //Use the Dependency Injector container for the classes we need throughout the application
+        $this->di = new Container();
+        $this->di->set('logger', new Logger());
+
         try {
             //Get dynamic arguments from command line
             global $argv;
@@ -45,7 +49,7 @@ class CLIBootstrap implements BootstrapInterface
             array_shift($dynamicArguments);
             $this->params = $dynamicArguments;
         } catch (\Exception $e) {
-            $this->logger->error($e);
+            $this->di->get('logger')->error($e);
         }
     }
 
@@ -61,11 +65,10 @@ class CLIBootstrap implements BootstrapInterface
                 throw new \Exception('Class ' . $this->className . ' does not exist!');
             }
             /** @var $task BaseTask */
-            $task = new $this->className();
-            $task->logger = $this->logger;
+            $task = $this->di->set('bootstrap', $this->className);
             return $task->{$this->action}(...$this->params);
         } catch (\Exception $e) {
-            $this->logger->error($e);
+            $this->di->get('logger')->error($e);
             return "Oops, something went wrong, please contact the site administrator.";
         }
     }
