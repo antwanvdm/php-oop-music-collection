@@ -17,14 +17,10 @@ class AlbumHandler extends BaseHandler
     private Image $image;
 
     /**
-     * AlbumHandler constructor.
-     *
-     * @param $templateName
-     * @throws \ReflectionException
+     * Called from the parent constructor
      */
-    public function __construct($templateName)
+    protected function initialize()
     {
-        parent::__construct($templateName);
         $this->image = new Image();
     }
 

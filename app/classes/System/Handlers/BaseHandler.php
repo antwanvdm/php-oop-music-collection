@@ -23,13 +23,19 @@ abstract class BaseHandler
     /**
      * BaseHandler constructor.
      *
-     * @param string $templateName
-     * @throws \ReflectionException
+     * @param Session $session
+     * @param Logger $logger
+     * @param Router $router
      */
-    public function __construct(string $templateName)
+    public function __construct(Session $session, Logger $logger, Router $router)
     {
-        $className = (new \ReflectionClass($this))->getShortName();
-        $this->templatePath = str_replace('handler', '', strtolower($className)) . '/' . $templateName;
+        $this->session = $session;
+        $this->logger = $logger;
+        $this->router = $router;
+
+        if (method_exists($this, "initialize")) {
+            $this->initialize();
+        }
     }
 
     /**
@@ -58,6 +64,11 @@ abstract class BaseHandler
      */
     public function __call(string $name, array $arguments): self
     {
+        //Use the dynamic action name to set the template path
+        $className = (new \ReflectionClass($this))->getShortName();
+        $this->templatePath = str_replace('handler', '', strtolower($className)) . '/' . $name;
+
+        //Actual __call magic to call child protected method if it exists
         if (method_exists($this, $name)) {
             call_user_func_array([$this, $name], $arguments);
         } else {
