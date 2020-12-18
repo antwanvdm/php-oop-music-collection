@@ -65,7 +65,7 @@ includes a `test@test.com` user with the password `test`.
 ## Roadmap
 - ~~Routing class for named routes (to prevent refactoring urls in templates)~~
 - ~~Provide a parameter in the route dynamically~~
-- Extend Routing system with multiple parameters
+- Extend Routing system with multiple parameters & get/post
 - Add eager loading option for ORM
 - Refactor some stuff in the ORM (see todos in code)
 - Add some kind of event dispatching system
@@ -73,6 +73,7 @@ includes a `test@test.com` user with the password `test`.
 - ~~Implement CLI bootstrap~~
 - ~~Add cronjob support ("tasks")~~
 - Make wrapper (request object?) for super globals $_GET/$_POST
+- ~~Implement basic dependency injection system~~
 - Configure psalm, phpunit & php-cs-fixer in automated script
 - Possibility to extend and re-use templates
 - Extend the logging system to different logging levels (now only error)
