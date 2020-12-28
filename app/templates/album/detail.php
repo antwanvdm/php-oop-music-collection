@@ -1,5 +1,6 @@
 <?php
 /**
+ * @var string $pageTitle
  * @var array $errors
  * @var \System\Databases\Objects\Album $album
  * @var callable $route
@@ -14,25 +15,25 @@
 <?php endif; ?>
 
 <?php if ($album): ?>
-    <h1><?= $album->artist->name . ' - ' . $album->name; ?></h1>
+    <h1><?= $pageTitle; ?></h1>
 
     <div>
         <img src="<?= RESOURCES_PATH . $album->image; ?>" alt="<?= $album->name; ?>"/>
     </div>
     <ul>
-        <li>Genres:
+        <li><?= $this->t->album->detail->genreLabel; ?>
             <ul>
                 <?php foreach ($album->genres as $genre): ?>
                     <li><?= $genre->name; ?></li>
                 <?php endforeach; ?>
             </ul>
         </li>
-        <li>Year: <?= $album->year; ?></li>
-        <li>Tracks: <?= $album->tracks; ?></li>
+        <li><?= $this->t->album->detail->yearLabel; ?> <?= $album->year; ?></li>
+        <li><?= $this->t->album->detail->tracksLabel; ?> <?= $album->tracks; ?></li>
     </ul>
 <?php endif; ?>
 
 <div>
-    <a href="<?= $route('album.index'); ?>">Go back to the list</a>
+    <a href="<?= $route('album.index'); ?>"><?= $this->t->album->backToListLink; ?></a>
 </div>
 

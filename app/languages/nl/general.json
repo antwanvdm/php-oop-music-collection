@@ -1,0 +1,7 @@
+{
+  "siteName": "Music Collection",
+  "errors": {
+    "prefix": "Whoops: ",
+    "dbSave": "Whoops, er is iets misgegaan met het opslaan"
+  }
+}

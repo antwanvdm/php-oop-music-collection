@@ -1,12 +1,13 @@
 <?php
 /**
+ * @var string $pageTitle
  * @var array $errors
  * @var int $totalArtists
  * @var \System\Databases\Objects\Artist[] $artists
  * @var callable $route
  */
 ?>
-<h1>Artists</h1>
+<h1><?= $pageTitle; ?></h1>
 <?php if (!empty($errors)): ?>
     <ul class="errors">
         <?php foreach ($errors as $error): ?>
@@ -15,20 +16,20 @@
     </ul>
 <?php endif; ?>
 
-<a href="<?= $route('artist.add'); ?>">Add new artist</a>
+<a href="<?= $route('artist.add'); ?>"><?= $this->t->artist->index->addNewLink; ?></a>
 <?php if (isset($artists) && isset($totalArtists)): ?>
     <table>
         <thead>
         <tr>
             <th>#</th>
-            <th>Name</th>
-            <th>Total Albums</th>
+            <th><?= $this->t->artist->form->nameLabel; ?></th>
+            <th><?= $this->t->artist->index->totalAlbums; ?></th>
             <th colspan="3"></th>
         </tr>
         </thead>
         <tfoot>
         <tr>
-            <td colspan="7">&copy; My Collection with <?= $totalArtists; ?> artists</td>
+            <td colspan="7"><?= $this->t->artist->index->tableFootPrefix; ?> <?= $totalArtists; ?> <?= $this->t->artist->index->tableFootSuffix; ?></td>
         </tr>
         </tfoot>
         <tbody>
@@ -37,14 +38,14 @@
                 <td><?= $artist->id; ?></td>
                 <td><?= $artist->name; ?></td>
                 <td><?= count($artist->albums); ?></td>
-                <td><a href="<?= $route('artist.detail', ['id' => $artist->id]); ?>">Details</a></td>
-                <td><a href="<?= $route('artist.edit', ['id' => $artist->id]); ?>">Edit</a></td>
-                <td><a href="<?= $route('artist.delete', ['id' => $artist->id]); ?>">Delete</a></td>
+                <td><a href="<?= $route('artist.detail', ['id' => $artist->id]); ?>"><?= $this->t->artist->index->detailsLink; ?></a></td>
+                <td><a href="<?= $route('artist.edit', ['id' => $artist->id]); ?>"><?= $this->t->artist->index->editLink; ?></a></td>
+                <td><a href="<?= $route('artist.delete', ['id' => $artist->id]); ?>"><?= $this->t->artist->index->deleteLink; ?></a></td>
             </tr>
         <?php endforeach; ?>
         </tbody>
     </table>
 <?php endif; ?>
 <div>
-    <a href="<?= $route('home'); ?>">Go back home</a>
+    <a href="<?= $route('home'); ?>"><?= $this->t->artist->index->backHomeLink; ?></a>
 </div>

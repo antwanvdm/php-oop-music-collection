@@ -1,5 +1,6 @@
 <?php
 /**
+ * @var string $pageTitle
  * @var array $errors
  * @var \System\Databases\Objects\Genre $genre
  * @var callable $route
@@ -14,9 +15,9 @@
 <?php endif; ?>
 
 <?php if ($genre): ?>
-    <h1><?= $genre->name ; ?></h1>
+    <h1><?= $pageTitle ; ?></h1>
     <ul>
-        <li>Albums:
+        <li><?= $this->t->genre->detail->albumLabel; ?>
             <ul>
                 <?php foreach ($genre->albums as $album): ?>
                     <li><?= $album->name; ?></li>
@@ -27,6 +28,6 @@
 <?php endif; ?>
 
 <div>
-    <a href="<?= $route('genre.index'); ?>">Go back to the list</a>
+    <a href="<?= $route('genre.index'); ?>"><?= $this->t->genre->backToListLink; ?></a>
 </div>
 

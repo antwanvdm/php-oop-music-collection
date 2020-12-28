@@ -19,7 +19,7 @@ class ArtistHandler extends BaseHandler
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => 'Artists',
+            'pageTitle' => $this->t->artist->index->pageTitle,
             'artists' => $artists,
             'totalArtists' => count($artists)
         ]);
@@ -44,17 +44,17 @@ class ArtistHandler extends BaseHandler
 
             //Save the record to the db
             if ($this->artist->save()) {
-                $success = "Your new artist has been added to the database!";
+                $success = $this->t->artist->add->success;
                 //Override to see a new empty form
                 $this->artist = new Artist();
             } else {
-                $this->errors[] = "Whoops, something went wrong adding the artist";
+                $this->errors[] = $this->t->general->errors->dbSave;
             }
         }
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => 'Add artist',
+            'pageTitle' => $this->t->artist->add->pageTitle,
             'artist' => $this->artist,
             'success' => $success ?? false,
             'errors' => $this->errors
@@ -75,18 +75,18 @@ class ArtistHandler extends BaseHandler
             if (isset($this->formData) && empty($this->errors)) {
                 //Save the record to the db
                 if ($this->artist->save()) {
-                    $success = "Your artist has been updated in the database!";
+                    $success = $this->t->artist->edit->success;
                 } else {
-                    $this->errors[] = "Whoops, something went wrong updating the artist";
+                    $this->errors[] = $this->t->general->errors->dbSave;
                 }
             }
 
-            $pageTitle = 'Edit ' . $this->artist->name;
+            $pageTitle = "{$this->t->artist->edit->pageTitlePrefix} {$this->artist->name}";
         } catch (\Exception $e) {
             $this->logger->error($e);
             $this->artist = new Artist();
-            $this->errors[] = "Whoops: " . $e->getMessage();
-            $pageTitle = 'Artist does\'t exist';
+            $this->errors[] = $this->t->general->errors->prefix . $e->getMessage();
+            $pageTitle = $this->t->artist->notExists;
         }
 
         //Return formatted data
@@ -112,7 +112,7 @@ class ArtistHandler extends BaseHandler
         } catch (\Exception $e) {
             //Something went wrong on this level
             $this->errors[] = $e->getMessage();
-            $pageTitle = 'Artist does\'t exist';
+            $pageTitle = $this->t->artist->notExists;
         }
 
         //Return formatted data

@@ -1,12 +1,13 @@
 <?php
 /**
+ * @var string $pageTitle
  * @var array $errors
  * @var string|boolean $success
  * @var \System\Databases\Objects\Artist $artist
  * @var callable $route
  */
 ?>
-<h1>Add artist</h1>
+<h1><?= $pageTitle; ?></h1>
 <?php if (!empty($errors)): ?>
     <ul class="errors">
         <?php foreach ($errors as $error): ?>
@@ -21,14 +22,14 @@
 
 <form action="<?= $_SERVER['REQUEST_URI']; ?>" method="post" enctype="multipart/form-data">
     <div class="data-field">
-        <label for="name">Name</label>
+        <label for="name"><?= $this->t->artist->form->nameLabel; ?></label>
         <input id="name" type="text" name="name" value="<?= $artist->name; ?>"/>
     </div>
     <div class="data-submit">
-        <input type="submit" name="submit" value="Save"/>
+        <input type="submit" name="submit" value="<?= $this->t->artist->form->submitValue; ?>"/>
     </div>
 </form>
 <div>
-    <a href="<?= $route('artist.index'); ?>">Go back to the list</a>
-    <a href="<?= $route('account.logout'); ?>">Logout</a>
+    <a href="<?= $route('artist.index'); ?>"><?= $this->t->artist->backToListLink; ?></a>
+    <a href="<?= $route('account.logout'); ?>"><?= $this->t->artist->add->logoutLink; ?></a>
 </div>

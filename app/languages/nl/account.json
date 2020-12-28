@@ -1,0 +1,9 @@
+{
+  "login": {
+    "pageTitle": "Login",
+    "emailLabel": "E-mail",
+    "passwordLabel": "Wachtwoord",
+    "submitValue": "Login",
+    "backHomeLink": "Terug naar de homepage"
+  }
+}

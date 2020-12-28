@@ -1,5 +1,6 @@
 <?php
 /**
+ * @var string $pageTitle
  * @var array $errors
  * @var string|boolean $success
  * @var \System\Databases\Objects\Album $album
@@ -9,7 +10,7 @@
  * @var callable $route
  */
 ?>
-<h1>Add album</h1>
+<h1><?= $pageTitle; ?></h1>
 <?php if (!empty($errors)): ?>
     <ul class="errors">
         <?php foreach ($errors as $error): ?>
@@ -24,7 +25,7 @@
 
 <form action="<?= $_SERVER['REQUEST_URI']; ?>" method="post" enctype="multipart/form-data">
     <div class="data-field">
-        <label for="artist">Artist</label>
+        <label for="artist"><?= $this->t->album->form->artistLabel; ?></label>
         <select id="artist" name="artist">
             <?php foreach ($artists as $artist): ?>
                 <option value="<?= $artist->id; ?>" <?= $album->artist->id === $artist->id ? 'selected' : ''; ?>><?= $artist->name; ?></option>
@@ -32,11 +33,11 @@
         </select>
     </div>
     <div class="data-field">
-        <label for="name">Name</label>
+        <label for="name"><?= $this->t->album->form->nameLabel; ?></label>
         <input id="name" type="text" name="name" value="<?= $album->name; ?>"/>
     </div>
     <div class="data-field">
-        <span class="label">Genre</span>
+        <span class="label"><?= $this->t->album->form->genreLabel; ?></span>
         <ul class="genre-form-list">
             <?php foreach ($genres as $genre): ?>
                 <li>
@@ -47,22 +48,22 @@
         </ul>
     </div>
     <div class="data-field">
-        <label for="year">Year</label>
+        <label for="year"><?= $this->t->album->form->yearLabel; ?></label>
         <input id="year" type="text" name="year" value="<?= $album->year; ?>"/>
     </div>
     <div class="data-field">
-        <label for="tracks">Tracks</label>
+        <label for="tracks"><?= $this->t->album->form->tracksLabel; ?></label>
         <input id="tracks" type="number" name="tracks" value="<?= $album->tracks; ?>"/>
     </div>
     <div class="data-field">
-        <label for="image">Image</label>
+        <label for="image"><?= $this->t->album->form->imageLabel; ?></label>
         <input type="file" name="image" id="image"/>
     </div>
     <div class="data-submit">
-        <input type="submit" name="submit" value="Save"/>
+        <input type="submit" name="submit" value="<?= $this->t->album->form->submitValue; ?>"/>
     </div>
 </form>
 <div>
-    <a href="<?= $route('album.index'); ?>">Go back to the list</a>
-    <a href="<?= $route('account.logout'); ?>">Logout</a>
+    <a href="<?= $route('album.index'); ?>"><?= $this->t->album->backToListLink; ?></a>
+    <a href="<?= $route('account.logout'); ?>"><?= $this->t->album->add->logoutLink; ?></a>
 </div>

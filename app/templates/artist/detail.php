@@ -1,5 +1,6 @@
 <?php
 /**
+ * @var string $pageTitle
  * @var array $errors
  * @var \System\Databases\Objects\Artist $artist
  * @var callable $route
@@ -14,9 +15,9 @@
 <?php endif; ?>
 
 <?php if ($artist): ?>
-    <h1><?= $artist->name ; ?></h1>
+    <h1><?= $pageTitle; ?></h1>
     <ul>
-        <li>Albums:
+        <li><?= $this->t->artist->detail->albumLabel; ?>
             <ul>
                 <?php foreach ($artist->albums as $album): ?>
                     <li><?= $album->name; ?></li>
@@ -27,6 +28,6 @@
 <?php endif; ?>
 
 <div>
-    <a href="<?= $route('artist.index'); ?>">Go back to the list</a>
+    <a href="<?= $route('artist.index'); ?>"><?= $this->t->artist->backToListLink; ?></a>
 </div>
 

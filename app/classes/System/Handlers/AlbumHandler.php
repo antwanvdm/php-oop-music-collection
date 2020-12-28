@@ -31,7 +31,7 @@ class AlbumHandler extends BaseHandler
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => 'Home',
+            'pageTitle' => $this->t->album->index->pageTitle,
             'albums' => $albums,
             'totalAlbums' => count($albums)
         ]);
@@ -52,7 +52,7 @@ class AlbumHandler extends BaseHandler
 
         //Special check for add form only
         if (isset($this->formData) && $_FILES['image']['error'] == 4) {
-            $this->errors[] = 'Image cannot be empty';
+            $this->errors[] = $this->t->album->validation->image;
         }
 
         //Database magic when no errors are found
@@ -65,18 +65,18 @@ class AlbumHandler extends BaseHandler
 
             //Save the record to the db
             if ($this->album->save()) {
-                $success = "Your new album has been added to the database!";
+                $success = $this->t->album->edit->success;
                 //Override to see a new empty form
                 $this->album = new Album();
                 $this->album->genres = []; //@TODO Blegh
             } else {
-                $this->errors[] = "Whoops, something went wrong adding the album";
+                $this->errors[] = $this->t->general->errors->dbSave;
             }
         }
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => 'Add album',
+            'pageTitle' => $this->t->album->add->pageTitle,
             'album' => $this->album,
             'artists' => Artist::getAll(),
             'albumGenreIds' => array_map(function ($genre) {
@@ -113,19 +113,19 @@ class AlbumHandler extends BaseHandler
 
                 //Save the record to the db
                 if ($this->album->save()) {
-                    $success = "Your album has been updated in the database!";
+                    $success = $this->t->album->edit->success;
                 } else {
-                    $this->errors[] = "Whoops, something went wrong updating the album";
+                    $this->errors[] = $this->t->general->errors->dbSave;
                 }
             }
 
-            $pageTitle = 'Edit ' . $this->album->name;
+            $pageTitle = "{$this->t->album->edit->pageTitlePrefix} '{$this->album->name} {$this->t->album->madeBy} {$this->album->artist->name}'";
         } catch (\Exception $e) {
             $this->logger->error($e);
             $this->album = new Album();
             $this->album->genres = []; //@TODO Blegh
-            $this->errors[] = "Whoops: " . $e->getMessage();
-            $pageTitle = 'Album does\'t exist';
+            $this->errors[] = $this->t->general->errors->prefix . $e->getMessage();
+            $pageTitle = $this->t->album->notExists;
         }
 
         //Return formatted data
@@ -152,11 +152,11 @@ class AlbumHandler extends BaseHandler
             $album = Album::getById($id);
 
             //Default page title
-            $pageTitle = $album->name;
+            $pageTitle = "{$album->name} {$this->t->album->madeBy} {$album->artist->name}";
         } catch (\Exception $e) {
             //Something went wrong on this level
             $this->errors[] = $e->getMessage();
-            $pageTitle = 'Album does\'t exist';
+            $pageTitle = $this->t->album->notExists;
         }
 
         //Return formatted data

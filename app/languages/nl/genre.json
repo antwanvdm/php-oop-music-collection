@@ -1,0 +1,33 @@
+{
+  "index": {
+    "pageTitle": "Genres",
+    "addNewLink": "Voeg een nieuw genre toe",
+    "totalAlbums": "Aantal Genres",
+    "detailsLink": "Details",
+    "editLink": "Bewerken",
+    "deleteLink": "Verwijderen",
+    "tableFootPrefix": "&copy; Mijn collectie met",
+    "tableFootSuffix": "genres",
+    "backHomeLink": "Terug naar de homepage"
+  },
+  "add": {
+    "pageTitle": "Voeg een genre toe",
+    "success": "Je nieuwe genre is succesvol opgeslagen in de database"
+  },
+  "detail": {
+    "albumLabel": "Albums:"
+  },
+  "edit": {
+    "pageTitlePrefix": "Bewerk",
+    "success": "Je genre is succesvol bijgewerkt in de database"
+  },
+  "form": {
+    "nameLabel": "Naam",
+    "submitValue": "Opslaan"
+  },
+  "validation": {
+    "name": ""
+  },
+  "notExists": "Dit genre bestaat niet",
+  "backToListLink": "Terug naar het overzicht"
+}

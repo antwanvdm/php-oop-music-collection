@@ -23,6 +23,7 @@ class AlbumValidator implements Validator
 
     /**
      * Validate the data
+     * @TODO how to get the Translator object at this location (not using ugly parameter passing..)
      */
     public function validate(): void
     {

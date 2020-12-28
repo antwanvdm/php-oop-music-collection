@@ -1,0 +1,34 @@
+{
+  "index": {
+    "pageTitle": "Artiesten",
+    "addNewLink": "Voeg een nieuwe artiest toe",
+    "totalAlbums": "Aantal Albums",
+    "detailsLink": "Details",
+    "editLink": "Bewerken",
+    "deleteLink": "Verwijderen",
+    "tableFootPrefix": "&copy; Mijn collectie met",
+    "tableFootSuffix": "artiesten",
+    "backHomeLink": "Terug naar de homepage"
+  },
+  "add": {
+    "pageTitle": "Voeg een artiest toe",
+    "success": "Je nieuwe artiest is succesvol opgeslagen in de database",
+    "logoutLink": "Uitloggen"
+  },
+  "detail": {
+    "albumLabel": "Albums:"
+  },
+  "edit": {
+    "pageTitlePrefix": "Bewerk",
+    "success": "Je artiest is succesvol bijgewerkt in de database"
+  },
+  "form": {
+    "nameLabel": "Naam",
+    "submitValue": "Opslaan"
+  },
+  "validation": {
+    "name": ""
+  },
+  "notExists": "Deze artiest bestaat niet",
+  "backToListLink": "Terug naar het overzicht"
+}

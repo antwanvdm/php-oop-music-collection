@@ -69,7 +69,8 @@ includes a `test@test.com` user with the password `test`.
 - Add eager loading option for ORM
 - Refactor some stuff in the ORM (see todos in code)
 - Add some kind of event dispatching system
-- Add a translator with translation files
+- Enable system to also return JSON response next to HTML
+- ~~Add a translator with translation files~~
 - ~~Implement CLI bootstrap~~
 - ~~Add cronjob support ("tasks")~~
 - Make wrapper (request object?) for super globals $_GET/$_POST
@@ -80,6 +81,7 @@ includes a `test@test.com` user with the password `test`.
 - Rename namespaces to MVC terminology
 - Make an actual composer package for this (separate music collection from the core)
 - Ok... Add some basic CSS framework to prevent tears
+- Add actual multilingual support
 - Implement PHP 8 Attributes
 
 ## Changelog

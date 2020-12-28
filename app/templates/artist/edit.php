@@ -1,5 +1,6 @@
 <?php
 /**
+ * @var string $pageTitle
  * @var array $errors
  * @var string|boolean $success
  * @var \System\Databases\Objects\Artist $artist
@@ -19,17 +20,17 @@
 <?php } ?>
 
 <?php if ($artist->id !== null): ?>
-    <h1>Edit "<?= $artist->name; ?>"</h1>
+    <h1><?= $pageTitle; ?></h1>
     <form action="<?= $_SERVER['REQUEST_URI']; ?>" method="post" enctype="multipart/form-data">
         <div class="data-field">
-            <label for="name">Name</label>
+            <label for="name"><?= $this->t->artist->form->nameLabel; ?></label>
             <input id="name" type="text" name="name" value="<?= $artist->name; ?>"/>
         </div>
         <div class="data-submit">
-            <input type="submit" name="submit" value="Save"/>
+            <input type="submit" name="submit" value="<?= $this->t->artist->form->submitValue; ?>"/>
         </div>
     </form>
 <?php endif; ?>
 <div>
-    <a href="<?= $route('artist.index'); ?>">Go back to the list</a>
+    <a href="<?= $route('artist.index'); ?>"><?= $this->t->artist->backToListLink; ?></a>
 </div>

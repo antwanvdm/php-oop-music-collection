@@ -19,7 +19,7 @@ class GenreHandler extends BaseHandler
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => 'Genres',
+            'pageTitle' => $this->t->genre->index->pageTitle,
             'genres' => $genres,
             'totalGenres' => count($genres)
         ]);
@@ -35,17 +35,17 @@ class GenreHandler extends BaseHandler
         if (isset($this->formData) && empty($this->errors)) {
             //Save the record to the db
             if ($this->genre->save()) {
-                $success = "Your new genre has been added to the database!";
+                $success = $this->t->genre->add->success;
                 //Override to see a new empty form
                 $this->genre = new Genre();
             } else {
-                $this->errors[] = "Whoops, something went wrong adding the genre";
+                $this->errors[] = $this->t->general->errors->dbSave;
             }
         }
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => 'Add genre',
+            'pageTitle' => $this->t->genre->add->pageTitle,
             'genre' => $this->genre,
             'success' => $success ?? false,
             'errors' => $this->errors
@@ -66,18 +66,18 @@ class GenreHandler extends BaseHandler
             if (isset($this->formData) && empty($this->errors)) {
                 //Save the record to the db
                 if ($this->genre->save()) {
-                    $success = "Your genre has been updated in the database!";
+                    $success = $this->t->genre->edit->success;
                 } else {
-                    $this->errors[] = "Whoops, something went wrong updating the genre";
+                    $this->errors[] = $this->t->general->errors->dbSave;
                 }
             }
 
-            $pageTitle = 'Edit ' . $this->genre->name;
+            $pageTitle = "{$this->t->genre->edit->pageTitlePrefix} {$this->genre->name}";
         } catch (\Exception $e) {
             $this->logger->error($e);
             $this->genre = new Genre();
-            $this->errors[] = "Whoops: " . $e->getMessage();
-            $pageTitle = 'Genre does\'t exist';
+            $this->errors[] = $this->t->general->errors->prefix . $e->getMessage();
+            $pageTitle = $this->t->artist->notExists;
         }
 
         //Return formatted data
@@ -103,7 +103,7 @@ class GenreHandler extends BaseHandler
         } catch (\Exception $e) {
             //Something went wrong on this level
             $this->errors[] = $e->getMessage();
-            $pageTitle = 'Genre does\'t exist';
+            $pageTitle = $this->t->genre->notExists;
         }
 
         //Return formatted data

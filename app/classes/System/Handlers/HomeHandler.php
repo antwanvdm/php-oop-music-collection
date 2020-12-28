@@ -8,9 +8,8 @@ class HomeHandler extends BaseHandler
 {
     protected function index(): void
     {
-        //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => "Welkom bij deze muziekcollectie!"
+            'pageTitle' => $this->t->home->pageTitle
         ]);
     }
 }

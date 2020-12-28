@@ -1,5 +1,6 @@
 <?php namespace System\Handlers;
 
+use System\Translation\Translator;
 use System\Utils\Session;
 use System\Utils\Logger;
 use System\Routing\Router;
@@ -12,6 +13,7 @@ use System\Routing\Router;
  * @property Session $session
  * @property Logger $logger
  * @property Router $router
+ * @property Translator $t
  */
 abstract class BaseHandler
 {
@@ -27,11 +29,12 @@ abstract class BaseHandler
      * @param Logger $logger
      * @param Router $router
      */
-    public function __construct(Session $session, Logger $logger, Router $router)
+    public function __construct(Session $session, Logger $logger, Router $router, Translator $t)
     {
         $this->session = $session;
         $this->logger = $logger;
         $this->router = $router;
+        $this->t = $t;
 
         if (method_exists($this, "initialize")) {
             $this->initialize();
@@ -84,7 +87,7 @@ abstract class BaseHandler
      * @param array $vars
      * @throws \RuntimeException
      */
-    protected function renderTemplate(array $vars): void
+    protected function renderTemplate(array $vars = []): void
     {
         if (array_key_exists('content', $vars)) {
             throw new \RuntimeException('Key "content" is forbidden as template variable');

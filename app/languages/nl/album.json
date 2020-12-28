@@ -1,0 +1,48 @@
+{
+  "index": {
+    "pageTitle": "Albums",
+    "addNewLink": "Voeg een nieuw album toe",
+    "detailsLink": "Details",
+    "editLink": "Bewerken",
+    "deleteLink": "Verwijderen",
+    "tableFootPrefix": "&copy; Mijn collectie met",
+    "tableFootSuffix": "albums",
+    "backHomeLink": "Terug naar de homepage"
+  },
+  "add": {
+    "pageTitle": "Voeg een album toe",
+    "success": "Je nieuwe album is succesvol opgeslagen in de database",
+    "logoutLink": "Uitloggen"
+  },
+  "detail": {
+    "genreLabel": "Genres:",
+    "yearLabel": "Jaartal:",
+    "tracksLabel": "Tracks:"
+  },
+  "edit": {
+    "pageTitlePrefix": "Bewerk",
+    "success": "Je album is succesvol bijgewerkt in de database"
+  },
+  "form": {
+    "artistLabel": "Artiest",
+    "nameLabel": "Naam Album",
+    "genreLabel": "Genre(s)",
+    "yearLabel": "Jaartal",
+    "tracksLabel": "Tracks",
+    "imageLabel": "Afbeelding",
+    "submitValue": "Opslaan"
+  },
+  "validation": {
+    "artist": "",
+    "name": "",
+    "genre": "",
+    "year": "",
+    "yearFormat": "",
+    "tracks": "",
+    "tracksFormat": "",
+    "image": "Afbeelding mag niet leeg zijn"
+  },
+  "madeBy": "door",
+  "notExists": "Dit album bestaat niet",
+  "backToListLink": "Terug naar het overzicht"
+}

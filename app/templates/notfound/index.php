@@ -5,4 +5,7 @@
  */
 ?>
 <h1><?= $pageTitle; ?></h1>
-<p>Navigeer naar een andere URL! <a href="<?= $route('home'); ?>">Ga naar home</a></p>
+<p><?= $this->t->notfound->text; ?></p>
+<div>
+    <a href="<?= $route('home'); ?>"><?= $this->t->notfound->backHomeLink; ?></a>
+</div>
