@@ -85,6 +85,11 @@ includes a `test@test.com` user with the password `test`.
 - Implement PHP 8 Attributes
 
 ## Changelog
+### v1.2.0
+- Implemented a very basis Dependency Injection system
+- Implemented language translation (just for storing copy centralised). It's prepared
+for more languages for the system isn't multilingual (yet!)
+
 ### v1.1.0
 - Implemented CLI bootstrap & corresponding tasks
 - Implemented a more advanced routing system
