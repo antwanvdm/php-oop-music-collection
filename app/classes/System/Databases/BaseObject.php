@@ -124,7 +124,7 @@ abstract class BaseObject
         if ($statement->execute()) {
             $this->id = !empty($this->id) ? $this->id : $this->db->lastInsertId();
             //@TODO Move this away, make some kind of event dispatching system (like Symfony)
-            if (method_exists($this, 'savePivots')){
+            if (method_exists($this, 'savePivots')) {
                 $this->savePivots();
             }
             return true;

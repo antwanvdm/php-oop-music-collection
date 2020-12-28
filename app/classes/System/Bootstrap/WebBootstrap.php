@@ -54,7 +54,7 @@ class WebBootstrap implements BootstrapInterface
             }
             /** @var $page BaseHandler */
             $page = $this->di->set('handler', $this->activeRoute->className);
-             return $page->{$this->activeRoute->action}(...$this->activeRoute->params)->getResponse();
+            return $page->{$this->activeRoute->action}(...$this->activeRoute->params)->getResponse();
         } catch (\Exception $e) {
             $this->di->get('logger')->error($e);
             http_response_code(500);

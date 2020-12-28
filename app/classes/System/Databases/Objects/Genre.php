@@ -19,6 +19,6 @@ class Genre extends BaseObject
      */
     public function albums(): array
     {
-        return $this->belongsToMany('albums', 'Album', ['genre_id', 'album_id'] ,'album_genre');
+        return $this->belongsToMany('albums', 'Album', ['genre_id', 'album_id'], 'album_genre');
     }
 }
