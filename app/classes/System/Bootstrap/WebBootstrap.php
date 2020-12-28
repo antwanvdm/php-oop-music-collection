@@ -3,10 +3,6 @@
 use System\DI\Container;
 use System\Handlers\BaseHandler;
 use System\Routing\Route;
-use System\Routing\Router;
-use System\Translation\Translator;
-use System\Utils\Session;
-use System\Utils\Logger;
 
 /**
  * Class WebBootstrap
@@ -15,6 +11,13 @@ use System\Utils\Logger;
 class WebBootstrap implements BootstrapInterface
 {
     private Container $di;
+    private array $diClasses = [
+        'session' => '\\System\\Utils\\Session',
+        'template' => '\\System\\Utils\\Template',
+        'logger' => '\\System\\Utils\\Logger',
+        'router' => '\\System\\Routing\\Router',
+        't' => '\\System\\Translation\\Translator'
+    ];
     private Route $activeRoute;
 
     public function __construct()
@@ -30,11 +33,9 @@ class WebBootstrap implements BootstrapInterface
     {
         //Use the Dependency Injector container for the classes we need throughout the application
         $this->di = new Container();
-        $this->di->set('session', new Session($_SESSION));
-        $this->di->set('logger', new Logger());
-        $this->di->set('router', new Router());
-        $this->di->set('t', new Translator());
-        $this->di->set('template', '\\System\\Utils\\Template');
+        foreach ($this->diClasses as $key => $diClass) {
+            $this->di->set($key, $diClass);
+        }
 
         //Routing magic with dynamic file that has $router available
         $router = $this->di->get('router');

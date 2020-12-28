@@ -10,11 +10,10 @@ class Session
 
     /**
      * Initialize object
-     * @param array $data
      */
-    public function __construct(array $data)
+    public function __construct()
     {
-        $this->data = $data;
+        $this->data = $_SESSION;
     }
 
     /**
