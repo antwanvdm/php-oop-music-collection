@@ -33,13 +33,12 @@
     "submitValue": "Opslaan"
   },
   "validation": {
-    "artist": "",
-    "name": "",
-    "genre": "",
-    "year": "",
-    "yearFormat": "",
-    "tracks": "",
-    "tracksFormat": "",
+    "artist": "Artiest mag niet leeg zijn",
+    "name": "Naam mag niet leeg zijn",
+    "genre": "Er moet minimaal 1 genre gekozen zijn",
+    "year": "Jaar mag niet leeg zijn",
+    "yearFormat": "Jaar moet een getal met 4 cijfers zijn",
+    "tracks": "Tracks moet minimaal '1' zijn",
     "image": "Afbeelding mag niet leeg zijn"
   },
   "madeBy": "door",

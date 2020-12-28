@@ -41,7 +41,7 @@ class AccountHandler extends BaseHandler
 
             //Actual validation
             $validator = new LoginValidator($user, $password);
-            $validator->validate();
+            $validator->validate($this->t);
             $this->errors = $validator->getErrors();
         }
 

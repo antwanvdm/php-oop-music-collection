@@ -22,7 +22,7 @@ trait Genre
 
             //Actual validation
             $validator = new GenreValidator($this->genre);
-            $validator->validate();
+            $validator->validate($this->t);
             $this->errors = $validator->getErrors();
         }
     }

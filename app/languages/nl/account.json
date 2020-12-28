@@ -5,5 +5,8 @@
     "passwordLabel": "Wachtwoord",
     "submitValue": "Login",
     "backHomeLink": "Terug naar de homepage"
+  },
+  "validation": {
+    "loginError": "Je logingegevens zijn onjuist"
   }
 }

@@ -1,6 +1,7 @@
 <?php namespace System\Form\Validation;
 
 use System\Databases\Objects\Genre;
+use System\Translation\Translator;
 
 /**
  * Class GenreValidator
@@ -23,12 +24,14 @@ class GenreValidator implements Validator
 
     /**
      * Validate the data
+     *
+     * @param Translator $t
      */
-    public function validate(): void
+    public function validate(Translator $t): void
     {
         //Check if data is valid & generate error if not so
         if ($this->genre->name == "") {
-            $this->errors[] = 'Genre name cannot be empty';
+            $this->errors[] = $t->genre->validation->name;
         }
     }
 

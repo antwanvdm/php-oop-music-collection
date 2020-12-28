@@ -32,7 +32,7 @@ trait Album
 
             //Actual validation
             $validator = new AlbumValidator($this->album);
-            $validator->validate();
+            $validator->validate($this->t);
             $this->errors = $validator->getErrors();
         }
     }

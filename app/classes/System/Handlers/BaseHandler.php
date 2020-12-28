@@ -28,6 +28,7 @@ abstract class BaseHandler
      * @param Session $session
      * @param Logger $logger
      * @param Router $router
+     * @param Translator $t
      */
     public function __construct(Session $session, Logger $logger, Router $router, Translator $t)
     {

@@ -27,7 +27,7 @@
     "submitValue": "Opslaan"
   },
   "validation": {
-    "name": ""
+    "name": "Naam mag niet leeg zijn"
   },
   "notExists": "Deze artiest bestaat niet",
   "backToListLink": "Terug naar het overzicht"

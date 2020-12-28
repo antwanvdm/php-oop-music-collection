@@ -1,6 +1,7 @@
 <?php namespace System\Form\Validation;
 
 use System\Databases\Objects\Artist;
+use System\Translation\Translator;
 
 /**
  * Class ArtistValidator
@@ -23,12 +24,14 @@ class ArtistValidator implements Validator
 
     /**
      * Validate the data
+     *
+     * @param Translator $t
      */
-    public function validate(): void
+    public function validate(Translator $t): void
     {
         //Check if data is valid & generate error if not so
         if ($this->artist->name == "") {
-            $this->errors[] = 'Artist name cannot be empty';
+            $this->errors[] = $t->artist->validation->name;
         }
     }
 

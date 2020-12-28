@@ -1,6 +1,7 @@
 <?php namespace System\Form\Validation;
 
 use System\Databases\Objects\User;
+use System\Translation\Translator;
 
 /**
  * Class LoginValidator
@@ -26,17 +27,19 @@ class LoginValidator implements Validator
 
     /**
      * Validate the data
+     *
+     * @param Translator $t
      */
-    public function validate(): void
+    public function validate(Translator $t): void
     {
         //Go on if we got an user (which means email is correct)
         if (!empty($this->user->email)) {
             //Validate password
             if (!password_verify($this->password, $this->user->password)) {
-                $this->errors[] = "Je logingegevens zijn onjuist.";
+                $this->errors[] = $t->account->validation->loginError;
             }
         } else {
-            $this->errors[] = "Je logingegevens zijn onjuist.";
+            $this->errors[] = $t->account->validation->loginError;
         }
     }
 
