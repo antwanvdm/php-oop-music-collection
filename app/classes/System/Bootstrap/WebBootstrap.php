@@ -52,7 +52,7 @@ class WebBootstrap implements BootstrapInterface
             }
             /** @var $page BaseHandler */
             $page = $this->di->set('bootstrap', $this->activeRoute->className);
-            return $page->{$this->activeRoute->action}(...$this->activeRoute->params)->getHTML();
+            return $page->{$this->activeRoute->action}(...$this->activeRoute->params)->getResponse();
         } catch (\Exception $e) {
             $this->di->get('logger')->error($e);
             die("Oops, something went wrong, please contact the site administrator.");

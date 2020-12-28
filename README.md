@@ -65,11 +65,11 @@ includes a `test@test.com` user with the password `test`.
 ## Roadmap
 - ~~Routing class for named routes (to prevent refactoring urls in templates)~~
 - ~~Provide a parameter in the route dynamically~~
-- Extend Routing system with multiple parameters & get/post
+- Extend Routing system with multiple parameters, get/post & api/non-api
 - Add eager loading option for ORM
 - Refactor some stuff in the ORM (see todos in code)
 - Add some kind of event dispatching system
-- Enable system to also return JSON response next to HTML
+- ~~Enable system to also return JSON response next to HTML~~
 - ~~Add a translator with translation files~~
 - ~~Implement CLI bootstrap~~
 - ~~Add cronjob support ("tasks")~~

@@ -21,3 +21,4 @@ $router->addRoute('genres/delete/{id}', 'GenreHandler@delete')->name('genre.dele
 $router->addRoute('user/login', 'AccountHandler@login')->name('account.login');
 $router->addRoute('user/logout', 'AccountHandler@logout')->name('account.logout');
 $router->addRoute('user/register', 'AccountHandler@register')->name('account.register');
+$router->addRoute('api', 'APIHandler@index')->name('api');

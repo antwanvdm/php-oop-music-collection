@@ -109,16 +109,46 @@ abstract class BaseHandler
     }
 
     /**
+     * @param array $vars
+     */
+    protected function setJSON(array $vars = [])
+    {
+        $this->data = $vars;
+    }
+
+    /**
+     * @return string
+     */
+    public function getResponse(): string
+    {
+        switch ($_SERVER['CONTENT_TYPE']) {
+            case "application/json":
+                return $this->getJSON();
+
+            default:
+                return $this->getHTML();
+        }
+    }
+
+    /**
      * Return the rendered master template HTML
      *
      * @return string
-     * @noinspection PhpUnused
      */
-    public function getHTML(): string
+    private function getHTML(): string
     {
         extract($this->data);
         ob_start();
         require_once INCLUDES_PATH . 'templates/master.php';
         return ob_get_clean();
+    }
+
+    /**
+     * @return string
+     */
+    private function getJSON(): string
+    {
+        header("Content-Type: application/json");
+        return json_encode($this->data);
     }
 }
