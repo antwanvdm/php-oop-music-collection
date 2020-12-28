@@ -117,6 +117,8 @@ abstract class BaseHandler
     }
 
     /**
+     * Get response based on content type header, always fallback to HTML as the default
+     *
      * @return string
      */
     public function getResponse(): string

@@ -6,6 +6,7 @@
  * @var callable $route
  */
 ?>
+<h1><?= $pageTitle; ?></h1>
 <?php if (!empty($errors)): ?>
     <ul class="errors">
         <?php foreach ($errors as $error): ?>
@@ -15,8 +16,6 @@
 <?php endif; ?>
 
 <?php if ($album): ?>
-    <h1><?= $pageTitle; ?></h1>
-
     <div>
         <img src="<?= RESOURCES_PATH . $album->image; ?>" alt="<?= $album->name; ?>"/>
     </div>

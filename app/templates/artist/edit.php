@@ -7,6 +7,7 @@
  * @var callable $route
  */
 ?>
+<h1><?= $pageTitle; ?></h1>
 <?php if (!empty($errors)): ?>
     <ul class="errors">
         <?php foreach ($errors as $error): ?>
@@ -20,7 +21,6 @@
 <?php } ?>
 
 <?php if ($artist->id !== null): ?>
-    <h1><?= $pageTitle; ?></h1>
     <form action="<?= $_SERVER['REQUEST_URI']; ?>" method="post" enctype="multipart/form-data">
         <div class="data-field">
             <label for="name"><?= $this->t->artist->form->nameLabel; ?></label>

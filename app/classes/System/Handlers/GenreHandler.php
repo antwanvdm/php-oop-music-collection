@@ -76,7 +76,7 @@ class GenreHandler extends BaseHandler
         } catch (\Exception $e) {
             $this->logger->error($e);
             $this->genre = new Genre();
-            $this->errors[] = $this->t->general->errors->prefix . $e->getMessage();
+            $this->errors[] = $this->t->general->errors->general;
             $pageTitle = $this->t->artist->notExists;
         }
 
@@ -102,7 +102,7 @@ class GenreHandler extends BaseHandler
             $pageTitle = $genre->name;
         } catch (\Exception $e) {
             //Something went wrong on this level
-            $this->errors[] = $e->getMessage();
+            $this->errors[] = $this->t->general->errors->general;
             $pageTitle = $this->t->genre->notExists;
         }
 

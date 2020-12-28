@@ -4,6 +4,7 @@ use System\DI\Container;
 use System\Handlers\BaseHandler;
 use System\Routing\Route;
 use System\Routing\Router;
+use System\Translation\Translator;
 use System\Utils\Session;
 use System\Utils\Logger;
 
@@ -32,6 +33,7 @@ class WebBootstrap implements BootstrapInterface
         $this->di->set('session', new Session($_SESSION));
         $this->di->set('logger', new Logger());
         $this->di->set('router', new Router());
+        $this->di->set('t', new Translator());
 
         //Routing magic with dynamic file that has $router available
         $router = $this->di->get('router');
@@ -51,11 +53,12 @@ class WebBootstrap implements BootstrapInterface
                 throw new \Exception('Class ' . $this->activeRoute->className . ' does not exist!');
             }
             /** @var $page BaseHandler */
-            $page = $this->di->set('bootstrap', $this->activeRoute->className);
-            return $page->{$this->activeRoute->action}(...$this->activeRoute->params)->getResponse();
+            $page = $this->di->set('handler', $this->activeRoute->className);
+             return $page->{$this->activeRoute->action}(...$this->activeRoute->params)->getResponse();
         } catch (\Exception $e) {
             $this->di->get('logger')->error($e);
-            die("Oops, something went wrong, please contact the site administrator.");
+            http_response_code(500);
+            die($this->di->get('translator')->general->errors->die);
         }
     }
 }

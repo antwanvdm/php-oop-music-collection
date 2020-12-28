@@ -1,7 +1,8 @@
 {
   "siteName": "Music Collection",
   "errors": {
-    "prefix": "Whoops: ",
+    "die": "Oops, er is iets ernstig kapot gegaan, kom later terug terwijl wij werken aan een oplossing.",
+    "general": "Er is iets misgegaan, probeer het opnieuw of navigeer naar een andere pagina",
     "dbSave": "Whoops, er is iets misgegaan met het opslaan"
   }
 }

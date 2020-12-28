@@ -6,6 +6,7 @@
  * @var callable $route
  */
 ?>
+<h1><?= $pageTitle; ?></h1>
 <?php if (!empty($errors)): ?>
     <ul class="errors">
         <?php foreach ($errors as $error): ?>
@@ -15,7 +16,6 @@
 <?php endif; ?>
 
 <?php if ($artist): ?>
-    <h1><?= $pageTitle; ?></h1>
     <ul>
         <li><?= $this->t->artist->detail->albumLabel; ?>
             <ul>

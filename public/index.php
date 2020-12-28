@@ -4,5 +4,4 @@ require_once "../app/config/settings.php";
 require_once "../app/vendor/autoload.php";
 
 //Initialize bootstrap & render the application
-$bootstrap = new \System\Bootstrap\WebBootstrap();
-echo $bootstrap->render();
+echo (new \System\Bootstrap\WebBootstrap())->render();

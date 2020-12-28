@@ -124,7 +124,7 @@ class AlbumHandler extends BaseHandler
             $this->logger->error($e);
             $this->album = new Album();
             $this->album->genres = []; //@TODO Blegh
-            $this->errors[] = $this->t->general->errors->prefix . $e->getMessage();
+            $this->errors[] = $this->t->general->errors->general;
             $pageTitle = $this->t->album->notExists;
         }
 
@@ -155,7 +155,7 @@ class AlbumHandler extends BaseHandler
             $pageTitle = "{$album->name} {$this->t->album->madeBy} {$album->artist->name}";
         } catch (\Exception $e) {
             //Something went wrong on this level
-            $this->errors[] = $e->getMessage();
+            $this->errors[] = $this->t->general->errors->general;
             $pageTitle = $this->t->album->notExists;
         }
 
