@@ -82,7 +82,7 @@ includes a `test@test.com` user with the password `test`.
 - Make an actual composer package for this (separate music collection from the core)
 - Ok... Add some basic CSS framework to prevent tears
 - Add actual multilingual support
-- Implement PHP 8 Attributes
+- Implement PHP8 Attributes (and other possible cool PHP8 stuff)
 
 ## Changelog
 ### v1.2.0

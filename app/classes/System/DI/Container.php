@@ -21,7 +21,7 @@ class Container
     public function get(string $key)
     {
         if (!$this->has($key)) {
-            throw new \Exception("Key is not set in container");
+            throw new \Exception("Key '$key' is not set in container");
         }
         return $this->entries[$key];
     }
