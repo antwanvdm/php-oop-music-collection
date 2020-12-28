@@ -1,10 +1,10 @@
 <?php
 /**
- * @var string $pageTitle
  * @var callable $route
+ * @var callable $yield
  */
 ?>
-<h1><?= $pageTitle; ?></h1>
+<?= $yield('partials/header'); ?>
 <p><?= $this->t->notfound->text; ?></p>
 <div>
     <a href="<?= $route('home'); ?>"><?= $this->t->notfound->backHomeLink; ?></a>

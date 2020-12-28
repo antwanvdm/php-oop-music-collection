@@ -1,10 +1,10 @@
 <?php
 /**
- * @var string $pageTitle
  * @var callable $route
+ * @var callable $yield
  */
 ?>
-<h1><?= $pageTitle; ?></h1>
+<?= $yield('partials/header'); ?>
 <ul>
     <li><a href="<?= $route('artist.index'); ?>"><?= $this->t->home->artistsLink; ?></a></li>
     <li><a href="<?= $route('album.index'); ?>"><?= $this->t->home->albumsLink; ?></a></li>

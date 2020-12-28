@@ -34,6 +34,7 @@ class WebBootstrap implements BootstrapInterface
         $this->di->set('logger', new Logger());
         $this->di->set('router', new Router());
         $this->di->set('t', new Translator());
+        $this->di->set('template', '\\System\\Utils\\Template');
 
         //Routing magic with dynamic file that has $router available
         $router = $this->di->get('router');
@@ -58,7 +59,7 @@ class WebBootstrap implements BootstrapInterface
         } catch (\Exception $e) {
             $this->di->get('logger')->error($e);
             http_response_code(500);
-            die($this->di->get('translator')->general->errors->die);
+            die($this->di->get('t')->general->errors->die);
         }
     }
 }

@@ -1,19 +1,12 @@
 <?php
 /**
- * @var string $pageTitle
- * @var array $errors
  * @var string|bool $email
  * @var callable $route
+ * @var callable $yield
  */
 ?>
-<h1><?= $pageTitle; ?></h1>
-<?php if (isset($errors) && !empty($errors)) { ?>
-    <ul class="errors">
-        <?php for ($i = 0; $i < count($errors); $i++) { ?>
-            <li><?= $errors[$i]; ?></li>
-        <?php } ?>
-    </ul>
-<?php } ?>
+<?= $yield('partials/header'); ?>
+<?= $yield('partials/errors'); ?>
 
 <form id="login" method="post" action="<?= $_SERVER['REQUEST_URI']; ?>">
     <div>

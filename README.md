@@ -76,7 +76,7 @@ includes a `test@test.com` user with the password `test`.
 - Make wrapper (request object?) for super globals $_GET/$_POST
 - ~~Implement basic dependency injection system~~
 - Configure psalm, phpunit & php-cs-fixer in automated script
-- Possibility to extend and re-use templates
+- ~~Possibility to extend and re-use templates~~
 - Extend the logging system to different logging levels (now only error)
 - Rename namespaces to MVC terminology
 - Make an actual composer package for this (separate music collection from the core)

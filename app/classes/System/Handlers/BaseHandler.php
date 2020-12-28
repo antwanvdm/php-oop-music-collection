@@ -4,6 +4,7 @@ use System\Translation\Translator;
 use System\Utils\Session;
 use System\Utils\Logger;
 use System\Routing\Router;
+use System\Utils\Template;
 
 /**
  * Class BaseHandler
@@ -14,6 +15,7 @@ use System\Routing\Router;
  * @property Logger $logger
  * @property Router $router
  * @property Translator $t
+ * @property Template $template
  */
 abstract class BaseHandler
 {
@@ -29,13 +31,15 @@ abstract class BaseHandler
      * @param Logger $logger
      * @param Router $router
      * @param Translator $t
+     * @param Template $template
      */
-    public function __construct(Session $session, Logger $logger, Router $router, Translator $t)
+    public function __construct(Session $session, Logger $logger, Router $router, Translator $t, Template $template)
     {
         $this->session = $session;
         $this->logger = $logger;
         $this->router = $router;
         $this->t = $t;
+        $this->template = $template;
 
         if (method_exists($this, "initialize")) {
             $this->initialize();
@@ -93,18 +97,7 @@ abstract class BaseHandler
         if (array_key_exists('content', $vars)) {
             throw new \RuntimeException('Key "content" is forbidden as template variable');
         }
-        extract($vars);
-        ob_start();
-        try {
-            $route = [$this->router, 'getFullPathByName'];
-            /** @noinspection PhpIncludeInspection */
-            require_once INCLUDES_PATH . 'templates/' . $this->templatePath . '.php';
-        } catch (\Exception $e) {
-            $this->logger->error($e);
-            ob_get_clean();
-            throw new \RuntimeException('Something went wrong in the template');
-        }
-        $this->data['content'] = ob_get_clean();
+        $this->data['content'] = $this->template->render($vars, $this->templatePath);
         $this->data = array_merge($this->data, $vars);
     }
 
@@ -139,10 +132,7 @@ abstract class BaseHandler
      */
     private function getHTML(): string
     {
-        extract($this->data);
-        ob_start();
-        require_once INCLUDES_PATH . 'templates/master.php';
-        return ob_get_clean();
+        return $this->template->render($this->data, 'master');
     }
 
     /**

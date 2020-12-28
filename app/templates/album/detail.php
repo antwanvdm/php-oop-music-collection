@@ -1,19 +1,12 @@
 <?php
 /**
- * @var string $pageTitle
- * @var array $errors
  * @var \System\Databases\Objects\Album $album
  * @var callable $route
+ * @var callable $yield
  */
 ?>
-<h1><?= $pageTitle; ?></h1>
-<?php if (!empty($errors)): ?>
-    <ul class="errors">
-        <?php foreach ($errors as $error): ?>
-            <li><?= $error; ?></li>
-        <?php endforeach; ?>
-    </ul>
-<?php endif; ?>
+<?= $yield('partials/header'); ?>
+<?= $yield('partials/errors'); ?>
 
 <?php if ($album): ?>
     <div>

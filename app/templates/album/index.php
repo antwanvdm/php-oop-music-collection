@@ -1,20 +1,13 @@
 <?php
 /**
- * @var string $pageTitle
- * @var array $errors
  * @var int $totalAlbums
  * @var \System\Databases\Objects\Album[] $albums
  * @var callable $route
+ * @var callable $yield
  */
 ?>
-<h1><?= $pageTitle; ?></h1>
-<?php if (!empty($errors)): ?>
-    <ul class="errors">
-        <?php foreach ($errors as $error): ?>
-            <li><?= $error; ?></li>
-        <?php endforeach; ?>
-    </ul>
-<?php endif; ?>
+<?= $yield('partials/header'); ?>
+<?= $yield('partials/errors'); ?>
 
 <a href="<?= $route('album.add'); ?>"><?= $this->t->album->index->addNewLink; ?></a>
 <?php if (isset($albums) && isset($totalAlbums)): ?>
