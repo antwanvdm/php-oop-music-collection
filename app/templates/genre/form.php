@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * @var \System\Databases\Objects\Genre $genre
  */
 ?>
 <form action="<?= $_SERVER['REQUEST_URI']; ?>" method="post" enctype="multipart/form-data">

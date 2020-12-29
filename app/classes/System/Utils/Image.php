@@ -70,7 +70,7 @@ class Image
         $removed = unlink('./' . $fileName);
 
         if ($removed == false) {
-            throw new \RuntimeException("Something went wrong with removing the image");
+            throw new \RuntimeException('Something went wrong with removing the image');
         }
 
         return true;

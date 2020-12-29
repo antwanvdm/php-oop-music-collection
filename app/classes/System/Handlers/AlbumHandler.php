@@ -19,7 +19,7 @@ class AlbumHandler extends BaseHandler
     /**
      * Called from the parent constructor
      */
-    protected function initialize()
+    protected function initialize(): void
     {
         $this->image = new Image();
     }
@@ -182,13 +182,13 @@ class AlbumHandler extends BaseHandler
                 $this->image->delete($album->image);
 
                 //Redirect to homepage after deletion & exit script
-                header("Location: " . BASE_PATH . 'albums');
+                header('Location: ' . BASE_PATH . 'albums');
                 exit;
             }
         } catch (\Exception $e) {
             //There is no delete template, always redirect.
             $this->logger->error($e);
-            header("Location: " . BASE_PATH . 'albums');
+            header('Location: ' . BASE_PATH . 'albums');
             exit;
         }
     }

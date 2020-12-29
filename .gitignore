@@ -2,8 +2,9 @@
 *~
 .DS_Store
 
-# PhpStorm (JetBrains) specific
+# IDE
 .idea
+.vscode
 
 # Dependency managers (for this setup just composer)
 vendor/
@@ -16,3 +17,4 @@ vendor/
 app/logs/
 app/config/settings.php
 public/images
+.php_cs.cache

@@ -44,8 +44,8 @@ abstract class BaseTask
     {
         if (method_exists($this, $name)) {
             return call_user_func([$this, $name], $arguments);
-        } else {
-            throw new \Exception("Route does not exist or invalid function ($name) was called");
         }
+
+        throw new \Exception("Route does not exist or invalid function ($name) was called");
     }
 }

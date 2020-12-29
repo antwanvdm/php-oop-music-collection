@@ -44,6 +44,7 @@ class Translator
         }
 
         $this->groups[$group] = new LangGroup($content);
+
         return $this->groups[$group];
     }
 }

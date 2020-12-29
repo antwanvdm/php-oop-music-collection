@@ -1,5 +1,4 @@
 <?php /** @noinspection SqlResolve */
-
 namespace System\Databases;
 
 use System\Utils\Logger;
@@ -34,9 +33,8 @@ abstract class BaseObject
     {
         if (static::$table === '') {
             throw new \Exception("Property 'protected static \$table' must be set within implementation");
-        } else {
-            $this->tableName = static::$table;
         }
+        $this->tableName = static::$table;
 
         $this->db = Database::getInstance();
         $this->logger = new Logger();
@@ -84,9 +82,11 @@ abstract class BaseObject
                 }
                 $properties[$dynamicProperty->name] = $objectVars[$dynamicProperty->name];
             }
+
             return $properties;
         } catch (\Exception $e) {
-            $this->logger->error(new \Exception("BaseObject getPublicProperties failed: " . $e->getMessage()));
+            $this->logger->error(new \Exception('BaseObject getPublicProperties failed: ' . $e->getMessage()));
+
             return [];
         }
     }
@@ -106,12 +106,15 @@ abstract class BaseObject
             $updateKeys = array_map(function ($key) {
                 return "`$key` = :$key";
             }, $keys);
+            $implodedUpdateKeys = implode(',', $updateKeys);
             $query = "UPDATE `{$this->tableName}`
-                      SET " . implode(',', $updateKeys) . "
+                      SET $implodedUpdateKeys
                       WHERE `id` = :id";
         } else {
-            $query = "INSERT INTO `{$this->tableName}` (`" . implode('`,`', $keys) . "`)
-                      VALUES (:" . implode(', :', $keys) . ")";
+            $implodedKeys = implode('`,`', $keys);
+            $implodedValues = implode(', :', $keys);
+            $query = "INSERT INTO `{$this->tableName}` (`$implodedKeys`)
+                      VALUES (:$implodedValues)";
         }
 
         //Create a prepared statement and bind all values individually
@@ -127,20 +130,21 @@ abstract class BaseObject
             if (method_exists($this, 'savePivots')) {
                 $this->savePivots();
             }
+
             return true;
-        } else {
-            $this->logger->error(new \Exception("DB Error: {$this->db->errorInfo()}"));
-            return false;
         }
+        $this->logger->error(new \Exception("DB Error: {$this->db->errorInfo()[2]}"));
+
+        return false;
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return bool
      * @throws \Exception
      * @TODO Connect to delete pivots as well (in case cascade is turned off on mysql table relations)
      */
-    public static function delete($id): bool
+    public static function delete(int $id): bool
     {
         $db = Database::getInstance();
         $tableName = static::$table;
@@ -148,6 +152,7 @@ abstract class BaseObject
                   WHERE `id` = :id";
 
         $statement = $db->prepare($query);
+
         return $statement->execute([':id' => $id]);
     }
 
@@ -159,6 +164,7 @@ abstract class BaseObject
     {
         $db = Database::getInstance();
         $tableName = static::$table;
+
         return $db->query("SELECT * FROM `{$tableName}`")->fetchAll(\PDO::FETCH_CLASS, get_called_class());
     }
 

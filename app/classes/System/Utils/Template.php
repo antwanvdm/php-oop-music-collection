@@ -43,6 +43,7 @@ class Template
         $this->vars = $vars;
         extract($vars);
         ob_start();
+
         try {
             //Make functions available for templates
             $route = [$this->router, 'getFullPathByName'];
@@ -52,8 +53,10 @@ class Template
         } catch (\Exception $e) {
             $this->logger->error($e);
             ob_get_clean();
+
             throw new \RuntimeException('Something went wrong in the template');
         }
+
         return ob_get_clean();
     }
 

@@ -6,13 +6,14 @@ use System\Databases\BaseObject;
  * Class Genre
  * @package System\Databases\Objects
  * @property Album[] $albums
+ * @method static Genre getById($id)
  */
 class Genre extends BaseObject
 {
     protected static string $table = 'genres';
 
     public ?int $id = null;
-    public string $name = "";
+    public string $name = '';
 
     /**
      * @return Album[]

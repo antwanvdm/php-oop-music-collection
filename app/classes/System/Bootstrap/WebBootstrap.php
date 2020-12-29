@@ -39,7 +39,7 @@ class WebBootstrap implements BootstrapInterface
 
         //Routing magic with dynamic file that has $router available
         $router = $this->di->get('router');
-        require_once INCLUDES_PATH . "config/routes.php";
+        require_once INCLUDES_PATH . 'config/routes.php';
         $this->activeRoute = $router->getRoute();
     }
 
@@ -56,6 +56,7 @@ class WebBootstrap implements BootstrapInterface
             }
             /** @var $page BaseHandler */
             $page = $this->di->set('handler', $this->activeRoute->className);
+
             return $page->{$this->activeRoute->action}(...$this->activeRoute->params)->getResponse();
         } catch (\Exception $e) {
             $this->di->get('logger')->error($e);

@@ -11,7 +11,8 @@ class SessionTest extends TestCase
     public function testKeyExists(): void
     {
         $testData = ['newKey' => 'test'];
-        $session = new Session($testData);
+        $_SESSION = $testData;
+        $session = new Session();
 
         $this->assertTrue($session->keyExists('newKey'));
     }
@@ -19,7 +20,8 @@ class SessionTest extends TestCase
     public function testKeyDoesNotExists(): void
     {
         $testData = ['otherKey' => 'test'];
-        $session = new Session($testData);
+        $_SESSION = $testData;
+        $session = new Session();
 
         $this->assertFalse($session->keyExists('newKey'));
     }
@@ -27,7 +29,8 @@ class SessionTest extends TestCase
     public function testKeyExistsAfterSetData(): void
     {
         $testData = ['newKey' => 'test'];
-        $session = new Session($testData);
+        $_SESSION = $testData;
+        $session = new Session();
 
         $session->set('anotherKey', 'bla');
         $this->assertTrue($session->keyExists('anotherKey'));
@@ -36,7 +39,8 @@ class SessionTest extends TestCase
     public function testKeyExistsAfterDeleteData(): void
     {
         $testData = ['newKey' => 'test'];
-        $session = new Session($testData);
+        $_SESSION = $testData;
+        $session = new Session();
 
         $session->delete('newKey');
         $this->assertFalse($session->keyExists('newKey'));

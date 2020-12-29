@@ -23,6 +23,7 @@ class Container
         if (!$this->has($key)) {
             throw new \Exception("Key '$key' is not set in container");
         }
+
         return $this->entries[$key];
     }
 
@@ -48,12 +49,13 @@ class Container
         } elseif (!$this->has($key)) {
             $this->entries[$key] = $this->resolve($value);
         }
+
         return $this->entries[$key];
     }
 
     /**
      * @param string $key
-     * @return mixed|void
+     * @return mixed
      * @throws ContainerException|NotFoundException
      */
     private function resolve(string $key)
@@ -93,6 +95,7 @@ class Container
                 $params[] = $this->set($param->name, $type->getName());
             }
         }
+
         return $item->newInstanceArgs($params);
     }
 }

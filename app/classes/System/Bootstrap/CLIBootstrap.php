@@ -36,7 +36,7 @@ class CLIBootstrap implements BootstrapInterface
             array_shift($dynamicArguments);
 
             if (!isset($dynamicArguments[0]) || !isset($dynamicArguments[1])) {
-                throw new \Exception("Not enough arguments passed to cli.php");
+                throw new \Exception('Not enough arguments passed to cli.php');
             }
 
             //Set first param the define called class & second for action
@@ -66,10 +66,12 @@ class CLIBootstrap implements BootstrapInterface
             }
             /** @var $task BaseTask */
             $task = $this->di->set('bootstrap', $this->className);
+
             return $task->{$this->action}(...$this->params);
         } catch (\Exception $e) {
             $this->di->get('logger')->error($e);
-            return "Oops, something went wrong, please contact the site administrator.";
+
+            return 'Oops, something went wrong, please contact the site administrator.';
         }
     }
 }

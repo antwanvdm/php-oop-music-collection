@@ -19,10 +19,10 @@ trait Album
             $this->formData = new Data($_POST);
 
             //Override object with new variables
-            $this->album->artist_id = $this->formData->getPostVar('artist');
+            $this->album->artist_id = (int)$this->formData->getPostVar('artist');
             $this->album->name = $this->formData->getPostVar('name');
             $this->album->year = $this->formData->getPostVar('year');
-            $this->album->tracks = $this->formData->getPostVar('tracks');
+            $this->album->tracks = (int)$this->formData->getPostVar('tracks');
 
             $genres = $this->formData->getPostVar('genre');
             $this->album->genres = [];

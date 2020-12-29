@@ -30,22 +30,22 @@ class AlbumValidator implements Validator
     public function validate(Translator $t): void
     {
         //Check if data is valid & generate error if not so
-        if ($this->album->artist == "") {
+        if ($this->album->artist == '') {
             $this->errors[] = $t->album->validation->artist;
         }
-        if ($this->album->name == "") {
+        if ($this->album->name == '') {
             $this->errors[] = $t->album->validation->name;
         }
         if (empty($this->album->genres)) {
             $this->errors[] = $t->album->validation->genre;
         }
-        if ($this->album->year == "") {
+        if ($this->album->year == '') {
             $this->errors[] = $t->album->validation->year;
         }
         if (!is_numeric($this->album->year) || strlen($this->album->year) != 4) {
             $this->errors[] = $t->album->validation->yearFormat;
         }
-        if ($this->album->tracks == "") {
+        if ($this->album->tracks == '') {
             $this->errors[] = $t->album->validation->tracks;
         }
     }

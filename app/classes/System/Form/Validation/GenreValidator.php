@@ -30,7 +30,7 @@ class GenreValidator implements Validator
     public function validate(Translator $t): void
     {
         //Check if data is valid & generate error if not so
-        if ($this->genre->name == "") {
+        if ($this->genre->name == '') {
             $this->errors[] = $t->genre->validation->name;
         }
     }

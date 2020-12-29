@@ -7,6 +7,9 @@
 class Logger
 {
     private string $errorLog = LOG_PATH . 'error.log';
+    /**
+     * @var resource
+     */
     private $file; //@see https://stackoverflow.com/questions/38429595/php-7-and-strict-resource-types
 
     public function __construct()

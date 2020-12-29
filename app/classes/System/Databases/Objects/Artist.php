@@ -7,6 +7,7 @@ use System\Databases\BaseObject;
  * @package System\Databases\Objects
  * @property User $user
  * @property Album[] $albums
+ * @method static Artist getById($id)
  */
 class Artist extends BaseObject
 {
@@ -14,7 +15,7 @@ class Artist extends BaseObject
 
     public ?int $id = null;
     public ?int $user_id = null;
-    public string $name = "";
+    public string $name = '';
 
     /**
      * @return User

@@ -89,6 +89,32 @@ class GenreHandler extends BaseHandler
         ]);
     }
 
+    protected function save($id): void
+    {
+        try {
+            //Get the record from the db & execute POST logic
+            $this->genre = Genre::getById($id);
+            $this->executePostHandler();
+
+            //Database magic when no errors are found
+            if (isset($this->formData) && empty($this->errors)) {
+                //Save the record to the db
+                if ($this->genre->save()) {
+                    $success = $this->t->genre->edit->success;
+                } else {
+                    $this->errors[] = $this->t->general->errors->dbSave;
+                }
+            }
+        } catch (\Exception $e) {
+            $this->logger->error($e);
+            $this->genre = new Genre();
+            $this->errors[] = $this->t->general->errors->general;
+            $pageTitle = $this->t->artist->notExists;
+        }
+
+        $this->edit($id);
+    }
+
     /**
      * @param string $id
      */
@@ -126,13 +152,13 @@ class GenreHandler extends BaseHandler
             //Database magic when no errors are found
             if (Genre::delete($id)) {
                 //Redirect to homepage after deletion & exit script
-                header("Location: " . BASE_PATH . "genres");
+                header('Location: ' . BASE_PATH . 'genres');
                 exit;
             }
         } catch (\Exception $e) {
             //There is no delete template, always redirect.
             $this->logger->error($e);
-            header("Location: " . BASE_PATH . "genres");
+            header('Location: ' . BASE_PATH . 'genres');
             exit;
         }
     }

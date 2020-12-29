@@ -56,7 +56,7 @@ class Database
             $this->connection = new \PDO("mysql:dbname=$this->database;host=$this->host", $this->username, $this->password);
             $this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {
-            throw new \Exception("DB Connection failed: " . $e->getMessage());
+            throw new \Exception('DB Connection failed: ' . $e->getMessage());
         }
     }
 

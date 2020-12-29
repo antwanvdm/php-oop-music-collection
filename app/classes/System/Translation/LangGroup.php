@@ -18,7 +18,7 @@ class LangGroup
 
     /**
      * @param string $translationKey
-     * @return string|array
+     * @return string|object
      */
     public function __get(string $translationKey)
     {

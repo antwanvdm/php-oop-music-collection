@@ -10,7 +10,7 @@ class NotFoundHandler extends BaseHandler
     {
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => "404 - Pagina niet gevonden"
+            'pageTitle' => '404 - Pagina niet gevonden'
         ]);
     }
 }

@@ -8,6 +8,7 @@ use System\Databases\BaseObject;
  * @property User $user
  * @property Artist $artist
  * @property Genre[] $genres
+ * @method static Album getById($id)
  */
 class Album extends BaseObject
 {
@@ -16,10 +17,10 @@ class Album extends BaseObject
     public ?int $id = null;
     public ?int $user_id = null;
     public ?int $artist_id = null;
-    public string $name = "";
-    public string $year = "";
+    public string $name = '';
+    public string $year = '';
     public int $tracks = 0;
-    public string $image = "";
+    public string $image = '';
 
     /**
      * @return User

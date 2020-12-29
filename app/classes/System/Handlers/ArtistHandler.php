@@ -124,9 +124,9 @@ class ArtistHandler extends BaseHandler
     }
 
     /**
-     * @param string $id
+     * @param int $id
      */
-    protected function delete(string $id): void
+    protected function delete(int $id): void
     {
         try {
             //Get the record from the db
@@ -135,13 +135,13 @@ class ArtistHandler extends BaseHandler
             //Database magic when no errors are found
             if (Artist::delete($id)) {
                 //Redirect to homepage after deletion & exit script
-                header("Location: " . BASE_PATH . "artists");
+                header('Location: ' . BASE_PATH . 'artists');
                 exit;
             }
         } catch (\Exception $e) {
             //There is no delete template, always redirect.
             $this->logger->error($e);
-            header("Location: " . BASE_PATH . "artists");
+            header('Location: ' . BASE_PATH . 'artists');
             exit;
         }
     }

@@ -41,7 +41,7 @@ abstract class BaseHandler
         $this->t = $t;
         $this->template = $template;
 
-        if (method_exists($this, "initialize")) {
+        if (method_exists($this, 'initialize')) {
             $this->initialize();
         }
     }
@@ -104,7 +104,7 @@ abstract class BaseHandler
     /**
      * @param array $vars
      */
-    protected function setJSON(array $vars = [])
+    protected function setJSON(array $vars = []): void
     {
         $this->data = $vars;
     }
@@ -117,7 +117,7 @@ abstract class BaseHandler
     public function getResponse(): string
     {
         switch ($_SERVER['CONTENT_TYPE']) {
-            case "application/json":
+            case 'application/json':
                 return $this->getJSON();
 
             default:
@@ -140,7 +140,8 @@ abstract class BaseHandler
      */
     private function getJSON(): string
     {
-        header("Content-Type: application/json");
+        header('Content-Type: application/json');
+
         return json_encode($this->data);
     }
 }

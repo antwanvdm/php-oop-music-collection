@@ -6,8 +6,12 @@
  */
 class MainTask extends BaseTask
 {
-    protected function doSomething($params)
+    /**
+     * @param array $params
+     * @return string
+     */
+    protected function doSomething(array $params): string
     {
-        return implode(", ", $params);
+        return implode(', ', $params);
     }
 }

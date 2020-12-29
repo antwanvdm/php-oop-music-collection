@@ -1,7 +1,7 @@
 <?php
 /**
- * @var $pageTitle string
- * @var $content string
+ * @var string $pageTitle
+ * @var string $content
  */
 ?>
 <!doctype html>
