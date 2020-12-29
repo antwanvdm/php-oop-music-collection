@@ -31,11 +31,11 @@ class Session
      * Retrieve a var from the session array
      *
      * @param string $key
-     * @return mixed
+     * @return string|int|array|object|bool
      */
     public function get(string $key)
     {
-        return $this->data[$key];
+        return $this->data[$key] ?? false;
     }
 
     /**

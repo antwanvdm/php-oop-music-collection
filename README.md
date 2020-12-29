@@ -74,6 +74,7 @@ includes a `test@test.com` user with the password `test`.
 - ~~Implement CLI bootstrap~~
 - ~~Add cronjob support ("tasks")~~
 - Make wrapper (request object?) for super globals $_GET/$_POST
+- Create something like flash messages for the session
 - ~~Implement basic dependency injection system~~
 - ~~Configure psalm, phpunit & php-cs-fixer in automated script~~
 - ~~Possibility to extend and re-use templates~~

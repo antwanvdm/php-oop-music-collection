@@ -12,6 +12,15 @@ class GenreHandler extends BaseHandler
 
     private Genre $genre;
 
+    protected function initialize()
+    {
+        if ($this->session->get('errors')) {
+            $this->errors = array_merge($this->session->get('errors'), $this->errors);
+        }
+
+        $this->session->delete('errors');
+    }
+
     protected function index(): void
     {
         //Get all genres
@@ -27,29 +36,18 @@ class GenreHandler extends BaseHandler
 
     protected function add(): void
     {
-        //Set default empty genre & execute POST logic
+        //Set default empty genre
         $this->genre = new Genre();
-        $this->executePostHandler();
-
-        //Database magic when no errors are found
-        if (isset($this->formData) && empty($this->errors)) {
-            //Save the record to the db
-            if ($this->genre->save()) {
-                $success = $this->t->genre->add->success;
-                //Override to see a new empty form
-                $this->genre = new Genre();
-            } else {
-                $this->errors[] = $this->t->general->errors->dbSave;
-            }
-        }
 
         //Return formatted data
         $this->renderTemplate([
             'pageTitle' => $this->t->genre->add->pageTitle,
             'genre' => $this->genre,
-            'success' => $success ?? false,
+            'success' => $this->session->get("success"),
             'errors' => $this->errors
         ]);
+
+        $this->session->delete('success');
     }
 
     /**
@@ -60,18 +58,6 @@ class GenreHandler extends BaseHandler
         try {
             //Get the record from the db & execute POST logic
             $this->genre = Genre::getById($id);
-            $this->executePostHandler();
-
-            //Database magic when no errors are found
-            if (isset($this->formData) && empty($this->errors)) {
-                //Save the record to the db
-                if ($this->genre->save()) {
-                    $success = $this->t->genre->edit->success;
-                } else {
-                    $this->errors[] = $this->t->general->errors->dbSave;
-                }
-            }
-
             $pageTitle = "{$this->t->genre->edit->pageTitlePrefix} {$this->genre->name}";
         } catch (\Exception $e) {
             $this->logger->error($e);
@@ -84,35 +70,38 @@ class GenreHandler extends BaseHandler
         $this->renderTemplate([
             'pageTitle' => $pageTitle,
             'genre' => $this->genre,
-            'success' => $success ?? false,
+            'success' => $this->session->get('success'),
             'errors' => $this->errors
         ]);
+
+        $this->session->delete('success');
     }
 
-    protected function save($id): void
+    protected function save(): void
     {
         try {
             //Get the record from the db & execute POST logic
-            $this->genre = Genre::getById($id);
+            $this->genre = new Genre();
             $this->executePostHandler();
 
             //Database magic when no errors are found
             if (isset($this->formData) && empty($this->errors)) {
                 //Save the record to the db
+                $state = $this->genre->id === 0 ? 'add' : 'edit';
                 if ($this->genre->save()) {
-                    $success = $this->t->genre->edit->success;
+                    $this->session->set('success', $this->t->genre->{$state}->success);
                 } else {
                     $this->errors[] = $this->t->general->errors->dbSave;
                 }
             }
         } catch (\Exception $e) {
             $this->logger->error($e);
-            $this->genre = new Genre();
             $this->errors[] = $this->t->general->errors->general;
-            $pageTitle = $this->t->artist->notExists;
         }
 
-        $this->edit($id);
+        $this->session->set('errors', $this->errors);
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
     }
 
     /**

@@ -18,6 +18,7 @@ trait Genre
             $this->formData = new Data($_POST);
 
             //Override object with new variables
+            $this->genre->id = (int)$this->formData->getPostVar('id');
             $this->genre->name = $this->formData->getPostVar('name');
 
             //Actual validation
