@@ -1,5 +1,4 @@
 <?php /** @noinspection SqlResolve */
-
 namespace System\Databases;
 
 /**
@@ -20,9 +19,9 @@ trait Relationships
     {
         if (method_exists($this, $name)) {
             return $this->$name();
-        } else {
-            throw new \Exception("Relationship for {$name} does not exist on " . get_called_class());
         }
+
+        throw new \Exception("Relationship for {$name} does not exist on " . get_called_class());
     }
 
     /**
@@ -30,7 +29,6 @@ trait Relationships
      *
      * @param string $name
      * @param mixed $value
-     * @return mixed
      * @throws \Exception
      */
     public function __set(string $name, $value)
@@ -45,16 +43,16 @@ trait Relationships
     /**
      * @param string $className
      * @param string $foreignKey
-     * @return mixed
+     * @return object
      */
     protected function belongsTo(string $className, string $foreignKey): object
     {
-        $fullClassName = "\\System\\Databases\\Objects\\" . $className;
+        $fullClassName = '\\System\\Databases\\Objects\\' . $className;
         if ($this->$foreignKey !== null) {
             return $fullClassName::getById($this->$foreignKey);
-        } else {
-            return new $fullClassName();
         }
+
+        return new $fullClassName();
     }
 
     /**
@@ -65,7 +63,8 @@ trait Relationships
     protected function hasMany(string $className, string $foreignKey): array
     {
         /** @var BaseObject $fullClassName */
-        $fullClassName = "\\System\\Databases\\Objects\\" . $className;
+        $fullClassName = '\\System\\Databases\\Objects\\' . $className;
+
         return $fullClassName::getAllByForeignKey($foreignKey, $this->id);
     }
 
@@ -79,8 +78,9 @@ trait Relationships
     protected function belongsToMany(string $relationName, string $className, array $foreignKeys, string $pivotTable): array
     {
         /** @var BaseObject $currentClass */
-        $relationClassName = "\\System\\Databases\\Objects\\" . $className;
+        $relationClassName = '\\System\\Databases\\Objects\\' . $className;
         $currentClass = get_called_class();
+
         return $currentClass::getAllThroughPivot($foreignKeys, $this->id, $pivotTable, $relationClassName);
     }
 
@@ -107,7 +107,6 @@ trait Relationships
      * @param array $foreignKeys
      * @param int $id
      * @param string $pivotTable
-     * @param string $relationClassName
      * @return array
      * @throws \Exception
      */
@@ -144,13 +143,13 @@ trait Relationships
      * @param array $values
      * @TODO Refactor please
      */
-    private function savePivot(array $values)
+    private function savePivot(array $values): void
     {
         $currentTableSingular = substr($this->tableName, 0, -1);
         foreach ($values as $key => $object) {
             //Very dependant on respecting naming conventions
             $relationTableSingular = substr($object->tableName, 0, -1);
-            $pivotTable = $currentTableSingular . "_" . $relationTableSingular;
+            $pivotTable = $currentTableSingular . '_' . $relationTableSingular;
             //Simple delete all current connections before adding new ones (and possibly the same)
             if ($key === 0) {
                 $statement = $this->db->prepare("DELETE FROM `{$pivotTable}` WHERE `{$currentTableSingular}_id` = :id");
