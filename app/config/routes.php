@@ -22,6 +22,7 @@ $router->get('genres/edit/{id}', 'GenreHandler@edit')->name('genre.edit');
 $router->get('genres/delete/{id}', 'GenreHandler@delete')->name('genre.delete');
 $router->post('genres/save', 'GenreHandler@save')->name('genre.save');
 $router->get('user/login', 'AccountHandler@login')->name('account.login');
+$router->post('user/login/post', 'AccountHandler@loginPost')->name('account.login.post');
 $router->get('user/logout', 'AccountHandler@logout')->name('account.logout');
 $router->get('user/register', 'AccountHandler@register')->name('account.register');
 $router->get('api', 'APIHandler@index')->name('api');

@@ -4,9 +4,10 @@
  * @var array $albumGenreIds
  * @var \System\Databases\Objects\Artist[] $artists
  * @var \System\Databases\Objects\Genre[] $genres
+ * @var callable $route
  */
 ?>
-<form action="<?= $_SERVER['REQUEST_URI']; ?>" method="post" enctype="multipart/form-data">
+<form action="<?= $route('album.save') ?>" method="post" enctype="multipart/form-data">
     <div class="data-field">
         <label for="artist"><?= $this->t->album->form->artistLabel; ?></label>
         <select id="artist" name="artist">
@@ -43,6 +44,8 @@
         <input type="file" name="image" id="image"/>
     </div>
     <div class="data-submit">
+        <input type="hidden" name="id" value="<?= $album->id; ?>"/>
+        <input type="hidden" name="current-image" value="<?= $album->image; ?>"/>
         <input type="submit" name="submit" value="<?= $this->t->album->form->submitValue; ?>"/>
     </div>
 </form>

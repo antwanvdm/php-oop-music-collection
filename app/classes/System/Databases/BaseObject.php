@@ -1,4 +1,5 @@
 <?php /** @noinspection SqlResolve */
+
 namespace System\Databases;
 
 use System\Utils\Logger;
@@ -76,8 +77,9 @@ abstract class BaseObject
             $objectVars = get_object_vars($this);
             $properties = [];
             foreach ($dynamicProperties as $dynamicProperty) {
-                //Skip relations  @TODO check if this is needed (rather not)
-                if (method_exists($this, $dynamicProperty->name)) {
+                //If we have either a relation OR a not available property, move on
+                //@TODO check if relation check is needed (rather not)
+                if (method_exists($this, $dynamicProperty->name) || !isset($objectVars[$dynamicProperty->name])) {
                     continue;
                 }
                 $properties[$dynamicProperty->name] = $objectVars[$dynamicProperty->name];

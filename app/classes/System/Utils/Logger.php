@@ -29,6 +29,8 @@ class Logger
 
     public function __destruct()
     {
-        fclose($this->file);
+        if (is_resource($this->file)) {
+            fclose($this->file);
+        }
     }
 }

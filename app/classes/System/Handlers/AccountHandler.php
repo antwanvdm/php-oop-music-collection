@@ -11,6 +11,15 @@ use System\Databases\Objects\User;
  */
 class AccountHandler extends BaseHandler
 {
+    protected function initialize(): void
+    {
+        if ($this->session->get('errors')) {
+            $this->errors = array_merge($this->session->get('errors'), $this->errors);
+        }
+
+        $this->session->delete('errors');
+    }
+
     /**
      * @noinspection PhpUnused
      */
@@ -22,43 +31,58 @@ class AccountHandler extends BaseHandler
             exit;
         }
 
-        //Check if Post isset, else do nothing
-        if (isset($_POST['submit'])) {
-            //Set form data
-            $formData = new Data($_POST);
+        //Return formatted data
+        $this->renderTemplate([
+            'pageTitle' => $this->t->account->login->pageTitle,
+            'email' => $this->session->get('email'),
+            'location' => $_GET['location'] ?? '',
+            'errors' => $this->errors
+        ]);
 
-            //Set post variables
-            $email = $formData->getPostVar('email');
-            $password = $formData->getPostVar('password');
+        $this->session->delete('email');
+    }
 
-            //Get the record from the db
-            try {
-                $user = User::getByEmail($email);
-            } catch (\Exception $e) {
-                //Probably should work nicer
-                $user = new User();
-            }
-
-            //Actual validation
-            $validator = new LoginValidator($user, $password);
-            $validator->validate($this->t);
-            $this->errors = $validator->getErrors();
+    protected function loginPost(): void
+    {
+        //Redirect any false entries
+        if (!isset($_POST['submit'])) {
+            header('Location: ' . BASE_PATH);
+            exit;
         }
+
+        //Set form data
+        $formData = new Data($_POST);
+
+        //Set post variables
+        $email = $formData->getPostVar('email');
+        $password = $formData->getPostVar('password');
+        $location = $formData->getPostVar('location');
+
+        //Get the record from the db
+        try {
+            $user = User::getByEmail($email);
+        } catch (\Exception $e) {
+            //Probably should work nicer
+            $user = new User();
+        }
+
+        //Actual validation
+        $validator = new LoginValidator($user, $password);
+        $validator->validate($this->t);
+        $this->errors = $validator->getErrors();
 
         //When no error, set session variable, redirect & exit script
         if (isset($user) && empty($this->errors)) {
             $this->session->set('user', $user);
-            $location = BASE_PATH . ($_GET['location'] ?? '');
             header('Location: ' . $location);
             exit;
         }
 
-        //Return formatted data
-        $this->renderTemplate([
-            'pageTitle' => 'Login',
-            'email' => $email ?? false,
-            'errors' => $this->errors
-        ]);
+        //Whoops, we have errors and need to return
+        $this->session->set('email', $email);
+        $this->session->set('errors', $this->errors);
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
     }
 
     /**

@@ -22,6 +22,12 @@ class AlbumHandler extends BaseHandler
     protected function initialize(): void
     {
         $this->image = new Image();
+
+        if ($this->session->get('errors')) {
+            $this->errors = array_merge($this->session->get('errors'), $this->errors);
+        }
+
+        $this->session->delete('errors');
     }
 
     protected function index(): void
@@ -37,42 +43,21 @@ class AlbumHandler extends BaseHandler
         ]);
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function add(): void
     {
         //If not logged in, redirect to login
         if (!$this->session->keyExists('user')) {
-            header('Location: ' . BASE_PATH . 'user/login?location=albums/add');
+            $location = $this->router->getFullPathByName('album.add');
+            header('Location: ' . BASE_PATH . 'user/login?location=' . $location);
             exit;
         }
 
         //Set default empty album & execute POST logic
         $this->album = new Album();
         $this->album->genres = []; //@TODO Blegh
-        $this->executePostHandler();
-
-        //Special check for add form only
-        if (isset($this->formData) && $_FILES['image']['error'] == 4) {
-            $this->errors[] = $this->t->album->validation->image;
-        }
-
-        //Database magic when no errors are found
-        if (isset($this->formData) && empty($this->errors)) {
-            //Store image & retrieve name for database saving
-            $this->album->image = 'images/' . $this->image->save($_FILES['image']);
-
-            //Set user id in Album
-            $this->album->user_id = $this->session->get('user')->id;
-
-            //Save the record to the db
-            if ($this->album->save()) {
-                $success = $this->t->album->edit->success;
-                //Override to see a new empty form
-                $this->album = new Album();
-                $this->album->genres = []; //@TODO Blegh
-            } else {
-                $this->errors[] = $this->t->general->errors->dbSave;
-            }
-        }
 
         //Return formatted data
         $this->renderTemplate([
@@ -83,9 +68,11 @@ class AlbumHandler extends BaseHandler
                 return $genre->id;
             }, $this->album->genres),
             'genres' => Genre::getAll(),
-            'success' => $success ?? false,
+            'success' => $this->session->get('success'),
             'errors' => $this->errors
         ]);
+
+        $this->session->delete('success');
     }
 
     /**
@@ -94,31 +81,17 @@ class AlbumHandler extends BaseHandler
      */
     protected function edit(string $id): void
     {
+        //If not logged in, redirect to login
+        if (!$this->session->keyExists('user')) {
+            $location = $this->router->getFullPathByName('album.edit', ['id' => $id]);
+            header('Location: ' . BASE_PATH . 'user/login?location=' . $location);
+            exit;
+        }
+
         try {
             //Get the record from the db & execute POST logic
             $this->album = Album::getById($id);
             $this->album->genres(); //@TODO blegh
-            $this->executePostHandler();
-
-            //Database magic when no errors are found
-            if (isset($this->formData) && empty($this->errors)) {
-                //If image is not empty, process the new image file
-                if ($_FILES['image']['error'] != 4) {
-                    //Remove old image
-                    $this->image->delete($this->album->image);
-
-                    //Store new image & retrieve name for database saving (override current image name)
-                    $this->album->image = 'images/' . $this->image->save($_FILES['image']);
-                }
-
-                //Save the record to the db
-                if ($this->album->save()) {
-                    $success = $this->t->album->edit->success;
-                } else {
-                    $this->errors[] = $this->t->general->errors->dbSave;
-                }
-            }
-
             $pageTitle = "{$this->t->album->edit->pageTitlePrefix} '{$this->album->name} {$this->t->album->madeBy} {$this->album->artist->name}'";
         } catch (\Exception $e) {
             $this->logger->error($e);
@@ -137,9 +110,54 @@ class AlbumHandler extends BaseHandler
                 return $genre->id;
             }, $this->album->genres),
             'genres' => Genre::getAll(),
-            'success' => $success ?? false,
+            'success' => $this->session->get('success'),
             'errors' => $this->errors
         ]);
+
+        $this->session->delete('success');
+    }
+
+    protected function save(): void
+    {
+        try {
+            //Get the record from the db & execute POST logic
+            $this->album = new Album();
+            $this->executePostHandler();
+            $isNew = $this->album->id === 0;
+
+            //Database magic when no errors are found
+            if (isset($this->formData) && empty($this->errors)) {
+                //If image is not empty, process the new image file
+                if ($_FILES['image']['error'] != 4 && !$isNew) {
+                    //Remove old image
+                    $this->image->delete($this->album->image);
+
+                    //Store new image & retrieve name for database saving (override current image name)
+                    $this->album->image = 'images/' . $this->image->save($_FILES['image']);
+                } elseif ($isNew) {
+                    //Store image & retrieve name for database saving
+                    $this->album->image = 'images/' . $this->image->save($_FILES['image']);
+                }
+
+                //Set user id in Album
+                $this->album->user_id = $this->session->get('user')->id;
+
+                //Save the record to the db
+                $state = $this->album->id === 0 ? 'add' : 'edit';
+                if ($this->album->save()) {
+                    $this->session->set('success', $this->t->album->{$state}->success);
+                } else {
+                    $this->errors[] = $this->t->general->errors->dbSave;
+                }
+            }
+        } catch (\Exception $e) {
+            $this->logger->error($e);
+            $this->errors[] = $this->t->general->errors->general;
+        }
+
+        $this->session->set('errors', $this->errors);
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
     }
 
     /**

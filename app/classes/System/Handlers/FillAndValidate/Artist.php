@@ -18,6 +18,7 @@ trait Artist
             $this->formData = new Data($_POST);
 
             //Override object with new variables
+            $this->artist->id = (int)$this->formData->getPostVar('id');
             $this->artist->name = $this->formData->getPostVar('name');
 
             //Actual validation

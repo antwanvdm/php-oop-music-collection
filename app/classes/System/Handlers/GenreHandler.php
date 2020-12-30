@@ -12,7 +12,7 @@ class GenreHandler extends BaseHandler
 
     private Genre $genre;
 
-    protected function initialize()
+    protected function initialize(): void
     {
         if ($this->session->get('errors')) {
             $this->errors = array_merge($this->session->get('errors'), $this->errors);
