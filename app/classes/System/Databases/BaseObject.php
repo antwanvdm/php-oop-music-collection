@@ -1,6 +1,4 @@
-<?php /** @noinspection SqlResolve */
-
-namespace System\Databases;
+<?php namespace System\Databases;
 
 use System\Utils\Logger;
 
@@ -97,6 +95,7 @@ abstract class BaseObject
      * Insert or update the record in the database
      *
      * @return bool
+     * @noinspection SqlResolve
      */
     public function save(): bool
     {
@@ -144,6 +143,7 @@ abstract class BaseObject
      * @param int $id
      * @return bool
      * @throws \Exception
+     * @noinspection SqlResolve
      * @TODO Connect to delete pivots as well (in case cascade is turned off on mysql table relations)
      */
     public static function delete(int $id): bool
@@ -161,6 +161,7 @@ abstract class BaseObject
     /**
      * @return array
      * @throws \Exception
+     * @noinspection SqlResolve
      */
     public static function getAll(): array
     {
@@ -174,6 +175,7 @@ abstract class BaseObject
      * @param int $id
      * @return self
      * @throws \Exception
+     * @noinspection SqlResolve
      */
     public static function getById(int $id): self
     {

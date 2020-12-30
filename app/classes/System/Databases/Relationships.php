@@ -41,13 +41,13 @@ trait Relationships
     }
 
     /**
-     * @param string $className
+     * @template T as BaseObject
+     * @param class-string<T> $fullClassName
      * @param string $foreignKey
-     * @return object
+     * @return BaseObject
      */
-    protected function belongsTo(string $className, string $foreignKey): object
+    protected function belongsTo(string $fullClassName, string $foreignKey): BaseObject
     {
-        $fullClassName = '\\System\\Databases\\Objects\\' . $className;
         if ($this->$foreignKey !== null) {
             return $fullClassName::getById($this->$foreignKey);
         }
@@ -56,29 +56,26 @@ trait Relationships
     }
 
     /**
-     * @param string $className
+     * @template T as BaseObject
+     * @param class-string<T>  $fullClassName
      * @param string $foreignKey
      * @return array
      */
-    protected function hasMany(string $className, string $foreignKey): array
+    protected function hasMany(string $fullClassName, string $foreignKey): array
     {
-        /** @var BaseObject $fullClassName */
-        $fullClassName = '\\System\\Databases\\Objects\\' . $className;
-
         return $fullClassName::getAllByForeignKey($foreignKey, $this->id);
     }
 
     /**
-     * @param string $relationName
-     * @param string $className
+     * @template T as BaseObject
+     * @param class-string<T> $relationClassName
      * @param array $foreignKeys
      * @param string $pivotTable
      * @return array
      */
-    protected function belongsToMany(string $relationName, string $className, array $foreignKeys, string $pivotTable): array
+    protected function belongsToMany(string $relationClassName, array $foreignKeys, string $pivotTable): array
     {
         /** @var BaseObject $currentClass */
-        $relationClassName = '\\System\\Databases\\Objects\\' . $className;
         $currentClass = get_called_class();
 
         return $currentClass::getAllThroughPivot($foreignKeys, $this->id, $pivotTable, $relationClassName);
@@ -89,6 +86,7 @@ trait Relationships
      * @param int $id
      * @return array
      * @throws \Exception
+     * @noinspection SqlResolve
      */
     public static function getAllByForeignKey(string $foreignKey, int $id): array
     {
@@ -104,11 +102,14 @@ trait Relationships
     /**
      * Get the related items via a pivot table
      *
+     * @template T as BaseObject
      * @param array $foreignKeys
      * @param int $id
      * @param string $pivotTable
+     * @param class-string<T> $relationClassName
      * @return array
      * @throws \Exception
+     * @noinspection SqlResolve
      */
     public static function getAllThroughPivot(array $foreignKeys, int $id, string $pivotTable, string $relationClassName): array
     {
@@ -141,6 +142,7 @@ trait Relationships
 
     /**
      * @param array $values
+     * @noinspection SqlResolve
      * @TODO Refactor please
      */
     private function savePivot(array $values): void

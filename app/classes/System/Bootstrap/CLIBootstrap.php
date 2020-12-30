@@ -25,13 +25,15 @@ class CLIBootstrap implements BootstrapInterface
      */
     public function setup(): void
     {
+        //@see https://www.php.net/manual/en/reserved.variables.argv.php
+        global $argv;
+
         //Use the Dependency Injector container for the classes we need throughout the application
         $this->di = new Container();
         $this->di->set('logger', new Logger());
 
         try {
             //Get dynamic arguments from command line
-            global $argv;
             $dynamicArguments = $argv;
             array_shift($dynamicArguments);
 

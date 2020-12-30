@@ -43,7 +43,7 @@ class GenreHandler extends BaseHandler
         $this->renderTemplate([
             'pageTitle' => $this->t->genre->add->pageTitle,
             'genre' => $this->genre,
-            'success' => $this->session->get("success"),
+            'success' => $this->session->get('success'),
             'errors' => $this->errors
         ]);
 

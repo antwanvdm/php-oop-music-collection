@@ -7,6 +7,7 @@ use System\Databases\Database;
  * Class User
  * @package System\Databases\Objects
  * @property Album[] $albums
+ * @property Artist[] $artists
  */
 class User extends BaseObject
 {
@@ -22,7 +23,15 @@ class User extends BaseObject
      */
     public function albums(): array
     {
-        return $this->hasMany('Album', 'user_id');
+        return $this->hasMany(Album::class, 'user_id');
+    }
+
+    /**
+     * @return Artist[]
+     */
+    public function artists(): array
+    {
+        return $this->hasMany(Artist::class, 'user_id');
     }
 
     /**

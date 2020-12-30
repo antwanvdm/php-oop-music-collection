@@ -22,7 +22,7 @@ class Artist extends BaseObject
      */
     public function user(): User
     {
-        return $this->belongsTo('User', 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**
@@ -30,6 +30,6 @@ class Artist extends BaseObject
      */
     public function albums(): array
     {
-        return $this->hasMany('Album', 'artist_id');
+        return $this->hasMany(Album::class, 'artist_id');
     }
 }

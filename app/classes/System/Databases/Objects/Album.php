@@ -27,7 +27,7 @@ class Album extends BaseObject
      */
     public function user(): User
     {
-        return $this->belongsTo('User', 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**
@@ -35,7 +35,7 @@ class Album extends BaseObject
      */
     public function artist(): Artist
     {
-        return $this->belongsTo('Artist', 'artist_id');
+        return $this->belongsTo(Artist::class, 'artist_id');
     }
 
     /**
@@ -43,6 +43,6 @@ class Album extends BaseObject
      */
     public function genres(): array
     {
-        return $this->belongsToMany('genres', 'Genre', ['album_id', 'genre_id'], 'album_genre');
+        return $this->belongsToMany(Genre::class, ['album_id', 'genre_id'], 'album_genre');
     }
 }
