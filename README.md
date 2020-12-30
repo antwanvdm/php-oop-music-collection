@@ -74,7 +74,7 @@ includes a `test@test.com` user with the password `test`.
 - ~~Implement CLI bootstrap~~
 - ~~Add cronjob support ("tasks")~~
 - Make wrapper (request object!) for super globals $_GET/$_POST. Current state of
-  handlers is a mess due to many floating request/state code
+handlers is a mess due to many floating request/state code
 - Create something like flash messages for the session
 - ~~Implement basic dependency injection system~~
 - ~~Configure psalm, phpunit & php-cs-fixer in automated script~~
@@ -87,6 +87,13 @@ includes a `test@test.com` user with the password `test`.
 - Implement PHP8 Attributes (and other possible cool PHP8 stuff)
 
 ## Changelog
+### v1.3.0
+- Added way more flexible template usage and child templates ($yield)
+- Added psalm & php-cs-fixer configuration. Fixed all the code including some minor
+phpunit fixes
+- Support for GET/POST which included major refactoring of Router/Handlers
+- Added support for JSON response next to HTML fom the BaseHandler
+
 ### v1.2.0
 - Implemented a very basis Dependency Injection system
 - Implemented language translation (just for storing copy centralised). It's prepared
