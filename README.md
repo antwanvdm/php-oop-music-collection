@@ -35,20 +35,22 @@ can connect to the vagrant box to use the installed mariadb driver.
     ```
     <?php
     //Define DB credentials
-    define("DB_HOST", "192.168.50.5");
-    define("DB_USER", "root");
-    define("DB_PASS", "root");
-    define("DB_NAME", "music_collection");
+    define("DB_HOST", '192.168.50.5');
+    define("DB_USER", 'root');
+    define("DB_PASS", 'root');
+    define("DB_NAME", 'music_collection');
     
     //Paths
-    define("BASE_PATH", "/");
-    define("LOG_PATH", "../app/logs/");
+    define("BASE_PATH", '/');
+    define("LOG_PATH", '../app/logs/');
+    define("LANGUAGE_PATH", '../app/languages/');
+    define("DEFAULT_LANGUAGE", 'nl');
     define("INCLUDES_PATH", __DIR__ . "/../");
     define("RESOURCES_PATH", BASE_PATH);
     
     //Custom error handler, so every error will throw a custom ErrorException
-    set_error_handler(function ($severity, $message, $file, $line) {
-        throw new ErrorException($message, $severity, $severity, $file, $line);
+    set_error_handler(function (int $severity, string $message, string $file, int $line) {
+    throw new ErrorException($message, $severity, $severity, $file, $line);
     });
     ```
 - In case you choose a different setup or IP, make sure to change the constants
