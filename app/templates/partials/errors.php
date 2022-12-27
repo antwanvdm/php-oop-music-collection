@@ -2,7 +2,6 @@
 /**
  * @var string[] $errors
  */
-
 ?>
 <?php if (!empty($errors)): ?>
     <section class="content">

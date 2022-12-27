@@ -52,9 +52,9 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - Any error in your application will be written to the `app/logs/error.log` file.
 - On some pages (the add pages) you will be required to login. The database export
   includes a `test@test.com` user with the password `test`.
-- If youjust want to start the server with basic php, you can run
-  `php -S localhost:8888 server.php`. This way, you don't need an apache or nginx
-  server to try out this application.
+- If you just want to start the server with basic PHP, you can run
+  `php -S localhost:8888 server.php` in the public folder. This way, you don't need
+  an apache or nginx server to try out this application.
 
 ## Roadmap
 
@@ -87,9 +87,11 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 ### v2.0.0
 
 - Removed vagrant from the repository (makes it better usable for everyone)
+- Support the option to run the application with the built-in PHP webserver
 - Added PHP8 supported features (promoted properties, readonly, better return types)
 - Added bulma.css for templates
 - Replaced psalm for phpstan
+- Updated code style to (mostly..) PSR-12
 
 ### v1.3.0
 

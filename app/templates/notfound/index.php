@@ -4,7 +4,6 @@
  * @var callable $yield
  * @var callable $t
  */
-
 ?>
 <?= $yield('partials/header'); ?>
 <p class="content"><?= $t('notfound.text'); ?></p>

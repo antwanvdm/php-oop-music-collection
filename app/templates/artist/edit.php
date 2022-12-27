@@ -6,7 +6,6 @@
  * @var callable $yield
  * @var callable $t
  */
-
 ?>
 <?= $yield('partials/header'); ?>
 <?= $yield('partials/errors'); ?>

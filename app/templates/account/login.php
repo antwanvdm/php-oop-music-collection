@@ -33,9 +33,7 @@
             <div class="field-label is-normal"></div>
             <div class="field-body">
                 <input type="hidden" name="location" value="<?= $location; ?>">
-                <button class="button is-primary is-fullwidth" type="submit" name="submit"><?= $t(
-                        'account.login.submitValue'
-                    ); ?></button>
+                <button class="button is-primary is-fullwidth" type="submit" name="submit"><?= $t('account.login.submitValue'); ?></button>
             </div>
         </div>
     </form>

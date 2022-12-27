@@ -7,7 +7,6 @@
  * @var callable $route
  * @var callable $t
  */
-
 ?>
 <section class="columns">
     <form class="column is-6" action="<?= $route('album.save') ?>" method="post" enctype="multipart/form-data">

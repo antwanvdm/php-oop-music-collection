@@ -6,4 +6,4 @@ parameters:
 		- tests
 	universalObjectCratesClasses:
 		- MusicCollection\Translation\Translator
-		-  MusicCollection\Translation\LangGroup
+		- MusicCollection\Translation\LangGroup

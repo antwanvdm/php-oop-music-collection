@@ -57,7 +57,7 @@ trait Relationships
 
     /**
      * @template T as BaseObject
-     * @param class-string<T>  $fullClassName
+     * @param class-string<T> $fullClassName
      * @param string $foreignKey
      * @return array
      */
@@ -119,9 +119,10 @@ trait Relationships
 
         $statement = $db->prepare(
             "SELECT r.* FROM `{$tableName}` AS t
-                        INNER JOIN `{$pivotTable}` AS p ON p.{$foreignKeys[0]} = t.id
-                        INNER JOIN `{$relationTableName}` AS r ON r.id = p.{$foreignKeys[1]}
-                        WHERE t.id = :id");
+                INNER JOIN `{$pivotTable}` AS p ON p.{$foreignKeys[0]} = t.id
+                INNER JOIN `{$relationTableName}` AS r ON r.id = p.{$foreignKeys[1]}
+                WHERE t.id = :id"
+        );
         $statement->execute([':id' => $id]);
 
         return $statement->fetchAll(\PDO::FETCH_CLASS, $relationClassName);
