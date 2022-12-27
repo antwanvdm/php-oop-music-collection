@@ -32,7 +32,7 @@ const DB_NAME = 'music_collection';
 
 //Paths (BASE_PATH is for referring to paths and resources, the other are for internal handlers)
 const BASE_PATH = '/';
-const INCLUDES_PATH = __DIR__ . "/../";
+const INCLUDES_PATH = __DIR__ . '/../';
 const LOG_PATH = INCLUDES_PATH . 'logs/';
 const LANGUAGE_PATH = INCLUDES_PATH . 'languages/';
 const DEFAULT_LANGUAGE = 'nl';
@@ -47,11 +47,11 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
   to the correct settings.
 - Run `composer install` in the root folder to install dependencies and generate
   the autoloader.
-- You can test the php unit test by running `composer run test`. The results can
-  be found in the `app/logs` folder.
+- You can test the php unit test by running `composer run test`. You can check the
+  `composer.json` for more scripts for `phpstan` and `php-cs-fixer`.
 - Any error in your application will be written to the `app/logs/error.log` file.
-- On some pages (the add pages) you will be required to login. The database export
-  includes a `test@test.com` user with the password `test`.
+- On some pages (album & artist forms) you will be required to login. The database
+  export includes a `test@test.com` user with the password `test`.
 - If you just want to start the server with basic PHP, you can run
   `php -S localhost:8888 server.php` in the public folder. This way, you don't need
   an apache or nginx server to try out this application.
@@ -69,7 +69,7 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - ~~Possibility to extend and re-use templates~~
 - ~~Ok... Add some basic CSS framework to prevent tears~~
 - ~~Implement PHP8 Attributes (and other possible cool PHP8 stuff)~~
-- Add option to use placeholders in translation string
+- Add option to use placeholders in translation strings
 - Extend Routing system with multiple parameters, ~~get/post~~ & api/non-api
 - Add eager loading option for ORM
 - Refactor some stuff in the ORM (see todos in code)
