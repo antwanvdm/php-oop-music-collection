@@ -3,8 +3,7 @@
     "pageTitle": "Login",
     "emailLabel": "E-mail",
     "passwordLabel": "Wachtwoord",
-    "submitValue": "Login",
-    "backHomeLink": "Terug naar de homepage"
+    "submitValue": "Login"
   },
   "validation": {
     "loginError": "Je logingegevens zijn onjuist"

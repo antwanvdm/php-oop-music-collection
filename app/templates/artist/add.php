@@ -3,17 +3,14 @@
  * @var string|boolean $success
  * @var callable $route
  * @var callable $yield
+ * @var callable $t
  */
+
 ?>
 <?= $yield('partials/header'); ?>
 <?= $yield('partials/errors'); ?>
-
-<?php if ($success !== false) { ?>
-    <p class="success"><?= $success; ?></p>
-<?php } ?>
-
+<?= $yield('partials/success'); ?>
 <?= $yield('artist/form'); ?>
-<div>
-    <a href="<?= $route('artist.index'); ?>"><?= $this->t->artist->backToListLink; ?></a>
-    <a href="<?= $route('account.logout'); ?>"><?= $this->t->artist->add->logoutLink; ?></a>
-</div>
+
+<a class="button mt-4" href="<?= $route('artist.index'); ?>"><?= $t('artist.backToListLink'); ?></a>
+<a class="button mt-4 is-danger" href="<?= $route('account.logout'); ?>"><?= $t('general.logoutLink'); ?></a>

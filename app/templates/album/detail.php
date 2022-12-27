@@ -1,31 +1,30 @@
 <?php
 /**
- * @var \System\Databases\Objects\Album $album
+ * @var \MusicCollection\Databases\Objects\Album|false $album
  * @var callable $route
  * @var callable $yield
+ * @var callable $t
  */
+
 ?>
 <?= $yield('partials/header'); ?>
 <?= $yield('partials/errors'); ?>
 
 <?php if ($album): ?>
-    <div>
-        <img src="<?= RESOURCES_PATH . $album->image; ?>" alt="<?= $album->name; ?>"/>
-    </div>
-    <ul>
-        <li><?= $this->t->album->detail->genreLabel; ?>
-            <ul>
-                <?php foreach ($album->genres as $genre): ?>
-                    <li><?= $genre->name; ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </li>
-        <li><?= $this->t->album->detail->yearLabel; ?> <?= $album->year; ?></li>
-        <li><?= $this->t->album->detail->tracksLabel; ?> <?= $album->tracks; ?></li>
-    </ul>
+    <img class="image is-128x128" src="<?= BASE_PATH . 'images/' . $album->image; ?>" alt="<?= $album->name; ?>"/>
+    <section class="content">
+        <ul>
+            <li><?= $t('album.detail.genreLabel'); ?>
+                <ul>
+                    <?php foreach ($album->genres as $genre): ?>
+                        <li><?= $genre->name; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </li>
+            <li><?= $t('album.detail.yearLabel'); ?> <?= $album->year; ?></li>
+            <li><?= $t('album.detail.tracksLabel'); ?> <?= $album->tracks; ?></li>
+        </ul>
+    </section>
 <?php endif; ?>
 
-<div>
-    <a href="<?= $route('album.index'); ?>"><?= $this->t->album->backToListLink; ?></a>
-</div>
-
+<a class="button" href="<?= $route('album.index'); ?>"><?= $t('album.backToListLink'); ?></a>

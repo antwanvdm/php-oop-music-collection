@@ -7,16 +7,19 @@
     "editLink": "Bewerken",
     "deleteLink": "Verwijderen",
     "tableFootPrefix": "&copy; Mijn collectie met",
-    "tableFootSuffix": "artiesten",
-    "backHomeLink": "Terug naar de homepage"
+    "tableFootSuffix": "artiesten"
   },
   "add": {
     "pageTitle": "Voeg een artiest toe",
-    "success": "Je nieuwe artiest is succesvol opgeslagen in de database",
-    "logoutLink": "Uitloggen"
+    "success": "Je nieuwe artiest is succesvol opgeslagen in de database"
   },
   "detail": {
     "albumLabel": "Albums:"
+  },
+  "delete": {
+    "title": "Weet je zeker van je deze artiest wilt verwijderen?",
+    "verifyLink": "Ja, verwijder!",
+    "denyLink": "Nee, keer terug naar het overzicht"
   },
   "edit": {
     "pageTitlePrefix": "Bewerk",
@@ -30,5 +33,5 @@
     "name": "Naam mag niet leeg zijn"
   },
   "notExists": "Deze artiest bestaat niet",
-  "backToListLink": "Terug naar het overzicht"
+  "backToListLink": "&laquo; Terug naar het overzicht"
 }

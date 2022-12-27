@@ -2,10 +2,10 @@
 /**
  * @var callable $route
  * @var callable $yield
+ * @var callable $t
  */
+
 ?>
 <?= $yield('partials/header'); ?>
-<p><?= $this->t->notfound->text; ?></p>
-<div>
-    <a href="<?= $route('home'); ?>"><?= $this->t->notfound->backHomeLink; ?></a>
-</div>
+<p class="content"><?= $t('notfound.text'); ?></p>
+<a class="button mt-4" href="<?= $route('home'); ?>"><?= $t('general.backHomeLink'); ?></a>

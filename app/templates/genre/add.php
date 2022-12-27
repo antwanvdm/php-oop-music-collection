@@ -1,18 +1,13 @@
 <?php
 /**
- * @var string|bool $success
  * @var callable $route
  * @var callable $yield
+ * @var callable $t
  */
+
 ?>
 <?= $yield('partials/header'); ?>
 <?= $yield('partials/errors'); ?>
-
-<?php if ($success !== false) { ?>
-    <p class="success"><?= $success; ?></p>
-<?php } ?>
-
+<?= $yield('partials/success'); ?>
 <?= $yield('genre/form'); ?>
-<div>
-    <a href="<?= $route('genre.index'); ?>"><?= $this->t->genre->backToListLink; ?></a>
-</div>
+<a class="button mt-4" href="<?= $route('genre.index'); ?>"><?= $t('genre.backToListLink'); ?></a>

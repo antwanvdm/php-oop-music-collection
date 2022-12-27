@@ -1,5 +1,6 @@
 <?php namespace System\Utils;
 
+use MusicCollection\Utils\Session;
 use PHPUnit\Framework\TestCase;
 
 /**

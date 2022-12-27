@@ -2,11 +2,14 @@
 /**
  * @var string[] $errors
  */
+
 ?>
 <?php if (!empty($errors)): ?>
-    <ul class="errors">
-        <?php foreach ($errors as $error): ?>
-            <li><?= $error; ?></li>
-        <?php endforeach; ?>
-    </ul>
+    <section class="content">
+        <ul class="notification is-danger">
+            <?php foreach ($errors as $error): ?>
+                <li><?= $error; ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </section>
 <?php endif; ?>

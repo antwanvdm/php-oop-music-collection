@@ -2,7 +2,8 @@
 /**
  * @var string $pageTitle
  */
+
 ?>
-<header>
-    <h1><?= $pageTitle; ?></h1>
+<header class="my-4">
+    <h1 class="title"><?= $pageTitle; ?></h1>
 </header>

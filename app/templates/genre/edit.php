@@ -1,21 +1,18 @@
 <?php
 /**
- * @var string|boolean $success
- * @var \System\Databases\Objects\Genre $genre
+ * @var \MusicCollection\Databases\Objects\Genre $genre
  * @var callable $route
  * @var callable $yield
+ * @var callable $t
  */
+
 ?>
 <?= $yield('partials/header'); ?>
 <?= $yield('partials/errors'); ?>
-
-<?php if ($success !== false) { ?>
-    <p class="success"><?= $success; ?></p>
-<?php } ?>
+<?= $yield('partials/success'); ?>
 
 <?php if ($genre->id !== null): ?>
     <?= $yield('genre/form'); ?>
 <?php endif; ?>
-<div>
-    <a href="<?= $route('genre.index'); ?>"><?= $this->t->genre->backToListLink; ?></a>
-</div>
+
+<a class="button mt-4" href="<?= $route('genre.index'); ?>"><?= $t('genre.backToListLink'); ?></a>

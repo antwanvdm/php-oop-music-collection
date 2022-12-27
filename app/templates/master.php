@@ -1,17 +1,20 @@
 <?php
 /**
- * @var string $pageTitle
- * @var string $content
+ * @var string|null $pageTitle
+ * @var string|null $content
+ * @var callable $t
  */
 ?>
 <!doctype html>
 <html lang="<?= DEFAULT_LANGUAGE; ?>">
 <head>
-    <title><?= $this->t->general->siteName; ?> | <?= ($pageTitle ?? ''); ?></title>
+    <title><?= $t('general.siteName'); ?> | <?= ($pageTitle ?? ''); ?></title>
     <meta charset="utf-8"/>
-    <link type="text/css" rel="stylesheet" href="<?= RESOURCES_PATH; ?>css/style.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
 <body>
-<?= ($content ?? ''); ?>
+<div class="container px-4">
+    <?= ($content ?? ''); ?>
+</div>
 </body>
 </html>

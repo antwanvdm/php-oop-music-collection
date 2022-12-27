@@ -7,8 +7,7 @@
     "editLink": "Bewerken",
     "deleteLink": "Verwijderen",
     "tableFootPrefix": "&copy; Mijn collectie met",
-    "tableFootSuffix": "genres",
-    "backHomeLink": "Terug naar de homepage"
+    "tableFootSuffix": "genres"
   },
   "add": {
     "pageTitle": "Voeg een genre toe",
@@ -16,6 +15,11 @@
   },
   "detail": {
     "albumLabel": "Albums:"
+  },
+  "delete": {
+    "title": "Weet je zeker van je dit genre wilt verwijderen?",
+    "verifyLink": "Ja, verwijder!",
+    "denyLink": "Nee, keer terug naar het overzicht"
   },
   "edit": {
     "pageTitlePrefix": "Bewerk",
@@ -29,5 +33,5 @@
     "name": "Naam mag niet leeg zijn"
   },
   "notExists": "Dit genre bestaat niet",
-  "backToListLink": "Terug naar het overzicht"
+  "backToListLink": "&laquo; Terug naar het overzicht"
 }

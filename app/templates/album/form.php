@@ -1,51 +1,79 @@
 <?php
 /**
- * @var \System\Databases\Objects\Album $album
+ * @var \MusicCollection\Databases\Objects\Album $album
  * @var array $albumGenreIds
- * @var \System\Databases\Objects\Artist[] $artists
- * @var \System\Databases\Objects\Genre[] $genres
+ * @var \MusicCollection\Databases\Objects\Artist[] $artists
+ * @var \MusicCollection\Databases\Objects\Genre[] $genres
  * @var callable $route
+ * @var callable $t
  */
+
 ?>
-<form action="<?= $route('album.save') ?>" method="post" enctype="multipart/form-data">
-    <div class="data-field">
-        <label for="artist"><?= $this->t->album->form->artistLabel; ?></label>
-        <select id="artist" name="artist">
-            <?php foreach ($artists as $artist): ?>
-                <option value="<?= $artist->id; ?>" <?= $album->artist->id === $artist->id ? 'selected' : ''; ?>><?= $artist->name; ?></option>
-            <?php endforeach; ?>
-        </select>
-    </div>
-    <div class="data-field">
-        <label for="name"><?= $this->t->album->form->nameLabel; ?></label>
-        <input id="name" type="text" name="name" value="<?= $album->name; ?>"/>
-    </div>
-    <div class="data-field">
-        <span class="label"><?= $this->t->album->form->genreLabel; ?></span>
-        <ul class="genre-form-list">
-            <?php foreach ($genres as $genre): ?>
-                <li>
-                    <input type="checkbox" name="genre[]" id="genre-<?= $genre->id; ?>" value="<?= $genre->id; ?>" <?= in_array($genre->id, $albumGenreIds) ? 'checked' : ''; ?>/>
-                    <label for="genre-<?= $genre->id; ?>"><?= $genre->name; ?></label>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
-    <div class="data-field">
-        <label for="year"><?= $this->t->album->form->yearLabel; ?></label>
-        <input id="year" type="text" name="year" value="<?= $album->year; ?>"/>
-    </div>
-    <div class="data-field">
-        <label for="tracks"><?= $this->t->album->form->tracksLabel; ?></label>
-        <input id="tracks" type="number" name="tracks" value="<?= $album->tracks; ?>"/>
-    </div>
-    <div class="data-field">
-        <label for="image"><?= $this->t->album->form->imageLabel; ?></label>
-        <input type="file" name="image" id="image"/>
-    </div>
-    <div class="data-submit">
-        <input type="hidden" name="id" value="<?= $album->id; ?>"/>
-        <input type="hidden" name="current-image" value="<?= $album->image; ?>"/>
-        <input type="submit" name="submit" value="<?= $this->t->album->form->submitValue; ?>"/>
-    </div>
-</form>
+<section class="columns">
+    <form class="column is-6" action="<?= $route('album.save') ?>" method="post" enctype="multipart/form-data">
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label" for="artist"><?= $t('album.form.artistLabel'); ?></label>
+            </div>
+            <div class="field-body select is-fullwidth">
+                <select name="artist" id="artist">
+                    <?php foreach ($artists as $artist): ?>
+                        <option value="<?= $artist->id; ?>" <?= $artist->id === $album->artist_id ? 'selected' : '' ?>><?= $artist->name; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label" for="name"><?= $t('album.form.nameLabel'); ?></label>
+            </div>
+            <div class="field-body">
+                <input class="input" id="name" type="text" name="name" value="<?= $album->name; ?>"/>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label" for="genre"><?= $t('album.form.genreLabel'); ?></label>
+            </div>
+            <div class="field-body select is-multiple is-fullwidth">
+                <select multiple size="3" name="genre[]" id="genre" title="Genres">
+                    <?php foreach ($genres as $genre): ?>
+                        <option value="<?= $genre->id; ?>" <?= in_array($genre->id, $albumGenreIds) ? 'selected' : '' ?>><?= $genre->name; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label" for="year"><?= $t('album.form.yearLabel'); ?></label>
+            </div>
+            <div class="field-body">
+                <input class="input" id="year" type="text" name="year" value="<?= $album->year; ?>"/>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label" for="tracks"><?= $t('album.form.tracksLabel'); ?></label>
+            </div>
+            <div class="field-body">
+                <input class="input" id="tracks" type="number" name="tracks" value="<?= $album->tracks; ?>"/>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label" for="image"><?= $t('album.form.imageLabel'); ?></label>
+            </div>
+            <div class="field-body">
+                <input class="input" id="image" type="file" name="image"/>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal"></div>
+            <div class="field-body">
+                <input type="hidden" name="id" value="<?= $album->id; ?>"/>
+                <input type="hidden" name="current-image" value="<?= $album->image; ?>"/>
+                <button class="button is-primary is-fullwidth" type="submit" name="submit"><?= $t('album.form.submitValue'); ?></button>
+            </div>
+        </div>
+    </form>
+</section>

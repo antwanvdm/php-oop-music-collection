@@ -6,18 +6,21 @@
     "editLink": "Bewerken",
     "deleteLink": "Verwijderen",
     "tableFootPrefix": "&copy; Mijn collectie met",
-    "tableFootSuffix": "albums",
-    "backHomeLink": "Terug naar de homepage"
+    "tableFootSuffix": "albums"
   },
   "add": {
     "pageTitle": "Voeg een album toe",
-    "success": "Je nieuwe album is succesvol opgeslagen in de database",
-    "logoutLink": "Uitloggen"
+    "success": "Je nieuwe album is succesvol opgeslagen in de database"
   },
   "detail": {
     "genreLabel": "Genres:",
     "yearLabel": "Jaartal:",
     "tracksLabel": "Tracks:"
+  },
+  "delete": {
+    "title": "Weet je zeker van je dit album wilt verwijderen?",
+    "verifyLink": "Ja, verwijder!",
+    "denyLink": "Nee, keer terug naar het overzicht"
   },
   "edit": {
     "pageTitlePrefix": "Bewerk",
@@ -43,5 +46,5 @@
   },
   "madeBy": "door",
   "notExists": "Dit album bestaat niet",
-  "backToListLink": "Terug naar het overzicht"
+  "backToListLink": "&laquo; Terug naar het overzicht"
 }

@@ -2,11 +2,13 @@
 /**
  * @var callable $route
  * @var callable $yield
+ * @var callable $t
  */
+
 ?>
 <?= $yield('partials/header'); ?>
-<ul>
-    <li><a href="<?= $route('artist.index'); ?>"><?= $this->t->home->artistsLink; ?></a></li>
-    <li><a href="<?= $route('album.index'); ?>"><?= $this->t->home->albumsLink; ?></a></li>
-    <li><a href="<?= $route('genre.index'); ?>"><?= $this->t->home->genresLink; ?></a></li>
-</ul>
+<section class="content">
+    <a class="button is-primary" href="<?= $route('artist.index'); ?>"><?= $t('home.artistsLink'); ?></a>
+    <a class="button is-primary" href="<?= $route('album.index'); ?>"><?= $t('home.albumsLink'); ?></a>
+    <a class="button is-primary" href="<?= $route('genre.index'); ?>"><?= $t('home.genresLink'); ?></a>
+</section>

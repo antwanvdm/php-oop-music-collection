@@ -1,5 +1,7 @@
 {
   "siteName": "Music Collection",
+  "backHomeLink": "&laquo; Terug naar de homepage",
+  "logoutLink": "Uitloggen",
   "errors": {
     "die": "Oops, er is iets ernstig kapot gegaan, kom later terug terwijl wij werken aan een oplossing.",
     "general": "Er is iets misgegaan, probeer het opnieuw of navigeer naar een andere pagina",

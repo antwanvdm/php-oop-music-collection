@@ -1,6 +1,6 @@
 <?php
 /**
- * @var \System\Routing\Router $router
+ * @var \MusicCollection\Routing\Router $router
  */
 $router->get('', 'HomeHandler@index')->name('home');
 $router->get('artists', 'ArtistHandler@index')->name('artist.index');

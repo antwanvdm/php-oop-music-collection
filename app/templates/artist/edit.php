@@ -1,21 +1,20 @@
 <?php
 /**
  * @var string|boolean $success
- * @var \System\Databases\Objects\Artist $artist
+ * @var \MusicCollection\Databases\Objects\Artist $artist
  * @var callable $route
  * @var callable $yield
+ * @var callable $t
  */
+
 ?>
 <?= $yield('partials/header'); ?>
 <?= $yield('partials/errors'); ?>
-
-<?php if ($success !== false) { ?>
-    <p class="success"><?= $success; ?></p>
-<?php } ?>
+<?= $yield('partials/success'); ?>
 
 <?php if ($artist->id !== null): ?>
     <?= $yield('artist/form'); ?>
 <?php endif; ?>
-<div>
-    <a href="<?= $route('artist.index'); ?>"><?= $this->t->artist->backToListLink; ?></a>
-</div>
+
+<a class="button mt-4" href="<?= $route('artist.index'); ?>"><?= $t('artist.backToListLink'); ?></a>
+<a class="button mt-4 is-danger" href="<?= $route('account.logout'); ?>"><?= $t('general.logoutLink'); ?></a>
