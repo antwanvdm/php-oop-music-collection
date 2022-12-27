@@ -9,6 +9,7 @@ use MusicCollection\Databases\BaseObject;
  * @property Artist $artist
  * @property Genre[] $genres
  * @method static Album getById($id)
+ * @method static Album[] getAll()
  */
 class Album extends BaseObject
 {

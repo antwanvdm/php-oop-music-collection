@@ -1,7 +1,7 @@
 {
   "index": {
     "pageTitle": "Genres",
-    "addNewLink": "Voeg een nieuw genre toe",
+    "createNewLink": "Voeg een nieuw genre toe",
     "totalAlbums": "Aantal Genres",
     "detailsLink": "Details",
     "editLink": "Bewerken",
@@ -9,7 +9,7 @@
     "tableFootPrefix": "&copy; Mijn collectie met",
     "tableFootSuffix": "genres"
   },
-  "add": {
+  "create": {
     "pageTitle": "Voeg een genre toe",
     "success": "Je nieuwe genre is succesvol opgeslagen in de database"
   },

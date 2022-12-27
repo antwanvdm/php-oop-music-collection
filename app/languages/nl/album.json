@@ -1,14 +1,14 @@
 {
   "index": {
     "pageTitle": "Albums",
-    "addNewLink": "Voeg een nieuw album toe",
+    "createNewLink": "Voeg een nieuw album toe",
     "detailsLink": "Details",
     "editLink": "Bewerken",
     "deleteLink": "Verwijderen",
     "tableFootPrefix": "&copy; Mijn collectie met",
     "tableFootSuffix": "albums"
   },
-  "add": {
+  "create": {
     "pageTitle": "Voeg een album toe",
     "success": "Je nieuwe album is succesvol opgeslagen in de database"
   },

@@ -8,6 +8,8 @@ use MusicCollection\Databases\Database;
  * @package System\Databases\Objects
  * @property Album[] $albums
  * @property Artist[] $artists
+ * @method static User getById($id)
+ * @method static User[] getAll()
  */
 class User extends BaseObject
 {

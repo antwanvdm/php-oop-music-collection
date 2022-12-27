@@ -46,11 +46,11 @@ class AlbumHandler extends BaseHandler
     /**
      * @throws \Exception
      */
-    protected function add(): void
+    protected function create(): void
     {
         //If not logged in, redirect to login
         if (!$this->session->keyExists('user')) {
-            $location = $this->router->getFullPathByName('album.add');
+            $location = $this->router->getFullPathByName('album.create');
             header('Location: ' . BASE_PATH . 'user/login?location=' . $location);
             exit;
         }
@@ -61,7 +61,7 @@ class AlbumHandler extends BaseHandler
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => $this->t->album->add->pageTitle,
+            'pageTitle' => $this->t->album->create->pageTitle,
             'album' => $this->album,
             'artists' => Artist::getAll(),
             'albumGenreIds' => array_map(function ($genre) {
@@ -143,7 +143,7 @@ class AlbumHandler extends BaseHandler
                 $this->album->user_id = $this->session->get('user')->id;
 
                 //Save the record to the db
-                $state = $this->album->id === 0 ? 'add' : 'edit';
+                $state = $this->album->id === 0 ? 'create' : 'edit';
                 if ($this->album->save()) {
                     $this->session->set('success', $this->t->album->{$state}->success);
                 } else {

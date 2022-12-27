@@ -8,7 +8,7 @@ use MusicCollection\Databases\Objects\Genre;
  */
 class GenreHandler extends BaseHandler
 {
-    use \MusicCollection\Handlers\FillAndValidate\Genre;
+    use FillAndValidate\Genre;
 
     private Genre $genre;
 
@@ -34,14 +34,14 @@ class GenreHandler extends BaseHandler
         ]);
     }
 
-    protected function add(): void
+    protected function create(): void
     {
         //Set default empty genre
         $this->genre = new Genre();
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => $this->t->genre->add->pageTitle,
+            'pageTitle' => $this->t->genre->create->pageTitle,
             'genre' => $this->genre,
             'success' => $this->session->get('success'),
             'errors' => $this->errors
@@ -87,7 +87,7 @@ class GenreHandler extends BaseHandler
             //Database magic when no errors are found
             if (isset($this->formData) && empty($this->errors)) {
                 //Save the record to the db
-                $state = $this->genre->id === 0 ? 'add' : 'edit';
+                $state = $this->genre->id === 0 ? 'create' : 'edit';
                 if ($this->genre->save()) {
                     $this->session->set('success', $this->t->genre->{$state}->success);
                 } else {

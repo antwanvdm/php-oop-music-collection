@@ -1,7 +1,7 @@
 {
   "index": {
     "pageTitle": "Artiesten",
-    "addNewLink": "Voeg een nieuwe artiest toe",
+    "createNewLink": "Voeg een nieuwe artiest toe",
     "totalAlbums": "Aantal Albums",
     "detailsLink": "Details",
     "editLink": "Bewerken",
@@ -9,7 +9,7 @@
     "tableFootPrefix": "&copy; Mijn collectie met",
     "tableFootSuffix": "artiesten"
   },
-  "add": {
+  "create": {
     "pageTitle": "Voeg een artiest toe",
     "success": "Je nieuwe artiest is succesvol opgeslagen in de database"
   },

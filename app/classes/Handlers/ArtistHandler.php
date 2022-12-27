@@ -37,11 +37,11 @@ class ArtistHandler extends BaseHandler
     /**
      * @throws \Exception
      */
-    protected function add(): void
+    protected function create(): void
     {
         //If not logged in, redirect to login
         if (!$this->session->keyExists('user')) {
-            $location = $this->router->getFullPathByName('artist.add');
+            $location = $this->router->getFullPathByName('artist.create');
             header('Location: ' . BASE_PATH . 'user/login?location=' . $location);
             exit;
         }
@@ -51,7 +51,7 @@ class ArtistHandler extends BaseHandler
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => $this->t->artist->add->pageTitle,
+            'pageTitle' => $this->t->artist->create->pageTitle,
             'artist' => $this->artist,
             'success' => $this->session->get('success'),
             'errors' => $this->errors
@@ -107,7 +107,7 @@ class ArtistHandler extends BaseHandler
                 $this->artist->user_id = $this->session->get('user')->id;
 
                 //Save the record to the db
-                $state = $this->artist->id === 0 ? 'add' : 'edit';
+                $state = $this->artist->id === 0 ? 'create' : 'edit';
                 if ($this->artist->save()) {
                     $this->session->set('success', $this->t->artist->{$state}->success);
                 } else {

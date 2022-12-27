@@ -11,7 +11,7 @@
 <?= $yield('partials/errors'); ?>
 
 <a class="button is-primary" href="<?= $route('home'); ?>"><?= $t('general.backHomeLink'); ?></a>
-<a class="button" href="<?= $route('genre.add'); ?>"><?= $t('genre.index.addNewLink'); ?></a>
+<a class="button" href="<?= $route('genre.create'); ?>"><?= $t('genre.index.createNewLink'); ?></a>
 <table class="table is-striped mt-4">
     <thead>
     <tr>

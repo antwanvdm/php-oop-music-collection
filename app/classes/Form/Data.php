@@ -7,18 +7,12 @@
 class Data
 {
     /**
-     * @var array
-     */
-    private array $post;
-
-    /**
      * Data constructor.
      *
      * @param array $post
      */
-    public function __construct(array $post)
+    public function __construct(private readonly array $post)
     {
-        $this->post = $post;
     }
 
     /**
@@ -40,12 +34,12 @@ class Data
      */
     public function getPostVar(string $var): array|string
     {
-        //I simply hacked a checkbox situation :(
+        //I simply hacked a checkbox/select situation :(
         if (!isset($this->post[$var])) {
             return [];
         }
 
-        //And if 1 or more checkbox values are added..
+        //And if 1 or more items values are selected
         $value = $this->post[$var];
         if (is_array($value)) {
             foreach ($value as $key => $val) {
