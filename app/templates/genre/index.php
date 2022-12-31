@@ -23,7 +23,7 @@
     </thead>
     <tfoot>
     <tr>
-        <td colspan="6" class="has-text-centered"><?= $t('genre.index.tableFootPrefix'); ?> <?= $totalGenres; ?> <?= $t('genre.index.tableFootSuffix'); ?></td>
+        <td colspan="6" class="has-text-centered"><?= $t('genre.index.tableFoot', ['TOTAL' => $totalGenres]); ?></td>
     </tr>
     </tfoot>
     <tbody>

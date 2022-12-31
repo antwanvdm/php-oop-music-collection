@@ -29,22 +29,22 @@ class AlbumValidator implements Validator
     {
         //Check if data is valid & generate error if not so
         if ($this->album->artist == '') {
-            $this->errors[] = $t->album->validation->artist;
+            $this->errors[] = $t->_('album.validation.artist');
         }
         if ($this->album->name == '') {
-            $this->errors[] = $t->album->validation->name;
+            $this->errors[] = $t->_('album.validation.name');
         }
         if (empty($this->album->genres)) {
-            $this->errors[] = $t->album->validation->genre;
+            $this->errors[] = $t->_('album.validation.genre');
         }
         if ($this->album->year == '') {
-            $this->errors[] = $t->album->validation->year;
+            $this->errors[] = $t->_('album.validation.year');
         }
         if (!is_numeric($this->album->year) || strlen($this->album->year) != 4) {
-            $this->errors[] = $t->album->validation->yearFormat;
+            $this->errors[] = $t->_('album.validation.yearFormat');
         }
         if ($this->album->tracks == '') {
-            $this->errors[] = $t->album->validation->tracks;
+            $this->errors[] = $t->_('album.validation.tracks');
         }
     }
 

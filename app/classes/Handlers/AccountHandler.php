@@ -33,7 +33,7 @@ class AccountHandler extends BaseHandler
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => $this->t->account->login->pageTitle,
+            'pageTitle' => $this->t->_('account.login.pageTitle'),
             'email' => $this->session->get('email'),
             'location' => $_GET['location'] ?? '',
             'errors' => $this->errors

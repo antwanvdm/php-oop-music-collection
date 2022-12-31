@@ -28,7 +28,7 @@ class GenreHandler extends BaseHandler
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => $this->t->genre->index->pageTitle,
+            'pageTitle' => $this->t->_('genre.index.pageTitle'),
             'genres' => $genres,
             'totalGenres' => count($genres)
         ]);
@@ -41,7 +41,7 @@ class GenreHandler extends BaseHandler
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => $this->t->genre->create->pageTitle,
+            'pageTitle' => $this->t->_('genre.create.pageTitle'),
             'genre' => $this->genre,
             'success' => $this->session->get('success'),
             'errors' => $this->errors
@@ -58,12 +58,12 @@ class GenreHandler extends BaseHandler
         try {
             //Get the record from the db & execute POST logic
             $this->genre = Genre::getById($id);
-            $pageTitle = "{$this->t->genre->edit->pageTitlePrefix} {$this->genre->name}";
+            $pageTitle = $this->t->_('genre.edit.pageTitle', ['NAME' => $this->genre->name]);
         } catch (\Exception $e) {
             $this->logger->error($e);
             $this->genre = new Genre();
-            $this->errors[] = $this->t->general->errors->general;
-            $pageTitle = $this->t->artist->notExists;
+            $this->errors[] = $this->t->_('general.errors.general');
+            $pageTitle = $this->t->_('artist.notExists');
         }
 
         //Return formatted data
@@ -89,14 +89,14 @@ class GenreHandler extends BaseHandler
                 //Save the record to the db
                 $state = $this->genre->id === 0 ? 'create' : 'edit';
                 if ($this->genre->save()) {
-                    $this->session->set('success', $this->t->genre->{$state}->success);
+                    $this->session->set('success', $this->t->_('genre.' . $state . '.success'));
                 } else {
-                    $this->errors[] = $this->t->general->errors->dbSave;
+                    $this->errors[] = $this->t->_('general.errors.dbSave');
                 }
             }
         } catch (\Exception $e) {
             $this->logger->error($e);
-            $this->errors[] = $this->t->general->errors->general;
+            $this->errors[] = $this->t->_('general.errors.general');
         }
 
         $this->session->set('errors', $this->errors);
@@ -117,8 +117,8 @@ class GenreHandler extends BaseHandler
             $pageTitle = $genre->name;
         } catch (\Exception $e) {
             //Something went wrong on this level
-            $this->errors[] = $this->t->general->errors->general;
-            $pageTitle = $this->t->genre->notExists;
+            $this->errors[] = $this->t->_('general.errors.general');
+            $pageTitle = $this->t->_('genre.notExists');
         }
 
         //Return formatted data
@@ -150,7 +150,7 @@ class GenreHandler extends BaseHandler
 
             //Return formatted data
             $this->renderTemplate([
-                'pageTitle' => $this->t->genre->delete->title,
+                'pageTitle' => $this->t->_('genre.delete.title'),
                 'genre' => $genre,
                 'errors' => $this->errors
             ]);

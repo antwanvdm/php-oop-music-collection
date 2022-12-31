@@ -61,7 +61,7 @@ class WebBootstrap implements BootstrapInterface
         } catch (\Exception $e) {
             $this->di->get('logger')->error($e);
             http_response_code(500);
-            die($this->di->get('t')->general->errors->die);
+            die($this->di->get('t')->_('general.errors.die'));
         }
     }
 }

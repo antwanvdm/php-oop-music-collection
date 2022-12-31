@@ -37,7 +37,7 @@ class AlbumHandler extends BaseHandler
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => $this->t->album->index->pageTitle,
+            'pageTitle' => $this->t->_('album.index.pageTitle'),
             'albums' => $albums,
             'totalAlbums' => count($albums)
         ]);
@@ -61,7 +61,7 @@ class AlbumHandler extends BaseHandler
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => $this->t->album->create->pageTitle,
+            'pageTitle' => $this->t->_('album.create.pageTitle'),
             'album' => $this->album,
             'artists' => Artist::getAll(),
             'albumGenreIds' => array_map(function ($genre) {
@@ -92,13 +92,19 @@ class AlbumHandler extends BaseHandler
             //Get the record from the db & execute POST logic
             $this->album = Album::getById($id);
             $this->album->genres(); //@TODO blegh
-            $pageTitle = "{$this->t->album->edit->pageTitlePrefix} '{$this->album->name} {$this->t->album->madeBy} {$this->album->artist->name}'";
+            $pageTitle = $this->t->_('album.edit.pageTitle', [
+                'ALBUM' =>
+                    $this->t->_('album.madeBy', [
+                        'NAME' => $this->album->name,
+                        'ARTIST' => $this->album->artist->name
+                    ])
+            ]);
         } catch (\Exception $e) {
             $this->logger->error($e);
             $this->album = new Album();
             $this->album->genres = []; //@TODO Blegh
-            $this->errors[] = $this->t->general->errors->general;
-            $pageTitle = $this->t->album->notExists;
+            $this->errors[] = $this->t->_('general.errors.general');
+            $pageTitle = $this->t->_('album.notExists');
         }
 
         //Return formatted data
@@ -145,14 +151,14 @@ class AlbumHandler extends BaseHandler
                 //Save the record to the db
                 $state = $this->album->id === 0 ? 'create' : 'edit';
                 if ($this->album->save()) {
-                    $this->session->set('success', $this->t->album->{$state}->success);
+                    $this->session->set('success', $this->t->_('album.' . $state . '.success'));
                 } else {
-                    $this->errors[] = $this->t->general->errors->dbSave;
+                    $this->errors[] = $this->t->_('general.errors.dbSave');
                 }
             }
         } catch (\Exception $e) {
             $this->logger->error($e);
-            $this->errors[] = $this->t->general->errors->general;
+            $this->errors[] = $this->t->_('general.errors.general');
         }
 
         $this->session->set('errors', $this->errors);
@@ -170,11 +176,14 @@ class AlbumHandler extends BaseHandler
             $album = Album::getById($id);
 
             //Default page title
-            $pageTitle = "{$album->name} {$this->t->album->madeBy} {$album->artist->name}";
+            $pageTitle = $this->t->_('album.madeBy', [
+                'NAME' => $album->name,
+                'ARTIST' => $album->artist->name
+            ]);
         } catch (\Exception $e) {
             //Something went wrong on this level
-            $this->errors[] = $this->t->general->errors->general;
-            $pageTitle = $this->t->album->notExists;
+            $this->errors[] = $this->t->_('general.errors.general');
+            $pageTitle = $this->t->_('album.notExists');
         }
 
         //Return formatted data
@@ -209,7 +218,7 @@ class AlbumHandler extends BaseHandler
 
             //Return formatted data
             $this->renderTemplate([
-                'pageTitle' => $this->t->album->delete->title,
+                'pageTitle' => $this->t->_('album.delete.title'),
                 'album' => $album,
                 'errors' => $this->errors
             ]);

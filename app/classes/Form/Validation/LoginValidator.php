@@ -32,10 +32,10 @@ class LoginValidator implements Validator
         if (!empty($this->user->email)) {
             //Validate password
             if (!password_verify($this->password, $this->user->password)) {
-                $this->errors[] = $t->account->validation->loginError;
+                $this->errors[] = $t->_('account.validation.loginError');
             }
         } else {
-            $this->errors[] = $t->account->validation->loginError;
+            $this->errors[] = $t->_('account.validation.loginError');
         }
     }
 

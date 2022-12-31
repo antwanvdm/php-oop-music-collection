@@ -39,7 +39,7 @@ trait Album
             $this->errors = $validator->getErrors();
 
             if ($this->album->id === 0 && $_FILES['image']['error'] == 4) {
-                $this->errors[] = $this->t->album->validation->image;
+                $this->errors[] = $this->t->_('album.validation.image');
             }
         }
     }

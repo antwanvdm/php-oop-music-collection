@@ -6,8 +6,7 @@
     "detailsLink": "Details",
     "editLink": "Bewerken",
     "deleteLink": "Verwijderen",
-    "tableFootPrefix": "&copy; Mijn collectie met",
-    "tableFootSuffix": "genres"
+    "tableFoot": "&copy; Mijn collectie met [TOTAL] genres"
   },
   "create": {
     "pageTitle": "Voeg een genre toe",
@@ -22,7 +21,7 @@
     "denyLink": "Nee, keer terug naar het overzicht"
   },
   "edit": {
-    "pageTitlePrefix": "Bewerk",
+    "pageTitle": "Bewerk [NAME]",
     "success": "Je genre is succesvol bijgewerkt in de database"
   },
   "form": {

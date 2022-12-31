@@ -6,8 +6,7 @@
     "detailsLink": "Details",
     "editLink": "Bewerken",
     "deleteLink": "Verwijderen",
-    "tableFootPrefix": "&copy; Mijn collectie met",
-    "tableFootSuffix": "artiesten"
+    "tableFoot": "&copy; Mijn collectie met [TOTAL] artiesten"
   },
   "create": {
     "pageTitle": "Voeg een artiest toe",
@@ -22,7 +21,7 @@
     "denyLink": "Nee, keer terug naar het overzicht"
   },
   "edit": {
-    "pageTitlePrefix": "Bewerk",
+    "pageTitle": "Bewerk [NAME]",
     "success": "Je artiest is succesvol bijgewerkt in de database"
   },
   "form": {

@@ -23,7 +23,7 @@
     </thead>
     <tfoot>
     <tr>
-        <td colspan="6" class="has-text-centered"><?= $t('artist.index.tableFootPrefix'); ?> <?= $totalArtists; ?> <?= $t('artist.index.tableFootSuffix'); ?></td>
+        <td colspan="6" class="has-text-centered"><?= $t('artist.index.tableFoot', ['TOTAL' => $totalArtists]); ?></td>
     </tr>
     </tfoot>
     <tbody>

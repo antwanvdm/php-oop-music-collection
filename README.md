@@ -69,7 +69,7 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - ~~Possibility to extend and re-use templates~~
 - ~~Ok... Add some basic CSS framework to prevent tears~~
 - ~~Implement PHP8 Attributes (and other possible cool PHP8 stuff)~~
-- Add option to use placeholders in translation strings
+- ~~Add option to use placeholders in translation strings~~
 - Extend Routing system with multiple parameters, ~~get/post~~ & api/non-api
 - Add eager loading option for ORM
 - Refactor some stuff in the ORM (see todos in code)

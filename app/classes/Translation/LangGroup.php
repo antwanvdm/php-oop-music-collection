@@ -6,14 +6,11 @@
  */
 class LangGroup
 {
-    private object $content;
-
     /**
-     * @param object $content
+     * @param \stdClass $content
      */
-    public function __construct(object $content)
+    public function __construct(private readonly \stdClass $content)
     {
-        $this->content = $content;
     }
 
     /**

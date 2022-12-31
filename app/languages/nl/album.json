@@ -5,8 +5,7 @@
     "detailsLink": "Details",
     "editLink": "Bewerken",
     "deleteLink": "Verwijderen",
-    "tableFootPrefix": "&copy; Mijn collectie met",
-    "tableFootSuffix": "albums"
+    "tableFoot": "&copy; Mijn collectie met [TOTAL] albums"
   },
   "create": {
     "pageTitle": "Voeg een album toe",
@@ -23,7 +22,7 @@
     "denyLink": "Nee, keer terug naar het overzicht"
   },
   "edit": {
-    "pageTitlePrefix": "Bewerk",
+    "pageTitle": "Bewerk [ALBUM]",
     "success": "Je album is succesvol bijgewerkt in de database"
   },
   "form": {
@@ -44,7 +43,7 @@
     "tracks": "Tracks moet minimaal '1' zijn",
     "image": "Afbeelding mag niet leeg zijn"
   },
-  "madeBy": "door",
+  "madeBy": "[NAME] door [ARTIST]",
   "notExists": "Dit album bestaat niet",
   "backToListLink": "&laquo; Terug naar het overzicht"
 }

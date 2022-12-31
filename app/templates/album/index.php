@@ -27,7 +27,7 @@
     </thead>
     <tfoot>
     <tr>
-        <td colspan="10" class="has-text-centered"><?= $t('album.index.tableFootPrefix'); ?> <?= $totalAlbums; ?> <?= $t('album.index.tableFootSuffix'); ?></td>
+        <td colspan="10" class="has-text-centered"><?= $t('album.index.tableFoot', ['TOTAL' => $totalAlbums]); ?></td>
     </tr>
     </tfoot>
     <tbody>

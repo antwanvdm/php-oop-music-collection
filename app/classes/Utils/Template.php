@@ -47,8 +47,8 @@ class Template
         try {
             //Make functions available for templates
             $route = [$this->router, 'getFullPathByName'];
+            $t = [$this->t, '_'];
             $yield = [$this, 'getChildTemplate'];
-            $t = [$this, 'getString'];
             require_once INCLUDES_PATH . 'templates/' . $templatePath . '.php';
         } catch (\Exception $e) {
             $this->logger->error($e);
@@ -67,31 +67,5 @@ class Template
     private function getChildTemplate(string $path): string
     {
         return $this->render($this->vars, $path);
-    }
-
-    /**
-     * A simple template function to prevent breaking errors. If a key doesn't exist, it will just show the provided key
-     *
-     * @param string $key
-     * @return string
-     */
-    private function getString(string $key): string
-    {
-        try {
-            $transLateKeys = explode('.', $key);
-            $value = $this->t->{array_shift($transLateKeys)};
-
-            foreach ($transLateKeys as $transLateKey) {
-                $value = $value->{$transLateKey};
-            }
-
-            if (is_string($value) === false) {
-                throw new \Exception();
-            }
-        } catch (\Exception $e) {
-            return $key;
-        }
-
-        return $value;
     }
 }

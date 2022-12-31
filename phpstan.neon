@@ -4,6 +4,3 @@ parameters:
 	paths:
 		- app
 		- tests
-	universalObjectCratesClasses:
-		- MusicCollection\Translation\Translator
-		- MusicCollection\Translation\LangGroup

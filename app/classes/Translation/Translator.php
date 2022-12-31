@@ -28,11 +28,44 @@ class Translator
     }
 
     /**
+     * A simple template function to prevent breaking errors. If a key doesn't exist, it will just show the provided key
+     * Optional replacement can be provided like ['MY_KEY' => 'my replacement'].
+     * Replacements should be mark like [MY_KEY] in the language files
+     *
+     * @param string $key
+     * @param array $replacements
+     * @return string
+     */
+    public function _(string $key, array $replacements = []): string
+    {
+        try {
+            $transLateKeys = explode('.', $key);
+            $value = $this->{array_shift($transLateKeys)};
+
+            foreach ($transLateKeys as $transLateKey) {
+                $value = $value->{$transLateKey};
+            }
+
+            if (is_string($value) === false) {
+                throw new \Exception();
+            }
+
+            foreach ($replacements as $searchToken => $replacement) {
+                $value = str_replace("[$searchToken]", $replacement, $value);
+            }
+        } catch (\Exception $e) {
+            return $key;
+        }
+
+        return $value;
+    }
+
+    /**
      * @param string $group
      * @return LangGroup
      * @throws \Exception
      */
-    public function get(string $group): LangGroup
+    private function get(string $group): LangGroup
     {
         if (array_key_exists($group, $this->groups)) {
             return $this->groups[$group];

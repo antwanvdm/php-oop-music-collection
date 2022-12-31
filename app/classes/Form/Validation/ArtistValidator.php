@@ -29,7 +29,7 @@ class ArtistValidator implements Validator
     {
         //Check if data is valid & generate error if not so
         if ($this->artist->name == '') {
-            $this->errors[] = $t->artist->validation->name;
+            $this->errors[] = $t->_('artist.validation.name');
         }
     }
 
