@@ -54,7 +54,7 @@ class Template
             $this->logger->error($e);
             ob_get_clean();
 
-            throw new \RuntimeException('Something went wrong in the template');
+            throw new \RuntimeException("Something went wrong in the template '$templatePath'");
         }
 
         return ob_get_clean();

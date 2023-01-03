@@ -41,7 +41,7 @@
             <td class="is-vcentered"><?= $album->name; ?></td>
             <td class="is-vcentered">
                 <ul>
-                    <?php foreach ($album->genres as $genre): ?>
+                    <?php foreach ($album->genres() as $genre): ?>
                         <li><?= $genre->name; ?></li>
                     <?php endforeach; ?>
                 </ul>

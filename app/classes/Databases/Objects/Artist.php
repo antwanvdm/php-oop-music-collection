@@ -4,26 +4,27 @@ use MusicCollection\Databases\BaseObject;
 
 /**
  * Class Artist
- * @package System\Databases\Objects
- * @property User $user
- * @property Album[] $albums
- * @method static Artist getById($id)
+ * @package MusicCollection\Databases\Objects
  * @method static Artist[] getAll()
+ * @method static Artist getById(int $id)
  */
 class Artist extends BaseObject
 {
     protected static string $table = 'artists';
+    protected static array $joinForeignKeys = [
+        'user_id' => [
+            'table' => 'users',
+            'object' => User::class
+        ]
+    ];
+    public User $user;
 
-    public ?int $id = null;
-    public ?int $user_id = null;
-    public string $name = '';
-
-    /**
-     * @return User
-     */
-    public function user(): User
-    {
-        return $this->belongsTo(User::class, 'user_id');
+    public function __construct(
+        public ?int $id = null,
+        public ?int $user_id = null,
+        public string $name = ''
+    ) {
+        parent::__construct();
     }
 
     /**
@@ -31,6 +32,6 @@ class Artist extends BaseObject
      */
     public function albums(): array
     {
-        return $this->hasMany(Album::class, 'artist_id');
+        return $this->getOneToManyItems(Album::class, 'artist_id');
     }
 }

@@ -28,13 +28,13 @@ class AlbumValidator implements Validator
     public function validate(Translator $t): void
     {
         //Check if data is valid & generate error if not so
-        if ($this->album->artist == '') {
+        if ($this->album->artist_id == '') {
             $this->errors[] = $t->_('album.validation.artist');
         }
         if ($this->album->name == '') {
             $this->errors[] = $t->_('album.validation.name');
         }
-        if (empty($this->album->genres)) {
+        if (empty($this->album->getGenreIds())) {
             $this->errors[] = $t->_('album.validation.genre');
         }
         if ($this->album->year == '') {

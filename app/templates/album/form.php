@@ -1,9 +1,9 @@
 <?php
 /**
  * @var \MusicCollection\Databases\Objects\Album $album
- * @var array $albumGenreIds
  * @var \MusicCollection\Databases\Objects\Artist[] $artists
  * @var \MusicCollection\Databases\Objects\Genre[] $genres
+ * @var int[] $genreIds
  * @var callable $route
  * @var callable $t
  */
@@ -12,10 +12,10 @@
     <form class="column is-6" action="<?= $route('album.save') ?>" method="post" enctype="multipart/form-data">
         <div class="field is-horizontal">
             <div class="field-label is-normal">
-                <label class="label" for="artist"><?= $t('album.form.artistLabel'); ?></label>
+                <label class="label" for="artist-id"><?= $t('album.form.artistLabel'); ?></label>
             </div>
             <div class="field-body select is-fullwidth">
-                <select name="artist" id="artist">
+                <select name="artist-id" id="artist-id">
                     <?php foreach ($artists as $artist): ?>
                         <option value="<?= $artist->id; ?>" <?= $artist->id === $album->artist_id ? 'selected' : '' ?>><?= $artist->name; ?></option>
                     <?php endforeach; ?>
@@ -32,12 +32,12 @@
         </div>
         <div class="field is-horizontal">
             <div class="field-label is-normal">
-                <label class="label" for="genre"><?= $t('album.form.genreLabel'); ?></label>
+                <label class="label" for="genre-ids"><?= $t('album.form.genreLabel'); ?></label>
             </div>
             <div class="field-body select is-multiple is-fullwidth">
-                <select multiple size="3" name="genre[]" id="genre" title="Genres">
+                <select multiple size="3" name="genre-ids[]" id="genre-ids" title="Genres">
                     <?php foreach ($genres as $genre): ?>
-                        <option value="<?= $genre->id; ?>" <?= in_array($genre->id, $albumGenreIds) ? 'selected' : '' ?>><?= $genre->name; ?></option>
+                        <option value="<?= $genre->id; ?>" <?= in_array($genre->id, $genreIds) ? 'selected' : '' ?>><?= $genre->name; ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>

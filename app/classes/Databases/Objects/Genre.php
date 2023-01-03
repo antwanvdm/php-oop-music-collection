@@ -4,23 +4,36 @@ use MusicCollection\Databases\BaseObject;
 
 /**
  * Class Genre
- * @package System\Databases\Objects
- * @property Album[] $albums
- * @method static Genre getById($id)
+ * @package MusicCollection\Databases\Objects
  * @method static Genre[] getAll()
+ * @method static Genre getById(int $id)
  */
 class Genre extends BaseObject
 {
     protected static string $table = 'genres';
 
-    public ?int $id = null;
-    public string $name = '';
+    public function __construct(
+        public ?int $id = null,
+        public string $name = ''
+    ) {
+        parent::__construct();
+    }
+
+    /**
+     * As Genre is used on many-to-many related scenarios, we need a simple string when printing the object
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->name;
+    }
 
     /**
      * @return Album[]
      */
     public function albums(): array
     {
-        return $this->belongsToMany(Album::class, ['genre_id', 'album_id'], 'album_genre');
+        return $this->getManyToManyItems(Album::class, 'album_genre', ['album_id', 'genre_id']);
     }
 }

@@ -4,39 +4,38 @@ use MusicCollection\Databases\BaseObject;
 
 /**
  * Class Album
- * @package System\Databases\Objects
- * @property User $user
- * @property Artist $artist
- * @property Genre[] $genres
- * @method static Album getById($id)
+ * @package MusicCollection\Databases\Objects
  * @method static Album[] getAll()
+ * @method static Album getById($id)
  */
 class Album extends BaseObject
 {
     protected static string $table = 'albums';
+    protected static array $joinForeignKeys = [
+        'artist_id' => [
+            'table' => 'artists',
+            'object' => Artist::class
+        ],
+        'user_id' => [
+            'table' => 'users',
+            'object' => User::class
+        ]
+    ];
 
-    public ?int $id = null;
-    public ?int $user_id = null;
-    public ?int $artist_id = null;
-    public string $name = '';
-    public string $year = '';
-    public int $tracks = 0;
-    public string $image = '';
+    private array $genreIds = [];
+    public Artist $artist;
+    public User $user;
 
-    /**
-     * @return User
-     */
-    public function user(): User
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-
-    /**
-     * @return Artist
-     */
-    public function artist(): Artist
-    {
-        return $this->belongsTo(Artist::class, 'artist_id');
+    public function __construct(
+        public ?int $id = null,
+        public ?int $user_id = null,
+        public ?int $artist_id = null,
+        public string $name = '',
+        public string $year = '',
+        public int $tracks = 0,
+        public string $image = ''
+    ) {
+        parent::__construct();
     }
 
     /**
@@ -44,6 +43,52 @@ class Album extends BaseObject
      */
     public function genres(): array
     {
-        return $this->belongsToMany(Genre::class, ['album_id', 'genre_id'], 'album_genre');
+        return $this->getManyToManyItems(Genre::class, 'album_genre', ['genre_id', 'album_id']);
+    }
+
+    /**
+     * @return bool
+     */
+    public function saveGenres(): bool
+    {
+        return $this->saveManyToManyItems('album_genre', ['genre_id', 'album_id'], $this->genreIds);
+        try {
+            $this->db->beginTransaction();
+
+            //Delete all current references
+            $statement = $this->db->prepare('DELETE FROM album_genre WHERE album_id = :album_id');
+            $statement->execute([':album_id' => $this->id]);
+
+            //Add the current references
+            foreach ($this->genreIds as $genreId) {
+                $statement = $this->db->prepare('INSERT INTO album_genre (genre_id, album_id) VALUES (:genre_id, :album_id)');
+                $statement->execute([
+                    ':genre_id' => $genreId,
+                    ':album_id' => $this->id
+                ]);
+            }
+            $this->db->commit();
+            return true;
+        } catch (\PDOException) {
+            $this->db->rollBack();
+            return false;
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getGenreIds(): array
+    {
+        return $this->genreIds;
+    }
+
+    /**
+     * @param array $genreIds
+     * @return void
+     */
+    public function setGenreIds(array $genreIds): void
+    {
+        $this->genreIds = $genreIds;
     }
 }

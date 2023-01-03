@@ -57,17 +57,14 @@ class AlbumHandler extends BaseHandler
 
         //Set default empty album & execute POST logic
         $this->album = new Album();
-        $this->album->genres = []; //@TODO Blegh
 
         //Return formatted data
         $this->renderTemplate([
             'pageTitle' => $this->t->_('album.create.pageTitle'),
             'album' => $this->album,
             'artists' => Artist::getAll(),
-            'albumGenreIds' => array_map(function ($genre) {
-                return $genre->id;
-            }, $this->album->genres),
             'genres' => Genre::getAll(),
+            'genreIds' => $this->album->getGenreIds(),
             'success' => $this->session->get('success'),
             'errors' => $this->errors
         ]);
@@ -91,7 +88,8 @@ class AlbumHandler extends BaseHandler
         try {
             //Get the record from the db & execute POST logic
             $this->album = Album::getById($id);
-            $this->album->genres(); //@TODO blegh
+            $this->album->setGenreIds(array_map(fn(Genre $genre) => $genre->id, $this->album->genres()));
+
             $pageTitle = $this->t->_('album.edit.pageTitle', [
                 'ALBUM' =>
                     $this->t->_('album.madeBy', [
@@ -102,7 +100,6 @@ class AlbumHandler extends BaseHandler
         } catch (\Exception $e) {
             $this->logger->error($e);
             $this->album = new Album();
-            $this->album->genres = []; //@TODO Blegh
             $this->errors[] = $this->t->_('general.errors.general');
             $pageTitle = $this->t->_('album.notExists');
         }
@@ -112,10 +109,8 @@ class AlbumHandler extends BaseHandler
             'pageTitle' => $pageTitle,
             'album' => $this->album,
             'artists' => Artist::getAll(),
-            'albumGenreIds' => array_map(function ($genre) {
-                return $genre->id;
-            }, $this->album->genres),
             'genres' => Genre::getAll(),
+            'genreIds' => $this->album->getGenreIds(),
             'success' => $this->session->get('success'),
             'errors' => $this->errors
         ]);
@@ -151,7 +146,11 @@ class AlbumHandler extends BaseHandler
                 //Save the record to the db
                 $state = $this->album->id === 0 ? 'create' : 'edit';
                 if ($this->album->save()) {
-                    $this->session->set('success', $this->t->_('album.' . $state . '.success'));
+                    if ($this->album->saveGenres()) {
+                        $this->session->set('success', $this->t->_('album.' . $state . '.success'));
+                    } else {
+                        $this->errors[] = $this->t->_('general.errors.dbSave');
+                    }
                 } else {
                     $this->errors[] = $this->t->_('general.errors.dbSave');
                 }
