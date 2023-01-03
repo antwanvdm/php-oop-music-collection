@@ -62,7 +62,16 @@ abstract class BaseObject
      */
     public function __serialize(): array
     {
-        return $this->getPublicPropertiesWithValues();
+        $methods = (new \ReflectionClass($this))->getMethods(\ReflectionProperty::IS_PUBLIC);
+        $additionalFields = [];
+        foreach ($methods as $method) {
+            $methodName = $method->getName();
+            if (str_starts_with($methodName, 'get') && $method->class === get_called_class()) {
+                $fieldName = lcfirst(substr($methodName, 3));
+                $additionalFields[$fieldName] = $this->$fieldName;
+            }
+        }
+        return array_merge($this->getDatabaseFieldPropertiesWithValues(), $additionalFields);
     }
 
     /**
@@ -96,11 +105,11 @@ abstract class BaseObject
     }
 
     /**
-     * Always assuming the table properties are the only public properties in the parent class
+     * Always assuming the table properties are the promoted public properties in the parent class
      *
      * @return array
      */
-    private function getPublicPropertiesWithValues(): array
+    private function getDatabaseFieldPropertiesWithValues(): array
     {
         try {
             $dynamicProperties = (new \ReflectionClass($this))->getProperties(\ReflectionProperty::IS_PUBLIC);
@@ -128,7 +137,7 @@ abstract class BaseObject
      */
     public function save(): bool
     {
-        $fields = $this->getPublicPropertiesWithValues();
+        $fields = $this->getDatabaseFieldPropertiesWithValues();
         $keys = array_keys($fields);
 
         //Check based on ID if we need to INSERT or UPDATE

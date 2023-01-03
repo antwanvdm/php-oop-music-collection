@@ -22,7 +22,8 @@ class Album extends BaseObject
         ]
     ];
 
-    private array $genreIds = [];
+    /** @var array @TODO: Try to make this more dynamic for any future many-to-many situation? */
+    protected array $genreIds = [];
     public Artist $artist;
     public User $user;
 
@@ -52,27 +53,6 @@ class Album extends BaseObject
     public function saveGenres(): bool
     {
         return $this->saveManyToManyItems('album_genre', ['genre_id', 'album_id'], $this->genreIds);
-        try {
-            $this->db->beginTransaction();
-
-            //Delete all current references
-            $statement = $this->db->prepare('DELETE FROM album_genre WHERE album_id = :album_id');
-            $statement->execute([':album_id' => $this->id]);
-
-            //Add the current references
-            foreach ($this->genreIds as $genreId) {
-                $statement = $this->db->prepare('INSERT INTO album_genre (genre_id, album_id) VALUES (:genre_id, :album_id)');
-                $statement->execute([
-                    ':genre_id' => $genreId,
-                    ':album_id' => $this->id
-                ]);
-            }
-            $this->db->commit();
-            return true;
-        } catch (\PDOException) {
-            $this->db->rollBack();
-            return false;
-        }
     }
 
     /**

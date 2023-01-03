@@ -56,7 +56,7 @@ class AlbumHandler extends BaseHandler
         }
 
         //Set default empty album & execute POST logic
-        $this->album = new Album();
+        $this->album = $this->session->get('album') ?? new Album();
 
         //Return formatted data
         $this->renderTemplate([
@@ -70,6 +70,7 @@ class AlbumHandler extends BaseHandler
         ]);
 
         $this->session->delete('success');
+        $this->session->delete('album');
     }
 
     /**
@@ -89,6 +90,16 @@ class AlbumHandler extends BaseHandler
             //Get the record from the db & execute POST logic
             $this->album = Album::getById($id);
             $this->album->setGenreIds(array_map(fn(Genre $genre) => $genre->id, $this->album->genres()));
+
+            //Overwrite values from previous POST (form had errors)
+            //TODO make this more beautiful because this stinks.
+            if ($this->session->keyExists('album')) {
+                $this->album->artist_id = $this->session->get('album')->artist_id;
+                $this->album->name = $this->session->get('album')->name;
+                $this->album->setGenreIds($this->session->get('album')->getGenreIds());
+                $this->album->year = $this->session->get('album')->year;
+                $this->album->tracks = $this->session->get('album')->tracks;
+            }
 
             $pageTitle = $this->t->_('album.edit.pageTitle', [
                 'ALBUM' =>
@@ -116,6 +127,7 @@ class AlbumHandler extends BaseHandler
         ]);
 
         $this->session->delete('success');
+        $this->session->delete('album');
     }
 
     protected function save(): void
@@ -161,6 +173,7 @@ class AlbumHandler extends BaseHandler
         }
 
         $this->session->set('errors', $this->errors);
+        $this->session->set('album', $this->album);
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit;
     }

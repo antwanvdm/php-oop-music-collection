@@ -31,11 +31,11 @@ class Session
      * Retrieve a var from the session array
      *
      * @param string $key
-     * @return string|int|array|object|bool|mixed
+     * @return mixed
      */
-    public function get(string $key)
+    public function get(string $key): mixed
     {
-        return $this->data[$key] ?? false;
+        return $this->data[$key] ?? null;
     }
 
     /**
@@ -44,7 +44,7 @@ class Session
      * @param string $key
      * @param mixed $data
      */
-    public function set(string $key, $data): void
+    public function set(string $key, mixed $data): void
     {
         $this->data[$key] = $data;
         $_SESSION[$key] = $this->data[$key];
