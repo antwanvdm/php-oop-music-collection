@@ -4,7 +4,7 @@ use MusicCollection\Databases\Objects\Genre;
 
 /**
  * Class GenreHandler
- * @package System\Handlers
+ * @package MusicCollection\Handlers
  */
 class GenreHandler extends BaseHandler
 {

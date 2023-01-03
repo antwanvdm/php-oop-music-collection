@@ -5,7 +5,7 @@ use MusicCollection\Translation\Translator;
 
 /**
  * Class Template
- * @package System\Utils
+ * @package MusicCollection\Utils
  */
 class Template
 {

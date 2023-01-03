@@ -7,7 +7,7 @@ use MusicCollection\Utils\Image;
 
 /**
  * Class AlbumHandler
- * @package System\Handlers
+ * @package MusicCollection\Handlers
  */
 class AlbumHandler extends BaseHandler
 {

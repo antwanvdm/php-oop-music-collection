@@ -6,7 +6,7 @@ use MusicCollection\Routing\Route;
 
 /**
  * Class WebBootstrap
- * @package System\Bootstrap
+ * @package MusicCollection\Bootstrap
  */
 class WebBootstrap implements BootstrapInterface
 {

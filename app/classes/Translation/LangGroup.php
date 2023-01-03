@@ -2,7 +2,7 @@
 
 /**
  * Class LangGroup
- * @package System\Translation
+ * @package MusicCollection\Translation
  */
 class LangGroup
 {

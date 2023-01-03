@@ -2,7 +2,7 @@
 
 /**
  * Interface BootstrapInterface
- * @package System\Bootstrap
+ * @package MusicCollection\Bootstrap
  */
 interface BootstrapInterface
 {

@@ -2,7 +2,7 @@
 
 /**
  * Trait Relationships
- * @package System\Databases
+ * @package MusicCollection\Databases
  */
 trait Relationships
 {

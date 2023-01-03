@@ -2,7 +2,7 @@
 
 /**
  * Class NotFoundHandler
- * @package System\Handlers
+ * @package MusicCollection\Handlers
  */
 class NotFoundHandler extends BaseHandler
 {

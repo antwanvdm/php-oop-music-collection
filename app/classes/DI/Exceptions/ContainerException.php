@@ -2,7 +2,7 @@
 
 /**
  * Class ContainerException (Base interface representing a generic exception in a container.)
- * @package System\DI\Exceptions
+ * @package MusicCollection\DI\Exceptions
  */
 class ContainerException extends \Exception
 {

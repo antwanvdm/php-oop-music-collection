@@ -2,7 +2,7 @@
 
 /**
  * Class Image
- * @package System\Utils
+ * @package MusicCollection\Utils
  */
 class Image
 {

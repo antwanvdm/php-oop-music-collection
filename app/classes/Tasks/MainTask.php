@@ -2,7 +2,7 @@
 
 /**
  * Class MainTask
- * @package System\Tasks
+ * @package MusicCollection\Tasks
  */
 class MainTask extends BaseTask
 {

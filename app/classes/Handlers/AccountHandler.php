@@ -6,7 +6,7 @@ use MusicCollection\Form\Validation\LoginValidator;
 
 /**
  * Class AccountHandler
- * @package System\Handlers
+ * @package MusicCollection\Handlers
  * @noinspection PhpUnused
  */
 class AccountHandler extends BaseHandler

@@ -5,7 +5,7 @@ use MusicCollection\Form\Validation\GenreValidator;
 
 /**
  * Trait Genre
- * @package System\Handlers
+ * @package MusicCollection\Handlers
  */
 trait Genre
 {

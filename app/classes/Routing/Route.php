@@ -2,7 +2,7 @@
 
 /**
  * Class Route
- * @package System\Routing
+ * @package MusicCollection\Routing
  */
 class Route
 {

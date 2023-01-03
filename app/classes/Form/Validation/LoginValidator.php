@@ -5,7 +5,7 @@ use MusicCollection\Translation\Translator;
 
 /**
  * Class LoginValidator
- * @package System\Form\Validation
+ * @package MusicCollection\Form\Validation
  */
 class LoginValidator implements Validator
 {

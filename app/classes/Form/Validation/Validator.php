@@ -4,7 +4,7 @@ use MusicCollection\Translation\Translator;
 
 /**
  * Interface Validator
- * @package System\Form\Validation
+ * @package MusicCollection\Form\Validation
  */
 interface Validator
 {

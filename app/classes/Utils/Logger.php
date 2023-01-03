@@ -2,7 +2,7 @@
 
 /**
  * Class Logger
- * @package System\Utils
+ * @package MusicCollection\Utils
  */
 class Logger
 {

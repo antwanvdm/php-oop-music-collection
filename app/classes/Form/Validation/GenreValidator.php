@@ -5,7 +5,7 @@ use MusicCollection\Translation\Translator;
 
 /**
  * Class GenreValidator
- * @package System\Form\Validation
+ * @package MusicCollection\Form\Validation
  */
 class GenreValidator implements Validator
 {

@@ -6,7 +6,7 @@ use MusicCollection\Form\Validation\AlbumValidator;
 
 /**
  * Trait Album
- * @package System\Handlers
+ * @package MusicCollection\Handlers
  */
 trait Album
 {

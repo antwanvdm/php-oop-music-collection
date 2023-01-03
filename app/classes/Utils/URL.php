@@ -2,7 +2,7 @@
 
 /**
  * Class URL
- * @package System\Utils
+ * @package MusicCollection\Utils
  */
 class URL
 {

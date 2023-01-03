@@ -2,7 +2,7 @@
 
 /**
  * Class NotFoundException (No entry was found in the container.)
- * @package System\DI\Exceptions
+ * @package MusicCollection\DI\Exceptions
  */
 class NotFoundException extends \Exception
 {

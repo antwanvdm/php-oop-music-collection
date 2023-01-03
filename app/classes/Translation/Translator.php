@@ -2,7 +2,7 @@
 
 /**
  * Class Translator
- * @package System\Translation
+ * @package MusicCollection\Translation
  */
 class Translator
 {

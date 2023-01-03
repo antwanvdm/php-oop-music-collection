@@ -2,7 +2,7 @@
 
 /**
  * Class Session
- * @package System\Utils
+ * @package MusicCollection\Utils
  */
 class Session
 {

@@ -5,7 +5,7 @@ use MusicCollection\DI\Exceptions\NotFoundException;
 
 /**
  * Class Container inspired by Phalcon framework & Matthew Daly (see link)
- * @package System\DI
+ * @package MusicCollection\DI
  * @see https://phalcon.io/
  * @see https://matthewdaly.co.uk/blog/2019/02/02/creating-your-own-dependency-injection-container-in-php/
  */

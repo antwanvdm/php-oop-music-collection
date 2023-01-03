@@ -4,7 +4,7 @@ use MusicCollection\Utils\URL;
 
 /**
  * Class Router
- * @package System\Routing
+ * @package MusicCollection\Routing
  */
 class Router
 {

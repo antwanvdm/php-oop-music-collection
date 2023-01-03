@@ -5,7 +5,7 @@ use MusicCollection\Translation\Translator;
 
 /**
  * Class AlbumValidator
- * @package System\Form\Validation
+ * @package MusicCollection\Form\Validation
  */
 class AlbumValidator implements Validator
 {

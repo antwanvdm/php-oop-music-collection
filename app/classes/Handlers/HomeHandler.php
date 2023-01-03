@@ -2,7 +2,7 @@
 
 /**
  * Class HomeHandler
- * @package System\Handlers
+ * @package MusicCollection\Handlers
  */
 class HomeHandler extends BaseHandler
 {

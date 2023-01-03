@@ -5,7 +5,7 @@ use MusicCollection\Form\Validation\ArtistValidator;
 
 /**
  * Trait Artist
- * @package System\Handlers
+ * @package MusicCollection\Handlers
  */
 trait Artist
 {

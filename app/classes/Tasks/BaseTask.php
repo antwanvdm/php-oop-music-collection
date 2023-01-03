@@ -4,7 +4,7 @@ use MusicCollection\Utils\Logger;
 
 /**
  * Class BaseTask
- * @package System\Tasks
+ * @package MusicCollection\Tasks
  * @property Logger $logger
  */
 abstract class BaseTask

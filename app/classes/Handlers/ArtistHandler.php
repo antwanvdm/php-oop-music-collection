@@ -4,7 +4,7 @@ use MusicCollection\Databases\Objects\Artist;
 
 /**
  * Class ArtistHandler
- * @package System\Handlers
+ * @package MusicCollection\Handlers
  */
 class ArtistHandler extends BaseHandler
 {

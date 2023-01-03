@@ -2,7 +2,7 @@
 
 /**
  * Class APIHandler
- * @package System\Handlers
+ * @package MusicCollection\Handlers
  * @TODO Remove this later, it's to demo the working of JSON response in the system
  */
 class APIHandler extends BaseHandler

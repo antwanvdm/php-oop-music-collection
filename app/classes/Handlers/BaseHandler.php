@@ -8,7 +8,7 @@ use MusicCollection\Utils\Template;
 
 /**
  * Class BaseHandler
- * @package System\Handlers
+ * @package MusicCollection\Handlers
  *
  * Dynamic properties to enable auto complete:
  * @property Session $session

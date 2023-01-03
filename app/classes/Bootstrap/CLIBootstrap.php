@@ -6,7 +6,7 @@ use MusicCollection\Utils\Logger;
 
 /**
  * Class CLIBootstrap
- * @package System\Bootstrap
+ * @package MusicCollection\Bootstrap
  */
 class CLIBootstrap implements BootstrapInterface
 {
