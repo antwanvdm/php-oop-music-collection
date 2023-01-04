@@ -4,7 +4,7 @@
  * Class Session
  * @package MusicCollection\Utils
  */
-class Session
+class Session implements Singleton
 {
     /**
      * @var array<string, mixed>
@@ -12,11 +12,28 @@ class Session
     private array $data;
 
     /**
+     * @var Session|null
+     */
+    private static ?Session $instance = null;
+
+    /**
      * Initialize object
      */
-    public function __construct()
+    private function __construct()
     {
         $this->data = $_SESSION;
+    }
+
+    /**
+     * @return Session
+     */
+    public static function i(): Session
+    {
+        if (self::$instance === null) {
+            self::$instance = new Session();
+        }
+
+        return self::$instance;
     }
 
     /**
@@ -56,11 +73,20 @@ class Session
     /**
      * Delete a var from the global session
      *
-     * @param $key
+     * @param string $key
      */
     public function delete(string $key): void
     {
         unset($this->data[$key], $_SESSION[$key]);
+    }
+
+    /**
+     * Delete all vars from the global session
+     */
+    public function deleteAll(): void
+    {
+        $this->data = [];
+        session_unset();
     }
 
     /**

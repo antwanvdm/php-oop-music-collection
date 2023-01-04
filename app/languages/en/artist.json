@@ -1,0 +1,36 @@
+{
+  "index": {
+    "pageTitle": "Artists",
+    "createNewLink": "Create a new artist",
+    "totalAlbums": "Total Albums",
+    "detailsLink": "Details",
+    "editLink": "Edit",
+    "deleteLink": "Delete",
+    "tableFoot": "&copy; My collection with [TOTAL] artists"
+  },
+  "create": {
+    "pageTitle": "Create a new artist",
+    "success": "Your new artist has been saved successfully in the database"
+  },
+  "detail": {
+    "albumLabel": "Albums:"
+  },
+  "delete": {
+    "title": "Are you sure you want to delete this artist?",
+    "verifyLink": "Yes, delete!",
+    "denyLink": "No, go back to the overview"
+  },
+  "edit": {
+    "pageTitle": "Edit [NAME]",
+    "success": "Your artist has been successfully updated in the database"
+  },
+  "form": {
+    "nameLabel": "Name",
+    "submitValue": "Save"
+  },
+  "validation": {
+    "name": "Name cannot be empty"
+  },
+  "notExists": "This artist doesn't exist",
+  "backToListLink": "&laquo; Back to the overview"
+}

@@ -1,6 +1,7 @@
 <?php namespace MusicCollection\Translation;
 
 use MusicCollection\Utils\Logger;
+use MusicCollection\Utils\Session;
 use MusicCollection\Utils\Singleton;
 
 /**
@@ -9,7 +10,7 @@ use MusicCollection\Utils\Singleton;
  */
 class Translator implements Singleton
 {
-    private string $language = DEFAULT_LANGUAGE;
+    private string $language;
     /**
      * @var array<string, LangGroup>
      */
@@ -19,6 +20,16 @@ class Translator implements Singleton
      * @var Translator|null
      */
     private static ?Translator $instance = null;
+
+    private function __construct()
+    {
+        if (Session::i()->keyExists('language')) {
+            $this->language = Session::i()->get('language');
+        } else {
+            $this->language = DEFAULT_LANGUAGE;
+            Session::i()->set('language', DEFAULT_LANGUAGE);
+        }
+    }
 
     /**
      * @return Translator
@@ -35,22 +46,15 @@ class Translator implements Singleton
     /**
      * @param string $language
      */
-    public function setLanguage(string $language): void
+    public static function setLanguage(string $language): void
     {
-        $this->language = $language;
+        self::i()->language = $language;
+        Session::i()->set('language', $language);
     }
 
     /**
-     * @param string $group
-     * @return LangGroup
-     * @throws \Exception
-     */
-    public function __get(string $group): LangGroup
-    {
-        return $this->get($group);
-    }
-
-    /**
+     * Static wrapper around _ method to make it easy to access strings without too much code
+     *
      * @param string $key
      * @param array<string, string> $replacements
      * @return string
@@ -69,11 +73,11 @@ class Translator implements Singleton
      * @param array<string, string> $replacements
      * @return string
      */
-    public function _(string $key, array $replacements = []): string
+    private function _(string $key, array $replacements = []): string
     {
         try {
             $transLateKeys = explode('.', $key);
-            $value = $this->{array_shift($transLateKeys)};
+            $value = $this->get(array_shift($transLateKeys));
 
             foreach ($transLateKeys as $transLateKey) {
                 $value = $value->{$transLateKey};

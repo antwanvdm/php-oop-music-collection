@@ -3,6 +3,7 @@
  * @var \MusicCollection\Routing\Router $router
  */
 $router->get('', 'HomeHandler@index')->name('home');
+$router->post('language/change', 'LanguageHandler@change')->name('language.change');
 $router->get('artists', 'ArtistHandler@index')->name('artist.index');
 $router->get('artists/create', 'ArtistHandler@create')->name('artist.create');
 $router->get('artists/detail/{id}', 'ArtistHandler@detail')->name('artist.detail');

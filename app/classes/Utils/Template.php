@@ -36,6 +36,9 @@ class Template
         }
 
         $this->vars = $vars;
+        //TODO: See if this can be fixed in a nicer way..
+        $this->vars['currentLanguage'] = Session::i()->get('language');
+        $this->vars['languages'] = LANGUAGES;
         extract($vars);
         ob_start();
 

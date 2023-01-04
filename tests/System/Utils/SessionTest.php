@@ -9,11 +9,21 @@ use PHPUnit\Framework\TestCase;
  */
 class SessionTest extends TestCase
 {
+    /**
+     * Cleanup the Session storage
+     *
+     * @return void
+     */
+    public function tearDown(): void
+    {
+        Session::i()->deleteAll();
+    }
+
     public function testKeyExists(): void
     {
         $testData = ['newKey' => 'test'];
         $_SESSION = $testData;
-        $session = new Session();
+        $session = Session::i();
 
         $this->assertTrue($session->keyExists('newKey'));
     }
@@ -22,7 +32,7 @@ class SessionTest extends TestCase
     {
         $testData = ['otherKey' => 'test'];
         $_SESSION = $testData;
-        $session = new Session();
+        $session = Session::i();
 
         $this->assertFalse($session->keyExists('newKey'));
     }
@@ -31,7 +41,7 @@ class SessionTest extends TestCase
     {
         $testData = ['newKey' => 'test'];
         $_SESSION = $testData;
-        $session = new Session();
+        $session = Session::i();
 
         $session->set('anotherKey', 'bla');
         $this->assertTrue($session->keyExists('anotherKey'));
@@ -41,7 +51,7 @@ class SessionTest extends TestCase
     {
         $testData = ['newKey' => 'test'];
         $_SESSION = $testData;
-        $session = new Session();
+        $session = Session::i();
 
         $session->delete('newKey');
         $this->assertFalse($session->keyExists('newKey'));

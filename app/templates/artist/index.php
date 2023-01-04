@@ -12,7 +12,7 @@
 
 <a class="button is-primary" href="<?= $route('home'); ?>"><?= $t('general.backHomeLink'); ?></a>
 <a class="button" href="<?= $route('artist.create'); ?>"><?= $t('artist.index.createNewLink'); ?></a>
-<table class="table is-striped mt-4">
+<table class="table is-striped mt-4 is-fullwidth">
     <thead>
     <tr>
         <th>#</th>

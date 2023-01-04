@@ -89,9 +89,16 @@ class Container
     {
         //Check if we need to worry about an actual constructor
         $constructor = $item->getConstructor();
+
+        if (!is_null($constructor) && $constructor->isPrivate() && method_exists($item->getName(), 'i')) {
+            $name = $item->getName();
+            return $name::i();
+        }
+
         if (is_null($constructor) || $constructor->getNumberOfRequiredParameters() == 0) {
             return $item->newInstance();
         }
+
         $params = [];
         foreach ($constructor->getParameters() as $param) {
             $type = $param->getType();

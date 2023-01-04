@@ -1,0 +1,11 @@
+{
+  "login": {
+    "pageTitle": "Login",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "submitValue": "Login"
+  },
+  "validation": {
+    "loginError": "Your login credentials are incorrect"
+  }
+}

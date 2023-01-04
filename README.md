@@ -35,6 +35,7 @@ const BASE_PATH = '/';
 const INCLUDES_PATH = __DIR__ . '/../';
 const LOG_PATH = INCLUDES_PATH . 'logs/';
 const LANGUAGE_PATH = INCLUDES_PATH . 'languages/';
+const LANGUAGES = ['nl' => 'Nederlands', 'en' => 'English'];
 const DEFAULT_LANGUAGE = 'nl';
 
 //Custom error handler, so every error will throw a custom ErrorException
@@ -78,17 +79,25 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - ~~Implement Singleton patter for more objects that are needed throughout application,
   like DB, Logger & Translator~~
 - ~~Extend the logging system to different logging levels (now only error)~~
-- Refactor some stuff in the ORM (see todos in code)
+- ~~Comply with phpstan level 6~~
+- ~~Add actual multilingual support (EN/NL) with language switch~~
 - Extend Routing system with multiple parameters, ~~get/post~~ & api/non-api
+- Refactor some stuff in the ORM (see todos in code)
 - Add some kind of event dispatching system
 - Make wrapper (request object!) for super globals $_GET/$_POST. Current state of
   handlers is a mess due to many floating request/state code
 - Create something like flash messages for the session
 - Rename namespaces to MVC terminology
 - Make an actual composer package for this (separate music collection from the core)
-- Add actual multilingual support
+- Comply with phpstan level 9
 
 ## Changelog
+
+### v2.2.0
+
+- Made the code 100% compliant with phpstan level 6
+- Added multi-language toggle switch with working EN/NL feature
+- Session is now available as Singleton as well
 
 ### v2.1.0
 

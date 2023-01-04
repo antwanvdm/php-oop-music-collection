@@ -1,9 +1,9 @@
 {
   "login": {
-    "pageTitle": "Login",
+    "pageTitle": "Inloggen",
     "emailLabel": "E-mail",
     "passwordLabel": "Wachtwoord",
-    "submitValue": "Login"
+    "submitValue": "Inloggen"
   },
   "validation": {
     "loginError": "Je logingegevens zijn onjuist"

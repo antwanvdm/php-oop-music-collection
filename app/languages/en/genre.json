@@ -1,0 +1,36 @@
+{
+  "index": {
+    "pageTitle": "Genres",
+    "createNewLink": "Create a new genre",
+    "totalAlbums": "Total Albums",
+    "detailsLink": "Details",
+    "editLink": "Edit",
+    "deleteLink": "Delete",
+    "tableFoot": "&copy; My collection with [TOTAL] genres"
+  },
+  "create": {
+    "pageTitle": "Create a new genre",
+    "success": "Your new genre has been saved successfully in the database"
+  },
+  "detail": {
+    "albumLabel": "Albums:"
+  },
+  "delete": {
+    "title": "Are you sure you want to delete this genre?",
+    "verifyLink": "Yes, delete!",
+    "denyLink": "No, go back to the overview"
+  },
+  "edit": {
+    "pageTitle": "Edit [NAME]",
+    "success": "Your genre has been successfully updated in the database"
+  },
+  "form": {
+    "nameLabel": "Name",
+    "submitValue": "Save"
+  },
+  "validation": {
+    "name": "Name cannot be empty"
+  },
+  "notExists": "This genre doesn't exist",
+  "backToListLink": "&laquo; Back to the overview"
+}

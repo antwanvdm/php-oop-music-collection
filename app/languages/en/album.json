@@ -1,0 +1,49 @@
+{
+  "index": {
+    "pageTitle": "Albums",
+    "createNewLink": "Create a new album",
+    "detailsLink": "Details",
+    "editLink": "Edit",
+    "deleteLink": "Delete",
+    "tableFoot": "&copy; Mu collection with [TOTAL] albums"
+  },
+  "create": {
+    "pageTitle": "Create a new album",
+    "success": "Your new album has been saved successfully in the database"
+  },
+  "detail": {
+    "genreLabel": "Genres:",
+    "yearLabel": "Year:",
+    "tracksLabel": "Tracks:"
+  },
+  "delete": {
+    "title": "Are you sure you want to delete this album?",
+    "verifyLink": "Yes, delete!",
+    "denyLink": "No, go back to the overview"
+  },
+  "edit": {
+    "pageTitle": "Edit [ALBUM]",
+    "success": "Your album has been successfully updated in the database"
+  },
+  "form": {
+    "artistLabel": "Artist",
+    "nameLabel": "Name Album",
+    "genreLabel": "Genre(s)",
+    "yearLabel": "Year",
+    "tracksLabel": "Tracks",
+    "imageLabel": "Image",
+    "submitValue": "Save"
+  },
+  "validation": {
+    "artist": "Artist cannot be empty",
+    "name": "Name cannot be empty",
+    "genre": "You have to choose at least 1 genre",
+    "year": "Year cannot be empty",
+    "yearFormat": "Year has to be a number with 4 digits",
+    "tracks": "Tracks needs to be a minimum of 1",
+    "image": "Image cannot be empty"
+  },
+  "madeBy": "[NAME] by [ARTIST]",
+  "notExists": "This album doesn't exist",
+  "backToListLink": "&laquo; Back to the overview"
+}

@@ -1,0 +1,10 @@
+{
+  "siteName": "Music Collection",
+  "backHomeLink": "&laquo; Back to the homepage",
+  "logoutLink": "Logout",
+  "errors": {
+    "die": "Oops, something truly broke this time. Come back later while we work on a solution.",
+    "general": "Something went wrong, try again or navigate to another page",
+    "dbSave": "Whoops, something went wrong saving the data"
+  }
+}

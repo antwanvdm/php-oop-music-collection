@@ -44,7 +44,7 @@ class AlbumValidator implements Validator
         if (!is_numeric($this->album->year) || strlen($this->album->year) != 4) {
             $this->errors[] = T::__('album.validation.yearFormat');
         }
-        if ($this->album->tracks == '') {
+        if ($this->album->tracks == '' || $this->album->tracks < 1) {
             $this->errors[] = T::__('album.validation.tracks');
         }
     }
