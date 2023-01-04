@@ -41,7 +41,7 @@ class Container
 
     /**
      * @param string $key
-     * @param object|string $value
+     * @param object|class-string $value
      * @return mixed
      * @throws ContainerException|NotFoundException
      */
@@ -57,7 +57,7 @@ class Container
     }
 
     /**
-     * @param string $key
+     * @param class-string|string $key
      * @return mixed
      * @throws ContainerException|NotFoundException
      */

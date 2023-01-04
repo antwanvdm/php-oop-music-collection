@@ -196,7 +196,7 @@ abstract class BaseObject
     }
 
     /**
-     * @return BaseObject[]
+     * @return object[]
      * @throws \Exception
      */
     public static function getAll(): array

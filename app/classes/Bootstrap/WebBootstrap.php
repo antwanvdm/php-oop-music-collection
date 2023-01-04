@@ -17,7 +17,7 @@ class WebBootstrap implements BootstrapInterface
 {
     private Container $di;
     /**
-     * @var string[]
+     * @var class-string[]
      */
     private array $diClasses = [
         'session' => Session::class,
@@ -44,6 +44,7 @@ class WebBootstrap implements BootstrapInterface
         }
 
         //Routing magic with dynamic file that has $router available
+        /** @var Router $router */
         $router = $this->di->get('router');
         require_once INCLUDES_PATH . 'config/routes.php';
         $this->activeRoute = $router->getRoute();
