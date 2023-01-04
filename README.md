@@ -95,6 +95,7 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 
 ### v2.2.0
 
+- Updated composer packages
 - Made the code 100% compliant with phpstan level 6
 - Added multi-language toggle switch with working EN/NL feature
 - Session is now available as Singleton as well
