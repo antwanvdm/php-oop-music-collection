@@ -55,6 +55,10 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - If you just want to start the server with basic PHP, you can run
   `php -S localhost:8888 server.php` in the public folder. This way, you don't need
   an apache or nginx server to try out this application.
+- If you want to run the CLI, you can find 1 Task as example. You can run this
+  example: `php -d xdebug.mode=off app/cli.php main doSomething yes sir now`.
+- If you want an example of how to call an API endpoint, call the `/api` URL with
+  the `Content-Type` header set to `application/json`.
 
 ## Roadmap
 
@@ -85,6 +89,17 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - Add actual multilingual support
 
 ## Changelog
+
+### v2.1.0
+
+- Refactored the Translation strings to support parameters & better errror handling
+- Made the generated name for image as unique as possible
+- Refactored the "ORM" to be better readable and usable
+- Fixed the forms so that data gets remembered on an error
+- Added Singleton as standardised pattern for DB, Logger & Translator. They are now
+  easily available through the application
+- Added an extra level of logging besides 'error' (info)
+- Updated documentation with CLI & API examples
 
 ### v2.0.0
 
