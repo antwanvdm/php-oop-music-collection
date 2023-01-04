@@ -7,7 +7,7 @@
 class MainTask extends BaseTask
 {
     /**
-     * @param array $params
+     * @param string[] $params
      * @return string
      */
     protected function doSomething(array $params): string

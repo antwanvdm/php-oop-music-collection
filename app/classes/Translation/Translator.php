@@ -10,6 +10,9 @@ use MusicCollection\Utils\Singleton;
 class Translator implements Singleton
 {
     private string $language = DEFAULT_LANGUAGE;
+    /**
+     * @var array<string, LangGroup>
+     */
     private array $groups = [];
 
     /**
@@ -49,7 +52,7 @@ class Translator implements Singleton
 
     /**
      * @param string $key
-     * @param array $replacements
+     * @param array<string, string> $replacements
      * @return string
      */
     public static function __(string $key, array $replacements = []): string
@@ -63,7 +66,7 @@ class Translator implements Singleton
      * Replacements should be mark like [MY_KEY] in the language files
      *
      * @param string $key
-     * @param array $replacements
+     * @param array<string, string> $replacements
      * @return string
      */
     public function _(string $key, array $replacements = []): string

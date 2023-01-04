@@ -9,6 +9,9 @@ use MusicCollection\Translation\Translator as T;
  */
 class AlbumValidator implements Validator
 {
+    /**
+     * @var string[]
+     */
     private array $errors = [];
 
     /**
@@ -47,7 +50,7 @@ class AlbumValidator implements Validator
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getErrors(): array
     {

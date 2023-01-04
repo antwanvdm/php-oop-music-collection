@@ -8,12 +8,18 @@ use MusicCollection\Utils\URL;
  */
 class Router
 {
+    private string $currentPath;
     /**
-     * @var Route[] array
+     * @var Route[]
      */
     private array $routes = [];
-    private string $currentPath;
+    /**
+     * @var string[]
+     */
     private array $pathSegments;
+    /**
+     * @var string[]
+     */
     private array $allowedMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
 
     public function __construct()
@@ -66,7 +72,7 @@ class Router
 
     /**
      * @param string $name
-     * @param array $params
+     * @param array<string, string|int> $params
      * @return string
      * @throws \Exception
      */
@@ -138,7 +144,7 @@ class Router
     }
 
     /**
-     * @return array
+     * @return Route[]
      */
     public function getRoutes(): array
     {

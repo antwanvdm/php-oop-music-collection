@@ -33,6 +33,9 @@ abstract class BaseObject
     use Relationships;
 
     protected static string $table = '';
+    /**
+     * @var array<string, array<string, mixed>>
+     */
     protected static array $joinForeignKeys = [];
     private string $tableName;
     protected \PDO $db;
@@ -58,7 +61,7 @@ abstract class BaseObject
      * Implemented to prevent a fatal error on session storage due to PDO object being available
      *
      * @see https://wiki.php.net/rfc/custom_object_serialization
-     * @return array
+     * @return array<string|int, mixed>
      */
     public function __serialize(): array
     {
@@ -78,7 +81,7 @@ abstract class BaseObject
      * Implemented to prevent a fatal error on session storage due to PDO object being available
      *
      * @see https://wiki.php.net/rfc/custom_object_serialization
-     * @param array $data
+     * @param array<string, mixed> $data
      */
     public function __unserialize(array $data): void
     {
@@ -89,7 +92,7 @@ abstract class BaseObject
 
     /**
      * @param string $name
-     * @param array $arguments
+     * @param array<int, mixed> $arguments
      * @return mixed
      * @throws \Exception
      */
@@ -98,7 +101,7 @@ abstract class BaseObject
         if (str_starts_with($name, 'getBy')) {
             $requestedGetter = strtolower(substr($name, 5));
             array_unshift($arguments, $requestedGetter);
-            return call_user_func('self::getBy', ...$arguments);
+            return call_user_func([static::class, 'getBy'], ...$arguments);
         }
 
         throw new \Exception("Invalid function ($name) was called");
@@ -107,7 +110,7 @@ abstract class BaseObject
     /**
      * Always assuming the table properties are the promoted public properties in the parent class
      *
-     * @return array
+     * @return array<string, mixed>
      */
     private function getDatabaseFieldPropertiesWithValues(): array
     {
@@ -208,7 +211,7 @@ abstract class BaseObject
     /**
      * @param string|\PDOStatement $query
      * @param string|null $className
-     * @return array
+     * @return object[]
      */
     protected static function fetchAll(string|\PDOStatement $query, ?string $className = null): array
     {
@@ -254,7 +257,7 @@ abstract class BaseObject
     }
 
     /**
-     * @param array $params
+     * @param array<string|int, mixed> $params
      * @param string|null $className
      * @return bool|BaseObject
      */

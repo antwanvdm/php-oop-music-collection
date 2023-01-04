@@ -63,9 +63,9 @@ class ArtistHandler extends BaseHandler
     }
 
     /**
-     * @param string $id
+     * @param int $id
      */
-    protected function edit(string $id): void
+    protected function edit(int $id): void
     {
         //If not logged in, redirect to login
         if (!$this->session->keyExists('user')) {

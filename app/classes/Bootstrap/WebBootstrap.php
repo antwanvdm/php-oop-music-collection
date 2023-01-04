@@ -3,8 +3,11 @@
 use MusicCollection\DI\Container;
 use MusicCollection\Handlers\BaseHandler;
 use MusicCollection\Routing\Route;
+use MusicCollection\Routing\Router;
 use MusicCollection\Utils\Logger;
 use MusicCollection\Translation\Translator as T;
+use MusicCollection\Utils\Session;
+use MusicCollection\Utils\Template;
 
 /**
  * Class WebBootstrap
@@ -13,10 +16,13 @@ use MusicCollection\Translation\Translator as T;
 class WebBootstrap implements BootstrapInterface
 {
     private Container $di;
+    /**
+     * @var string[]
+     */
     private array $diClasses = [
-        'session' => '\\MusicCollection\\Utils\\Session',
-        'template' => '\\MusicCollection\\Utils\\Template',
-        'router' => '\\MusicCollection\\Routing\\Router',
+        'session' => Session::class,
+        'template' => Template::class,
+        'router' => Router::class,
     ];
     private Route $activeRoute;
 

@@ -11,7 +11,13 @@ use MusicCollection\Utils\Template;
 abstract class BaseHandler
 {
     protected string $templatePath;
+    /**
+     * @var array<string, mixed>
+     */
     private array $data = [];
+    /**
+     * @var string[]
+     */
     protected array $errors = [];
 
     /**
@@ -33,7 +39,7 @@ abstract class BaseHandler
 
     /**
      * @param string $name
-     * @param array $arguments
+     * @param array<int, mixed> $arguments
      * @return self
      * @throws \Exception
      */
@@ -56,7 +62,7 @@ abstract class BaseHandler
     /**
      * Use output buffers to capture template data from require statement and store in data
      *
-     * @param array $vars
+     * @param array<string, mixed> $vars
      * @throws \RuntimeException
      */
     protected function renderTemplate(array $vars = []): void
@@ -69,7 +75,7 @@ abstract class BaseHandler
     }
 
     /**
-     * @param array $vars
+     * @param array<int|string, mixed> $vars
      */
     protected function setJSON(array $vars = []): void
     {

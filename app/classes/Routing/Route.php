@@ -6,10 +6,9 @@
  */
 class Route
 {
-    public string $method;
-    public string $path;
-    public string $className;
-    public string $action;
+    /**
+     * @var string[]
+     */
     public array $params = [];
     public ?string $name = null;
 
@@ -21,13 +20,12 @@ class Route
      * @param string $className
      * @param string $action
      */
-    public function __construct(string $method, string $path, string $className, string $action)
-    {
-        $this->method = $method;
-        $this->path = $path;
-        $this->className = $className;
-        $this->action = $action;
-
+    public function __construct(
+        public string $method,
+        public string $path,
+        public string $className,
+        public string $action
+    ) {
         /*
          * @TODO Add possibility for nested routes with multiple params (now only 1 works)
          */

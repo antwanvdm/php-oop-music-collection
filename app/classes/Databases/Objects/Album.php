@@ -11,6 +11,9 @@ use MusicCollection\Databases\BaseObject;
 class Album extends BaseObject
 {
     protected static string $table = 'albums';
+    /**
+     * @var array<string, array<string, mixed>>
+     */
     protected static array $joinForeignKeys = [
         'artist_id' => [
             'table' => 'artists',
@@ -22,7 +25,10 @@ class Album extends BaseObject
         ]
     ];
 
-    /** @var array @TODO: Try to make this more dynamic for any future many-to-many situation? */
+    /**
+     * @var int[]
+     * @TODO: Try to make this more dynamic for any future many-to-many situation?
+     */
     protected array $genreIds = [];
     public Artist $artist;
     public User $user;
@@ -56,7 +62,7 @@ class Album extends BaseObject
     }
 
     /**
-     * @return array
+     * @return int[]
      */
     public function getGenreIds(): array
     {
@@ -64,7 +70,7 @@ class Album extends BaseObject
     }
 
     /**
-     * @param array $genreIds
+     * @param int[] $genreIds
      * @return void
      */
     public function setGenreIds(array $genreIds): void

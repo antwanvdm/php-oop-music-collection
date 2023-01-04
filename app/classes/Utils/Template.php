@@ -9,6 +9,9 @@ use MusicCollection\Translation\Translator;
  */
 class Template
 {
+    /**
+     * @var array<string, mixed>
+     */
     private array $vars = [];
 
     /**
@@ -21,7 +24,7 @@ class Template
     }
 
     /**
-     * @param array $vars
+     * @param array<string, mixed> $vars
      * @param string $templatePath
      * @return string
      * @throws \RuntimeException

@@ -14,6 +14,9 @@ class CLIBootstrap implements BootstrapInterface
     private Container $di;
     private string $className = '';
     private string $action;
+    /**
+     * @var string[]
+     */
     private array $params;
 
     public function __construct()

@@ -7,7 +7,7 @@
 class Image
 {
     /**
-     * @param array $uploadFile
+     * @param array<string, string|int> $uploadFile
      * @return string
      * @throws \RuntimeException
      */

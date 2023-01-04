@@ -9,6 +9,9 @@ use MusicCollection\Translation\Translator as T;
  */
 class LoginValidator implements Validator
 {
+    /**
+     * @var string[]
+     */
     private array $errors = [];
 
     /**
@@ -38,7 +41,7 @@ class LoginValidator implements Validator
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getErrors(): array
     {

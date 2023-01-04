@@ -9,6 +9,9 @@ use MusicCollection\Translation\Translator as T;
  */
 class ArtistValidator implements Validator
 {
+    /**
+     * @var string[]
+     */
     private array $errors = [];
 
     /**
@@ -32,7 +35,7 @@ class ArtistValidator implements Validator
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getErrors(): array
     {

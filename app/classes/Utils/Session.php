@@ -6,6 +6,9 @@
  */
 class Session
 {
+    /**
+     * @var array<string, mixed>
+     */
     private array $data;
 
     /**

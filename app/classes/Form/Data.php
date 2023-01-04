@@ -9,7 +9,7 @@ class Data
     /**
      * Data constructor.
      *
-     * @param array $post
+     * @param array<string, mixed> $post
      */
     public function __construct(private readonly array $post)
     {
@@ -30,7 +30,7 @@ class Data
      * Retrieve a var from the post array
      *
      * @param string $var
-     * @return string|array
+     * @return string|array<string|int>
      */
     public function getPostVar(string $var): array|string
     {

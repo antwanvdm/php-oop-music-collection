@@ -11,6 +11,9 @@ use MusicCollection\Databases\BaseObject;
 class Artist extends BaseObject
 {
     protected static string $table = 'artists';
+    /**
+     * @var array<string, array<string, mixed>>
+     */
     protected static array $joinForeignKeys = [
         'user_id' => [
             'table' => 'users',

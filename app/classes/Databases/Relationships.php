@@ -11,14 +11,15 @@ trait Relationships
     /**
      * Transform the dynamic properties from the DB to actual Objects
      *
-     * @param array $databaseColumns
-     * @return self|void
+     * @param array<string, string|int|float> $databaseColumns
+     * @return self
      * @see BaseObject::buildFromPDO()
      */
     private function setRelations(array $databaseColumns)
     {
         if (empty($databaseColumns)) {
-            return;
+            Logger::info('Variable $databaseColumns was empty while calling BaseObject->setRelations');
+            return $this;
         }
 
         //Loop through foreign keys, so we can check if properties have been passed dynamically
@@ -70,7 +71,7 @@ trait Relationships
     /**
      * @param class-string<BaseObject> $relationClassName
      * @param string $foreignKey
-     * @return array
+     * @return object[]
      * @noinspection SqlResolve
      */
     protected function getOneToManyItems(string $relationClassName, string $foreignKey): array
@@ -89,7 +90,7 @@ trait Relationships
      * @param class-string<BaseObject> $relationClassName
      * @param string $pivotTable
      * @param string[] $foreignKeys
-     * @return array
+     * @return object[]
      * @noinspection SqlResolve
      */
     protected function getManyToManyItems(string $relationClassName, string $pivotTable, array $foreignKeys): array
@@ -108,6 +109,7 @@ trait Relationships
     /**
      * @param string $pivotTable
      * @param string[] $foreignKeys
+     * @param int[] $itemIds
      * @return bool
      * @noinspection SqlResolve
      */

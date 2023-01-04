@@ -11,6 +11,9 @@ use MusicCollection\DI\Exceptions\NotFoundException;
  */
 class Container
 {
+    /**
+     * @var array<string, mixed>
+     */
     private array $entries = [];
 
     /**
@@ -78,7 +81,7 @@ class Container
     /**
      * Get instance of item
      *
-     * @param \ReflectionClass $item
+     * @param \ReflectionClass<object> $item
      * @return mixed
      * @throws \ReflectionException|NotFoundException|ContainerException
      */
@@ -91,7 +94,8 @@ class Container
         }
         $params = [];
         foreach ($constructor->getParameters() as $param) {
-            if ($type = $param->getType()) {
+            $type = $param->getType();
+            if ($type instanceof \ReflectionNamedType) {
                 $params[] = $this->set($param->name, $type->getName());
             }
         }

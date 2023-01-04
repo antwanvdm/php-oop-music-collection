@@ -10,7 +10,7 @@ abstract class BaseTask
 {
     /**
      * @param string $name
-     * @param array $arguments
+     * @param string[] $arguments
      * @return mixed
      * @throws \Exception
      */

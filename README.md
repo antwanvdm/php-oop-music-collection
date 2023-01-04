@@ -49,7 +49,7 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
   the autoloader.
 - You can test the php unit test by running `composer run test`. You can check the
   `composer.json` for more scripts for `phpstan` and `php-cs-fixer`.
-- Any error in your application will be written to the `app/logs/error.log` file.
+- Any log in your application will be written to the `app/logs/application.log` file.
 - On some pages (album & artist forms) you will be required to login. The database
   export includes a `test@test.com` user with the password `test`.
 - If you just want to start the server with basic PHP, you can run
