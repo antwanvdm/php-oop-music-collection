@@ -1,7 +1,7 @@
 <?php namespace MusicCollection\Form\Validation;
 
 use MusicCollection\Databases\Objects\User;
-use MusicCollection\Translation\Translator;
+use MusicCollection\Translation\Translator as T;
 
 /**
  * Class LoginValidator
@@ -23,19 +23,17 @@ class LoginValidator implements Validator
 
     /**
      * Validate the data
-     *
-     * @param Translator $t
      */
-    public function validate(Translator $t): void
+    public function validate(): void
     {
         //Go on if we got an user (which means email is correct)
         if (!empty($this->user->email)) {
             //Validate password
             if (!password_verify($this->password, $this->user->password)) {
-                $this->errors[] = $t->_('account.validation.loginError');
+                $this->errors[] = T::__('account.validation.loginError');
             }
         } else {
-            $this->errors[] = $t->_('account.validation.loginError');
+            $this->errors[] = T::__('account.validation.loginError');
         }
     }
 

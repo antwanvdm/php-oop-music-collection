@@ -1,6 +1,6 @@
 <?php namespace MusicCollection\Handlers\FillAndValidate;
 
-use MusicCollection\Databases\Objects\Genre;
+use MusicCollection\Translation\Translator as T;
 use MusicCollection\Form\Data;
 use MusicCollection\Form\Validation\AlbumValidator;
 
@@ -29,11 +29,11 @@ trait Album
 
             //Actual validation
             $validator = new AlbumValidator($this->album);
-            $validator->validate($this->t);
+            $validator->validate();
             $this->errors = $validator->getErrors();
 
             if ($this->album->id === 0 && $_FILES['image']['error'] == 4) {
-                $this->errors[] = $this->t->_('album.validation.image');
+                $this->errors[] = T::__('album.validation.image');
             }
         }
     }

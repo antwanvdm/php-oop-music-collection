@@ -1,7 +1,7 @@
 <?php namespace MusicCollection\Form\Validation;
 
 use MusicCollection\Databases\Objects\Album;
-use MusicCollection\Translation\Translator;
+use MusicCollection\Translation\Translator as T;
 
 /**
  * Class AlbumValidator
@@ -22,29 +22,27 @@ class AlbumValidator implements Validator
 
     /**
      * Validate the data
-     *
-     * @param Translator $t
      */
-    public function validate(Translator $t): void
+    public function validate(): void
     {
         //Check if data is valid & generate error if not so
         if ($this->album->artist_id == '') {
-            $this->errors[] = $t->_('album.validation.artist');
+            $this->errors[] = T::__('album.validation.artist');
         }
         if ($this->album->name == '') {
-            $this->errors[] = $t->_('album.validation.name');
+            $this->errors[] = T::__('album.validation.name');
         }
         if (empty($this->album->getGenreIds())) {
-            $this->errors[] = $t->_('album.validation.genre');
+            $this->errors[] = T::__('album.validation.genre');
         }
         if ($this->album->year == '') {
-            $this->errors[] = $t->_('album.validation.year');
+            $this->errors[] = T::__('album.validation.year');
         }
         if (!is_numeric($this->album->year) || strlen($this->album->year) != 4) {
-            $this->errors[] = $t->_('album.validation.yearFormat');
+            $this->errors[] = T::__('album.validation.yearFormat');
         }
         if ($this->album->tracks == '') {
-            $this->errors[] = $t->_('album.validation.tracks');
+            $this->errors[] = T::__('album.validation.tracks');
         }
     }
 

@@ -1,5 +1,7 @@
 <?php namespace MusicCollection\Handlers;
 
+use MusicCollection\Translation\Translator as T;
+use MusicCollection\Utils\Logger;
 use MusicCollection\Databases\Objects\Genre;
 
 /**
@@ -28,7 +30,7 @@ class GenreHandler extends BaseHandler
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => $this->t->_('genre.index.pageTitle'),
+            'pageTitle' => T::__('genre.index.pageTitle'),
             'genres' => $genres,
             'totalGenres' => count($genres)
         ]);
@@ -41,7 +43,7 @@ class GenreHandler extends BaseHandler
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => $this->t->_('genre.create.pageTitle'),
+            'pageTitle' => T::__('genre.create.pageTitle'),
             'genre' => $this->genre,
             'success' => $this->session->get('success'),
             'errors' => $this->errors
@@ -58,12 +60,12 @@ class GenreHandler extends BaseHandler
         try {
             //Get the record from the db & execute POST logic
             $this->genre = Genre::getById($id);
-            $pageTitle = $this->t->_('genre.edit.pageTitle', ['NAME' => $this->genre->name]);
+            $pageTitle = T::__('genre.edit.pageTitle', ['NAME' => $this->genre->name]);
         } catch (\Exception $e) {
-            $this->logger->error($e);
+            Logger::error($e);
             $this->genre = new Genre();
-            $this->errors[] = $this->t->_('general.errors.general');
-            $pageTitle = $this->t->_('artist.notExists');
+            $this->errors[] = T::__('general.errors.general');
+            $pageTitle = T::__('artist.notExists');
         }
 
         //Return formatted data
@@ -89,14 +91,14 @@ class GenreHandler extends BaseHandler
                 //Save the record to the db
                 $state = $this->genre->id === 0 ? 'create' : 'edit';
                 if ($this->genre->save()) {
-                    $this->session->set('success', $this->t->_('genre.' . $state . '.success'));
+                    $this->session->set('success', T::__('genre.' . $state . '.success'));
                 } else {
-                    $this->errors[] = $this->t->_('general.errors.dbSave');
+                    $this->errors[] = T::__('general.errors.dbSave');
                 }
             }
         } catch (\Exception $e) {
-            $this->logger->error($e);
-            $this->errors[] = $this->t->_('general.errors.general');
+            Logger::error($e);
+            $this->errors[] = T::__('general.errors.general');
         }
 
         $this->session->set('errors', $this->errors);
@@ -117,8 +119,9 @@ class GenreHandler extends BaseHandler
             $pageTitle = $genre->name;
         } catch (\Exception $e) {
             //Something went wrong on this level
-            $this->errors[] = $this->t->_('general.errors.general');
-            $pageTitle = $this->t->_('genre.notExists');
+            Logger::error($e);
+            $this->errors[] = T::__('general.errors.general');
+            $pageTitle = T::__('genre.notExists');
         }
 
         //Return formatted data
@@ -150,13 +153,13 @@ class GenreHandler extends BaseHandler
 
             //Return formatted data
             $this->renderTemplate([
-                'pageTitle' => $this->t->_('genre.delete.title'),
+                'pageTitle' => T::__('genre.delete.title'),
                 'genre' => $genre,
                 'errors' => $this->errors
             ]);
         } catch (\Exception $e) {
             //There is no delete template, always redirect.
-            $this->logger->error($e);
+            Logger::error($e);
             header('Location: ' . BASE_PATH . 'genres');
             exit;
         }

@@ -1,13 +1,33 @@
 <?php namespace MusicCollection\Translation;
 
+use MusicCollection\Utils\Logger;
+use MusicCollection\Utils\Singleton;
+
 /**
  * Class Translator
  * @package MusicCollection\Translation
  */
-class Translator
+class Translator implements Singleton
 {
     private string $language = DEFAULT_LANGUAGE;
     private array $groups = [];
+
+    /**
+     * @var Translator|null
+     */
+    private static ?Translator $instance = null;
+
+    /**
+     * @return Translator
+     */
+    public static function i(): Translator
+    {
+        if (self::$instance === null) {
+            self::$instance = new Translator();
+        }
+
+        return self::$instance;
+    }
 
     /**
      * @param string $language
@@ -25,6 +45,16 @@ class Translator
     public function __get(string $group): LangGroup
     {
         return $this->get($group);
+    }
+
+    /**
+     * @param string $key
+     * @param array $replacements
+     * @return string
+     */
+    public static function __(string $key, array $replacements = []): string
+    {
+        return self::i()->_($key, $replacements);
     }
 
     /**
@@ -54,6 +84,7 @@ class Translator
                 $value = str_replace("[$searchToken]", $replacement, $value);
             }
         } catch (\Exception $e) {
+            Logger::error($e);
             return $key;
         }
 

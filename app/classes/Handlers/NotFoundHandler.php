@@ -1,5 +1,7 @@
 <?php namespace MusicCollection\Handlers;
 
+use MusicCollection\Translation\Translator as T;
+
 /**
  * Class NotFoundHandler
  * @package MusicCollection\Handlers
@@ -10,7 +12,7 @@ class NotFoundHandler extends BaseHandler
     {
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => '404 - Pagina niet gevonden'
+            'pageTitle' => T::__('notfound.pageTitle')
         ]);
     }
 }

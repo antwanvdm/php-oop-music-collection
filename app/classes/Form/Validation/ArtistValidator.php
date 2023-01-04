@@ -1,7 +1,7 @@
 <?php namespace MusicCollection\Form\Validation;
 
 use MusicCollection\Databases\Objects\Artist;
-use MusicCollection\Translation\Translator;
+use MusicCollection\Translation\Translator as T;
 
 /**
  * Class ArtistValidator
@@ -22,14 +22,12 @@ class ArtistValidator implements Validator
 
     /**
      * Validate the data
-     *
-     * @param Translator $t
      */
-    public function validate(Translator $t): void
+    public function validate(): void
     {
         //Check if data is valid & generate error if not so
         if ($this->artist->name == '') {
-            $this->errors[] = $t->_('artist.validation.name');
+            $this->errors[] = T::__('artist.validation.name');
         }
     }
 

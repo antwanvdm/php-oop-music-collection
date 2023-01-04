@@ -23,7 +23,7 @@ trait Artist
 
             //Actual validation
             $validator = new ArtistValidator($this->artist);
-            $validator->validate($this->t);
+            $validator->validate();
             $this->errors = $validator->getErrors();
         }
     }

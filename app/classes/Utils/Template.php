@@ -9,23 +9,15 @@ use MusicCollection\Translation\Translator;
  */
 class Template
 {
-    private Translator $t;
-    private Router $router;
-    private Logger $logger;
     private array $vars = [];
 
     /**
      * Template constructor.
      *
-     * @param Translator $t
      * @param Router $router
-     * @param Logger $logger
      */
-    public function __construct(Translator $t, Router $router, Logger $logger)
+    public function __construct(protected Router $router)
     {
-        $this->t = $t;
-        $this->router = $router;
-        $this->logger = $logger;
     }
 
     /**
@@ -47,11 +39,11 @@ class Template
         try {
             //Make functions available for templates
             $route = [$this->router, 'getFullPathByName'];
-            $t = [$this->t, '_'];
+            $t = [Translator::class, '__'];
             $yield = [$this, 'getChildTemplate'];
             require_once INCLUDES_PATH . 'templates/' . $templatePath . '.php';
         } catch (\Exception $e) {
-            $this->logger->error($e);
+            Logger::error($e);
             ob_get_clean();
 
             throw new \RuntimeException("Something went wrong in the template '$templatePath'");

@@ -1,5 +1,7 @@
 <?php namespace MusicCollection\Databases;
 
+use MusicCollection\Utils\Logger;
+
 /**
  * Trait Relationships
  * @package MusicCollection\Databases
@@ -131,7 +133,8 @@ trait Relationships
             }
             $this->db->commit();
             return true;
-        } catch (\PDOException) {
+        } catch (\PDOException $e) {
+            Logger::error($e);
             $this->db->rollBack();
             return false;
         }

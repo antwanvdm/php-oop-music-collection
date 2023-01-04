@@ -50,7 +50,7 @@ abstract class BaseObject
         }
 
         $this->tableName = static::$table;
-        $this->db = Database::getInstance();
+        $this->db = Database::i();
         $this->logger = new Logger();
     }
 
@@ -123,7 +123,7 @@ abstract class BaseObject
 
             return $properties;
         } catch (\Exception $e) {
-            $this->logger->error(new \Exception('BaseObject getPublicProperties failed: ' . $e->getMessage()));
+            Logger::error(new \Exception('BaseObject getPublicProperties failed: ' . $e->getMessage()));
 
             return [];
         }
@@ -168,7 +168,7 @@ abstract class BaseObject
 
             return true;
         }
-        $this->logger->error(new \Exception("DB Error: {$this->db->errorInfo()[2]}"));
+        Logger::error(new \Exception("DB Error: {$this->db->errorInfo()[2]}"));
 
         return false;
     }
@@ -182,7 +182,7 @@ abstract class BaseObject
      */
     public static function delete(int $id): bool
     {
-        $db = Database::getInstance();
+        $db = Database::i();
         $tableName = static::$table;
         $query = "DELETE FROM `{$tableName}`
                   WHERE `id` = :id";
@@ -213,14 +213,14 @@ abstract class BaseObject
     protected static function fetchAll(string|\PDOStatement $query, ?string $className = null): array
     {
         try {
-            $db = Database::getInstance();
+            $db = Database::i();
             $items = is_string($query)
                 ? $db->query($query)->fetchAll(\PDO::FETCH_ASSOC)
                 : $query->fetchAll(\PDO::FETCH_ASSOC);
             foreach ($items as $key => $item) {
                 $items[$key] = self::buildFromPDO($item, $className);
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $items = [];
         }
         return $items;
@@ -237,7 +237,7 @@ abstract class BaseObject
      */
     private static function getBy(string $field, string|int|float $value): BaseObject
     {
-        $db = Database::getInstance();
+        $db = Database::i();
         $tableName = static::$table;
         $select = "$tableName.*";
         $joinQuery = self::getJoinQuery($select);
@@ -269,6 +269,7 @@ abstract class BaseObject
             /** @var BaseObject $class */
             return (new $class(...array_merge(array_values($params))))->setRelations($params);
         } catch (\Exception $e) {
+            Logger::error($e);
             return false;
         }
     }

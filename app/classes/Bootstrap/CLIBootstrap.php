@@ -3,6 +3,7 @@
 use MusicCollection\DI\Container;
 use MusicCollection\Tasks\BaseTask;
 use MusicCollection\Utils\Logger;
+use MusicCollection\Translation\Translator as T;
 
 /**
  * Class CLIBootstrap
@@ -21,7 +22,7 @@ class CLIBootstrap implements BootstrapInterface
     }
 
     /**
-     * Setup the params based on current cli call
+     * Set up the params based on current cli call
      */
     public function setup(): void
     {
@@ -30,7 +31,6 @@ class CLIBootstrap implements BootstrapInterface
 
         //Use the Dependency Injector container for the classes we need throughout the application
         $this->di = new Container();
-        $this->di->set('logger', new Logger());
 
         try {
             //Get dynamic arguments from command line
@@ -51,7 +51,7 @@ class CLIBootstrap implements BootstrapInterface
             array_shift($dynamicArguments);
             $this->params = $dynamicArguments;
         } catch (\Exception $e) {
-            $this->di->get('logger')->error($e);
+            Logger::error($e);
         }
     }
 
@@ -71,9 +71,9 @@ class CLIBootstrap implements BootstrapInterface
 
             return $task->{$this->action}(...$this->params);
         } catch (\Exception $e) {
-            $this->di->get('logger')->error($e);
+            Logger::error($e);
 
-            return 'Oops, something went wrong, please contact the site administrator.';
+            return T::__('general.errors.die');
         }
     }
 }

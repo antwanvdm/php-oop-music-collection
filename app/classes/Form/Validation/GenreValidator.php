@@ -1,7 +1,7 @@
 <?php namespace MusicCollection\Form\Validation;
 
 use MusicCollection\Databases\Objects\Genre;
-use MusicCollection\Translation\Translator;
+use MusicCollection\Translation\Translator as T;
 
 /**
  * Class GenreValidator
@@ -22,14 +22,12 @@ class GenreValidator implements Validator
 
     /**
      * Validate the data
-     *
-     * @param Translator $t
      */
-    public function validate(Translator $t): void
+    public function validate(): void
     {
         //Check if data is valid & generate error if not so
         if ($this->genre->name == '') {
-            $this->errors[] = $t->_('genre.validation.name');
+            $this->errors[] = T::__('genre.validation.name');
         }
     }
 

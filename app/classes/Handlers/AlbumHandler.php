@@ -1,5 +1,7 @@
 <?php namespace MusicCollection\Handlers;
 
+use MusicCollection\Translation\Translator as T;
+use MusicCollection\Utils\Logger;
 use MusicCollection\Databases\Objects\Album;
 use MusicCollection\Databases\Objects\Artist;
 use MusicCollection\Databases\Objects\Genre;
@@ -37,7 +39,7 @@ class AlbumHandler extends BaseHandler
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => $this->t->_('album.index.pageTitle'),
+            'pageTitle' => T::__('album.index.pageTitle'),
             'albums' => $albums,
             'totalAlbums' => count($albums)
         ]);
@@ -60,7 +62,7 @@ class AlbumHandler extends BaseHandler
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => $this->t->_('album.create.pageTitle'),
+            'pageTitle' => T::__('album.create.pageTitle'),
             'album' => $this->album,
             'artists' => Artist::getAll(),
             'genres' => Genre::getAll(),
@@ -101,18 +103,18 @@ class AlbumHandler extends BaseHandler
                 $this->album->tracks = $this->session->get('album')->tracks;
             }
 
-            $pageTitle = $this->t->_('album.edit.pageTitle', [
+            $pageTitle = T::__('album.edit.pageTitle', [
                 'ALBUM' =>
-                    $this->t->_('album.madeBy', [
+                    T::__('album.madeBy', [
                         'NAME' => $this->album->name,
                         'ARTIST' => $this->album->artist->name
                     ])
             ]);
         } catch (\Exception $e) {
-            $this->logger->error($e);
+            Logger::error($e);
             $this->album = new Album();
-            $this->errors[] = $this->t->_('general.errors.general');
-            $pageTitle = $this->t->_('album.notExists');
+            $this->errors[] = T::__('general.errors.general');
+            $pageTitle = T::__('album.notExists');
         }
 
         //Return formatted data
@@ -159,17 +161,17 @@ class AlbumHandler extends BaseHandler
                 $state = $this->album->id === 0 ? 'create' : 'edit';
                 if ($this->album->save()) {
                     if ($this->album->saveGenres()) {
-                        $this->session->set('success', $this->t->_('album.' . $state . '.success'));
+                        $this->session->set('success', T::__('album.' . $state . '.success'));
                     } else {
-                        $this->errors[] = $this->t->_('general.errors.dbSave');
+                        $this->errors[] = T::__('general.errors.dbSave');
                     }
                 } else {
-                    $this->errors[] = $this->t->_('general.errors.dbSave');
+                    $this->errors[] = T::__('general.errors.dbSave');
                 }
             }
         } catch (\Exception $e) {
-            $this->logger->error($e);
-            $this->errors[] = $this->t->_('general.errors.general');
+            Logger::error($e);
+            $this->errors[] = T::__('general.errors.general');
         }
 
         $this->session->set('errors', $this->errors);
@@ -188,14 +190,15 @@ class AlbumHandler extends BaseHandler
             $album = Album::getById($id);
 
             //Default page title
-            $pageTitle = $this->t->_('album.madeBy', [
+            $pageTitle = T::__('album.madeBy', [
                 'NAME' => $album->name,
                 'ARTIST' => $album->artist->name
             ]);
         } catch (\Exception $e) {
             //Something went wrong on this level
-            $this->errors[] = $this->t->_('general.errors.general');
-            $pageTitle = $this->t->_('album.notExists');
+            Logger::error($e);
+            $this->errors[] = T::__('general.errors.general');
+            $pageTitle = T::__('album.notExists');
         }
 
         //Return formatted data
@@ -230,13 +233,13 @@ class AlbumHandler extends BaseHandler
 
             //Return formatted data
             $this->renderTemplate([
-                'pageTitle' => $this->t->_('album.delete.title'),
+                'pageTitle' => T::__('album.delete.title'),
                 'album' => $album,
                 'errors' => $this->errors
             ]);
         } catch (\Exception $e) {
             //There is no delete template, always redirect.
-            $this->logger->error($e);
+            Logger::error($e);
             header('Location: ' . BASE_PATH . 'albums');
             exit;
         }

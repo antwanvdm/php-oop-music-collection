@@ -1,5 +1,7 @@
 <?php namespace MusicCollection\Handlers;
 
+use MusicCollection\Translation\Translator as T;
+use MusicCollection\Utils\Logger;
 use MusicCollection\Databases\Objects\Artist;
 
 /**
@@ -28,7 +30,7 @@ class ArtistHandler extends BaseHandler
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => $this->t->_('artist.index.pageTitle'),
+            'pageTitle' => T::__('artist.index.pageTitle'),
             'artists' => $artists,
             'totalArtists' => count($artists)
         ]);
@@ -51,7 +53,7 @@ class ArtistHandler extends BaseHandler
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => $this->t->_('artist.create.pageTitle'),
+            'pageTitle' => T::__('artist.create.pageTitle'),
             'artist' => $this->artist,
             'success' => $this->session->get('success'),
             'errors' => $this->errors
@@ -75,12 +77,12 @@ class ArtistHandler extends BaseHandler
         try {
             //Get the record from the db & execute POST logic
             $this->artist = Artist::getById($id);
-            $pageTitle = $this->t->_('artist.edit.pageTitle', ['NAME' => $this->artist->name]);
+            $pageTitle = T::__('artist.edit.pageTitle', ['NAME' => $this->artist->name]);
         } catch (\Exception $e) {
-            $this->logger->error($e);
+            Logger::error($e);
             $this->artist = new Artist();
-            $this->errors[] = $this->t->_('general.errors.general');
-            $pageTitle = $this->t->_('artist.notExists');
+            $this->errors[] = T::__('general.errors.general');
+            $pageTitle = T::__('artist.notExists');
         }
 
         //Return formatted data
@@ -109,14 +111,14 @@ class ArtistHandler extends BaseHandler
                 //Save the record to the db
                 $state = $this->artist->id === 0 ? 'create' : 'edit';
                 if ($this->artist->save()) {
-                    $this->session->set('success', $this->t->_('artist.' . $state . '.success'));
+                    $this->session->set('success', T::__('artist.' . $state . '.success'));
                 } else {
-                    $this->errors[] = $this->t->_('general.errors.dbSave');
+                    $this->errors[] = T::__('general.errors.dbSave');
                 }
             }
         } catch (\Exception $e) {
-            $this->logger->error($e);
-            $this->errors[] = $this->t->_('general.errors.general');
+            Logger::error($e);
+            $this->errors[] = T::__('general.errors.general');
         }
 
         $this->session->set('errors', $this->errors);
@@ -137,8 +139,9 @@ class ArtistHandler extends BaseHandler
             $pageTitle = $artist->name;
         } catch (\Exception $e) {
             //Something went wrong on this level
-            $this->errors[] = $this->t->_('general.errors.general');
-            $pageTitle = $this->t->_('artist.notExists');
+            Logger::error($e);
+            $this->errors[] = T::__('general.errors.general');
+            $pageTitle = T::__('artist.notExists');
         }
 
         //Return formatted data
@@ -170,13 +173,13 @@ class ArtistHandler extends BaseHandler
 
             //Return formatted data
             $this->renderTemplate([
-                'pageTitle' => $this->t->_('artist.delete.title'),
+                'pageTitle' => T::__('artist.delete.title'),
                 'artist' => $artist,
                 'errors' => $this->errors
             ]);
         } catch (\Exception $e) {
             //There is no delete template, always redirect.
-            $this->logger->error($e);
+            Logger::error($e);
             header('Location: ' . BASE_PATH . 'artists');
             exit;
         }

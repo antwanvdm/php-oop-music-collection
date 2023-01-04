@@ -1,5 +1,7 @@
 <?php namespace MusicCollection\Handlers;
 
+use MusicCollection\Translation\Translator as T;
+use MusicCollection\Utils\Logger;
 use MusicCollection\Databases\Objects\User;
 use MusicCollection\Form\Data;
 use MusicCollection\Form\Validation\LoginValidator;
@@ -33,7 +35,7 @@ class AccountHandler extends BaseHandler
 
         //Return formatted data
         $this->renderTemplate([
-            'pageTitle' => $this->t->_('account.login.pageTitle'),
+            'pageTitle' => T::__('account.login.pageTitle'),
             'email' => $this->session->get('email'),
             'location' => $_GET['location'] ?? '',
             'errors' => $this->errors
@@ -63,12 +65,13 @@ class AccountHandler extends BaseHandler
             $user = User::getByEmail($email);
         } catch (\Exception $e) {
             //Probably should work nicer
+            Logger::error($e);
             $user = new User();
         }
 
         //Actual validation
         $validator = new LoginValidator($user, $password);
-        $validator->validate($this->t);
+        $validator->validate();
         $this->errors = $validator->getErrors();
 
         //When no error, set session variable, redirect & exit script

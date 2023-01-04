@@ -1,26 +1,16 @@
 <?php namespace MusicCollection\Handlers;
 
 use MusicCollection\Routing\Router;
-use MusicCollection\Translation\Translator;
-use MusicCollection\Utils\Logger;
 use MusicCollection\Utils\Session;
 use MusicCollection\Utils\Template;
 
 /**
  * Class BaseHandler
  * @package MusicCollection\Handlers
- *
- * Dynamic properties to enable auto complete:
- * @property Session $session
- * @property Logger $logger
- * @property Router $router
- * @property Translator $t
- * @property Template $template
  */
 abstract class BaseHandler
 {
     protected string $templatePath;
-    protected array $properties = [];
     private array $data = [];
     protected array $errors = [];
 
@@ -28,40 +18,17 @@ abstract class BaseHandler
      * BaseHandler constructor.
      *
      * @param Session $session
-     * @param Logger $logger
      * @param Router $router
-     * @param Translator $t
      * @param Template $template
      */
-    public function __construct(Session $session, Logger $logger, Router $router, Translator $t, Template $template)
-    {
-        $this->session = $session;
-        $this->logger = $logger;
-        $this->router = $router;
-        $this->t = $t;
-        $this->template = $template;
-
+    public function __construct(
+        protected Session $session,
+        protected Router $router,
+        protected Template $template
+    ) {
         if (method_exists($this, 'initialize')) {
             $this->initialize();
         }
-    }
-
-    /**
-     * @param string $name
-     * @param mixed $value
-     */
-    public function __set(string $name, mixed $value): void
-    {
-        $this->properties[$name] = $value;
-    }
-
-    /**
-     * @param string $name
-     * @return mixed
-     */
-    public function __get(string $name)
-    {
-        return $this->properties[$name];
     }
 
     /**

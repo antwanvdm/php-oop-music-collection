@@ -70,14 +70,16 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - ~~Ok... Add some basic CSS framework to prevent tears~~
 - ~~Implement PHP8 Attributes (and other possible cool PHP8 stuff)~~
 - ~~Add option to use placeholders in translation strings~~
-- Extend Routing system with multiple parameters, ~~get/post~~ & api/non-api
-- Add eager loading option for ORM
+- ~~Rebuild the ORM system to be more flexible/readable~~
+- ~~Implement Singleton patter for more objects that are needed throughout application,
+  like DB, Logger & Translator~~
+- ~~Extend the logging system to different logging levels (now only error)~~
 - Refactor some stuff in the ORM (see todos in code)
+- Extend Routing system with multiple parameters, ~~get/post~~ & api/non-api
 - Add some kind of event dispatching system
 - Make wrapper (request object!) for super globals $_GET/$_POST. Current state of
   handlers is a mess due to many floating request/state code
 - Create something like flash messages for the session
-- Extend the logging system to different logging levels (now only error)
 - Rename namespaces to MVC terminology
 - Make an actual composer package for this (separate music collection from the core)
 - Add actual multilingual support

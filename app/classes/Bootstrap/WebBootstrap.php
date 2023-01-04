@@ -3,6 +3,8 @@
 use MusicCollection\DI\Container;
 use MusicCollection\Handlers\BaseHandler;
 use MusicCollection\Routing\Route;
+use MusicCollection\Utils\Logger;
+use MusicCollection\Translation\Translator as T;
 
 /**
  * Class WebBootstrap
@@ -14,9 +16,7 @@ class WebBootstrap implements BootstrapInterface
     private array $diClasses = [
         'session' => '\\MusicCollection\\Utils\\Session',
         'template' => '\\MusicCollection\\Utils\\Template',
-        'logger' => '\\MusicCollection\\Utils\\Logger',
         'router' => '\\MusicCollection\\Routing\\Router',
-        't' => '\\MusicCollection\\Translation\\Translator'
     ];
     private Route $activeRoute;
 
@@ -59,9 +59,9 @@ class WebBootstrap implements BootstrapInterface
 
             return $page->{$this->activeRoute->action}(...$this->activeRoute->params)->getResponse();
         } catch (\Exception $e) {
-            $this->di->get('logger')->error($e);
+            Logger::error($e);
             http_response_code(500);
-            die($this->di->get('t')->_('general.errors.die'));
+            die(T::__('general.errors.die'));
         }
     }
 }
