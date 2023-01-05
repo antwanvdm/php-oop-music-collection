@@ -72,6 +72,7 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - ~~Implement basic dependency injection system~~
 - ~~Configure psalm, phpunit & php-cs-fixer in automated script~~
 - ~~Possibility to extend and re-use templates~~
+- ~~Add option to separate get & post routes~~
 - ~~Ok... Add some basic CSS framework to prevent tears~~
 - ~~Implement PHP8 Attributes (and other possible cool PHP8 stuff)~~
 - ~~Add option to use placeholders in translation strings~~
@@ -81,7 +82,8 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - ~~Extend the logging system to different logging levels (now only error)~~
 - ~~Comply with phpstan level 6~~
 - ~~Add actual multilingual support (EN/NL) with language switch~~
-- Extend Routing system with multiple parameters, ~~get/post~~ & api/non-api
+- ~~Extend Routing system with multiple parameters & better errors~~
+- Extend Routing system with namespaces like api/non-api
 - Refactor some stuff in the ORM (see todos in code)
 - Add some kind of event dispatching system
 - Make wrapper (request object!) for super globals $_GET/$_POST. Current state of

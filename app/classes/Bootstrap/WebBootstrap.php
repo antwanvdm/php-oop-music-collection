@@ -33,21 +33,27 @@ class WebBootstrap implements BootstrapInterface
     }
 
     /**
-     * Setup the route based on current path
+     * Set up the route based on current path
      */
     public function setup(): void
     {
-        //Use the Dependency Injector container for the classes we need throughout the application
-        $this->di = new Container();
-        foreach ($this->diClasses as $key => $diClass) {
-            $this->di->set($key, $diClass);
-        }
+        try {
+            //Use the Dependency Injector container for the classes we need throughout the application
+            $this->di = new Container();
+            foreach ($this->diClasses as $key => $diClass) {
+                $this->di->set($key, $diClass);
+            }
 
-        //Routing magic with dynamic file that has $router available
-        /** @var Router $router */
-        $router = $this->di->get('router');
-        require_once INCLUDES_PATH . 'config/routes.php';
-        $this->activeRoute = $router->getRoute();
+            //Routing magic with dynamic file that has $router available
+            /** @var Router $router */
+            $router = $this->di->get('router');
+            require_once INCLUDES_PATH . 'config/routes.php';
+            $this->activeRoute = $router->getRoute();
+        } catch (\Throwable $e) {
+            Logger::error($e);
+            http_response_code(500);
+            die(T::__('general.errors.die'));
+        }
     }
 
     /**
@@ -65,7 +71,7 @@ class WebBootstrap implements BootstrapInterface
             $page = $this->di->set('handler', $this->activeRoute->className);
 
             return $page->{$this->activeRoute->action}(...$this->activeRoute->params)->getResponse();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             Logger::error($e);
             http_response_code(500);
             die(T::__('general.errors.die'));

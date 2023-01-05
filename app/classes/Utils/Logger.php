@@ -36,10 +36,10 @@ class Logger implements Singleton
     }
 
     /**
-     * @param \Exception $e
+     * @param \Throwable $e
      * @return void
      */
-    public static function error(\Exception $e): void
+    public static function error(\Throwable $e): void
     {
         $message = "{$e->getMessage()} on line {$e->getLine()} of {$e->getFile()}";
         self::i()->log('ERROR', $message);

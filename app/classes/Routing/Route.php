@@ -19,6 +19,7 @@ class Route
      * @param string $path
      * @param string $className
      * @param string $action
+     * @throws \Exception
      */
     public function __construct(
         public string $method,
@@ -26,11 +27,13 @@ class Route
         public string $className,
         public string $action
     ) {
-        /*
-         * @TODO Add possibility for nested routes with multiple params (now only 1 works)
-         */
-        if (preg_match("/\{([a-zA-Z0-9]+)\}/", $path, $matches)) {
-            $this->params[] = $matches[1];
+        if (preg_match_all("/\{([a-zA-Z0-9]+)\}/", $path, $matches)) {
+            foreach ($matches[1] as $match) {
+                if (in_array($match, $this->params)) {
+                    throw new \Exception("Route for '$path' cannot have the same parameter name ($match) more than once");
+                }
+                $this->params[] = $match;
+            }
         }
     }
 
