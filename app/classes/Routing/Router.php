@@ -16,16 +16,11 @@ class Router
     /**
      * @var string[]
      */
-    private array $pathSegments;
-    /**
-     * @var string[]
-     */
     private array $allowedMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
 
     public function __construct()
     {
         $this->currentPath = URL::getCurrentPath();
-        $this->pathSegments = explode('/', $this->currentPath);
     }
 
     /**
