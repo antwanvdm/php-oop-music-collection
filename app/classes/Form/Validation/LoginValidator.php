@@ -29,7 +29,7 @@ class LoginValidator implements Validator
      */
     public function validate(): void
     {
-        //Go on if we got an user (which means email is correct)
+        //Go on if we got a user (which means email is correct)
         if (!empty($this->user->email)) {
             //Validate password
             if (!password_verify($this->password, $this->user->password)) {

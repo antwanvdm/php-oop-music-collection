@@ -9,6 +9,7 @@ class MainTask extends BaseTask
     /**
      * @param string[] $params
      * @return string
+     * @noinspection PhpUnused
      */
     protected function doSomething(array $params): string
     {

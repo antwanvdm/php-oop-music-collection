@@ -23,6 +23,9 @@ class ArtistHandler extends BaseHandler
         $this->session->delete('errors');
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function index(): void
     {
         //Get all artists
@@ -41,7 +44,7 @@ class ArtistHandler extends BaseHandler
      */
     protected function create(): void
     {
-        //If not logged in, redirect to login
+        //If not logged in, redirect to login page
         if (!$this->session->keyExists('user')) {
             $location = $this->router->getFullPathByName('artist.create');
             header('Location: ' . BASE_PATH . 'user/login?location=' . $location);
@@ -64,10 +67,11 @@ class ArtistHandler extends BaseHandler
 
     /**
      * @param int $id
+     * @throws \Exception
      */
     protected function edit(int $id): void
     {
-        //If not logged in, redirect to login
+        //If not logged in, redirect to login page
         if (!$this->session->keyExists('user')) {
             $location = $this->router->getFullPathByName('artist.edit', ['id' => $id]);
             header('Location: ' . BASE_PATH . 'user/login?location=' . $location);

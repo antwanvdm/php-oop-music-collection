@@ -99,6 +99,7 @@ class Router
 
     /**
      * @return Route
+     * @throws \Exception
      */
     public function getRoute(): Route
     {
@@ -152,6 +153,7 @@ class Router
 
     /**
      * @return Route
+     * @throws \Exception
      */
     private function notFoundRoute(): Route
     {

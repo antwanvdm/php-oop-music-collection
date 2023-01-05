@@ -149,13 +149,13 @@ abstract class BaseObject
                 return "`$key` = :$key";
             }, $keys);
             $implodedUpdateKeys = implode(',', $updateKeys);
-            $query = "UPDATE `{$this->tableName}`
+            $query = "UPDATE `$this->tableName`
                       SET $implodedUpdateKeys
                       WHERE `id` = :id";
         } else {
             $implodedKeys = implode('`,`', $keys);
             $implodedValues = implode(', :', $keys);
-            $query = "INSERT INTO `{$this->tableName}` (`$implodedKeys`)
+            $query = "INSERT INTO `$this->tableName` (`$implodedKeys`)
                       VALUES (:$implodedValues)";
         }
 
@@ -187,7 +187,7 @@ abstract class BaseObject
     {
         $db = Database::i();
         $tableName = static::$table;
-        $query = "DELETE FROM `{$tableName}`
+        $query = "DELETE FROM `$tableName`
                   WHERE `id` = :id";
 
         $statement = $db->prepare($query);
@@ -205,7 +205,7 @@ abstract class BaseObject
         $select = "$tableName.*";
         $joinQuery = self::getJoinQuery($select);
 
-        return self::fetchAll("SELECT {$select} FROM `{$tableName}`{$joinQuery}");
+        return self::fetchAll("SELECT $select FROM `$tableName`$joinQuery");
     }
 
     /**
@@ -236,6 +236,7 @@ abstract class BaseObject
      * @param string|int|float $value
      * @return BaseObject
      * @throws \ReflectionException
+     * @throws \Exception
      * @noinspection SqlResolve
      */
     private static function getBy(string $field, string|int|float $value): BaseObject
@@ -245,12 +246,12 @@ abstract class BaseObject
         $select = "$tableName.*";
         $joinQuery = self::getJoinQuery($select);
 
-        $statement = $db->prepare("SELECT {$select} FROM `{$tableName}`{$joinQuery} WHERE `{$tableName}`.`{$field}` = :value");
+        $statement = $db->prepare("SELECT $select FROM `$tableName`$joinQuery WHERE `$tableName`.`$field` = :value");
         $statement->execute([':value' => $value]);
 
         if (($object = $statement->fetch(\PDO::FETCH_ASSOC)) === false ||
             ($object = self::buildFromPDO($object)) === false) {
-            throw new \Exception("DB Error: {$field} '{$value}' is not available in the table {$tableName}");
+            throw new \Exception("DB Error: $field '$value' is not available in the table $tableName");
         }
 
         return $object;

@@ -32,6 +32,9 @@ class AlbumHandler extends BaseHandler
         $this->session->delete('errors');
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function index(): void
     {
         //Get all albums
@@ -50,7 +53,7 @@ class AlbumHandler extends BaseHandler
      */
     protected function create(): void
     {
-        //If not logged in, redirect to login
+        //If not logged in, redirect to login page
         if (!$this->session->keyExists('user')) {
             $location = $this->router->getFullPathByName('album.create');
             header('Location: ' . BASE_PATH . 'user/login?location=' . $location);
@@ -81,7 +84,7 @@ class AlbumHandler extends BaseHandler
      */
     protected function edit(int $id): void
     {
-        //If not logged in, redirect to login
+        //If not logged in, redirect to login page
         if (!$this->session->keyExists('user')) {
             $location = $this->router->getFullPathByName('album.edit', ['id' => $id]);
             header('Location: ' . BASE_PATH . 'user/login?location=' . $location);
@@ -175,7 +178,10 @@ class AlbumHandler extends BaseHandler
         }
 
         $this->session->set('errors', $this->errors);
-        $this->session->set('album', $this->album);
+        if (!empty($this->errors)) {
+            $this->session->set('album', $this->album);
+        }
+
         header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit;
     }

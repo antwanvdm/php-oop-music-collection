@@ -12,10 +12,10 @@ trait Relationships
      * Transform the dynamic properties from the DB to actual Objects
      *
      * @param array<string, string|int|float> $databaseColumns
-     * @return self
+     * @return BaseObject
      * @see BaseObject::buildFromPDO()
      */
-    private function setRelations(array $databaseColumns)
+    private function setRelations(array $databaseColumns): object
     {
         if (empty($databaseColumns)) {
             Logger::info('Variable $databaseColumns was empty while calling BaseObject->setRelations');
@@ -23,7 +23,7 @@ trait Relationships
         }
 
         //Loop through foreign keys, so we can check if properties have been passed dynamically
-        foreach (static::$joinForeignKeys as $joinForeignKey => $properties) {
+        foreach (static::$joinForeignKeys as $properties) {
             $relationValues = [];
 
             //Check all the database columns and only those that start with the relation name are stored
@@ -58,11 +58,11 @@ trait Relationships
             $fields = (new \ReflectionClass($properties['object']))->getProperties(\ReflectionProperty::IS_PUBLIC);
             foreach ($fields as $field) {
                 if ($field->isPromoted()) {
-                    $select .= ", {$properties['table']}.{$field->name} AS {$properties['table']}_{$field->name}";
+                    $select .= ", {$properties['table']}.$field->name AS {$properties['table']}_$field->name";
                 }
             }
 
-            $joinQuery .= " LEFT JOIN `{$properties['table']}` ON `{$properties['table']}`.`id` = `{$tableName}`.`{$joinForeignKey}`";
+            $joinQuery .= " LEFT JOIN `{$properties['table']}` ON `{$properties['table']}`.`id` = `$tableName`.`$joinForeignKey`";
         }
 
         return $joinQuery;
@@ -78,7 +78,7 @@ trait Relationships
     {
         $statement = $this->db->prepare(
             "SELECT r.* FROM `{$relationClassName::$table}` AS r
-                    LEFT JOIN `{$this->tableName}` t ON t.id = r.{$foreignKey}
+                    LEFT JOIN `$this->tableName` t ON `t`.`id` = `r`.`$foreignKey`
                     WHERE `t`.`id` = :id"
         );
         $statement->execute([':id' => $this->id]);
@@ -97,8 +97,8 @@ trait Relationships
     {
         $statement = $this->db->prepare(
             "SELECT r.* FROM `{$relationClassName::$table}` AS r
-                    LEFT JOIN `{$pivotTable}` p ON r.id = p.{$foreignKeys[0]}
-                    LEFT JOIN `{$this->tableName}` t on p.{$foreignKeys[1]} = t.id
+                    LEFT JOIN `$pivotTable` p ON r.id = p.$foreignKeys[0]
+                    LEFT JOIN `$this->tableName` t on p.$foreignKeys[1] = t.id
                     WHERE `t`.`id` = :id"
         );
         $statement->execute([':id' => $this->id]);
@@ -119,13 +119,13 @@ trait Relationships
             $this->db->beginTransaction();
 
             //Delete all current references
-            $statement = $this->db->prepare("DELETE FROM `{$pivotTable}` WHERE `{$foreignKeys[1]}` = :id");
+            $statement = $this->db->prepare("DELETE FROM `$pivotTable` WHERE `$foreignKeys[1]` = :id");
             $statement->execute([':id' => $this->id]);
 
             //Add the current references
             foreach ($itemIds as $itemId) {
                 $statement = $this->db->prepare(
-                    "INSERT INTO `{$pivotTable}` (`{$foreignKeys[0]}`, `{$foreignKeys[1]}`)
+                    "INSERT INTO `$pivotTable` (`$foreignKeys[0]`, `$foreignKeys[1]`)
                             VALUES (:item_id, :id)"
                 );
                 $statement->execute([

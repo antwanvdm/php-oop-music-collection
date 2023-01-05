@@ -23,6 +23,9 @@ class GenreHandler extends BaseHandler
         $this->session->delete('errors');
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function index(): void
     {
         //Get all genres

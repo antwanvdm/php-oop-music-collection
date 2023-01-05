@@ -44,6 +44,9 @@ class AccountHandler extends BaseHandler
         $this->session->delete('email');
     }
 
+    /**
+     * @noinspection PhpUnused
+     */
     protected function loginPost(): void
     {
         //Redirect any false entries
@@ -100,7 +103,7 @@ class AccountHandler extends BaseHandler
 
     protected function register(): void
     {
-        //TEMP script just to add an user.
+        //TEMP script just to add a user.
         $user = new User();
         $user->email = 'moora@hr.nl';
         $user->password = password_hash('test', PASSWORD_ARGON2I);

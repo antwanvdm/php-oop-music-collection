@@ -1,7 +1,5 @@
 <?php namespace MusicCollection\Tasks;
 
-use MusicCollection\Utils\Logger;
-
 /**
  * Class BaseTask
  * @package MusicCollection\Tasks
