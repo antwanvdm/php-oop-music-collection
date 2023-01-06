@@ -1,8 +1,9 @@
 <?php namespace MusicCollection\Handlers;
 
+use MusicCollection\Databases\Objects\Artist;
 use MusicCollection\Translation\Translator as T;
 use MusicCollection\Utils\Logger;
-use MusicCollection\Databases\Objects\Artist;
+use MusicCollection\Validation\ArtistValidator;
 
 /**
  * Class ArtistHandler
@@ -10,8 +11,6 @@ use MusicCollection\Databases\Objects\Artist;
  */
 class ArtistHandler extends BaseHandler
 {
-    use FillAndValidate\Artist;
-
     private Artist $artist;
 
     protected function initialize(): void
@@ -103,12 +102,12 @@ class ArtistHandler extends BaseHandler
     protected function save(): void
     {
         try {
-            //Get the record from the db & execute POST logic
+            //Prepare a new object & execute POST logic
             $this->artist = new Artist();
-            $this->executePostHandler();
+            $this->saveValidate();
 
             //Database magic when no errors are found
-            if (isset($this->formData) && empty($this->errors)) {
+            if (empty($this->errors)) {
                 //Set user id in Artist
                 $this->artist->user_id = $this->session->get('user')->id;
 
@@ -126,8 +125,22 @@ class ArtistHandler extends BaseHandler
         }
 
         $this->session->set('errors', $this->errors);
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        header('Location: ' . $this->request->previousPath());
         exit;
+    }
+
+    private function saveValidate(): void
+    {
+        if ($this->request->hasInput('submit')) {
+            //Override object with new variables
+            $this->artist->id = (int)$this->request->input('id');
+            $this->artist->name = $this->request->input('name');
+
+            //Actual validation
+            $validator = new ArtistValidator($this->artist);
+            $validator->validate();
+            $this->errors = $validator->getErrors();
+        }
     }
 
     /**
@@ -166,7 +179,7 @@ class ArtistHandler extends BaseHandler
             $artist = Artist::getById($id);
 
             //Only execute delete when confirmed
-            if (isset($_GET['continue'])) {
+            if ($this->request->hasQuery('continue')) {
                 //Delete genre
                 if (Artist::delete($id)) {
                     //Redirect to homepage after deletion & exit script

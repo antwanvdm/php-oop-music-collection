@@ -1,8 +1,9 @@
 <?php namespace MusicCollection\Handlers;
 
+use MusicCollection\Handlers\Utils\Request;
+use MusicCollection\Handlers\Utils\Template;
 use MusicCollection\Routing\Router;
 use MusicCollection\Utils\Session;
-use MusicCollection\Utils\Template;
 
 /**
  * Class BaseHandler
@@ -26,11 +27,13 @@ abstract class BaseHandler
      * @param Session $session
      * @param Router $router
      * @param Template $template
+     * @param Request $request
      */
     public function __construct(
         protected Session $session,
         protected Router $router,
-        protected Template $template
+        protected Template $template,
+        protected Request $request
     ) {
         if (method_exists($this, 'initialize')) {
             $this->initialize();
@@ -89,8 +92,7 @@ abstract class BaseHandler
      */
     public function getResponse(): string
     {
-        $contentType = $_SERVER['CONTENT_TYPE'] ?? null;
-        return match ($contentType) {
+        return match ($this->request->requestedContentType()) {
             'application/json' => $this->getJSON(),
             default => $this->getHTML(),
         };

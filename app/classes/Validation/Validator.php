@@ -1,13 +1,13 @@
-<?php namespace MusicCollection\Form\Validation;
+<?php namespace MusicCollection\Validation;
 
 /**
  * Interface Validator
- * @package MusicCollection\Form\Validation
+ * @package MusicCollection\Validation
  */
 interface Validator
 {
     /**
-     * Validate magic requires strings to we need the Translator object
+     * @return void
      */
     public function validate(): void;
 

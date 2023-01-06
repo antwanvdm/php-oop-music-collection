@@ -83,11 +83,11 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - ~~Comply with phpstan level 6~~
 - ~~Add actual multilingual support (EN/NL) with language switch~~
 - ~~Extend Routing system with multiple parameters & better errors~~
+- ~~Make wrapper (request object!) for super globals $_GET/$_POST. Current state of
+  handlers is a mess due to many floating request/state code~~
 - Extend Routing system with namespaces like api/non-api
 - Refactor some stuff in the ORM (see todos in code)
 - Add some kind of event dispatching system
-- Make wrapper (request object!) for super globals $_GET/$_POST. Current state of
-  handlers is a mess due to many floating request/state code
 - Create something like flash messages for the session
 - Rename namespaces to MVC terminology
 - Make an actual composer package for this (separate music collection from the core)

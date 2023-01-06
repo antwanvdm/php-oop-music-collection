@@ -1,13 +1,13 @@
-<?php namespace MusicCollection\Form\Validation;
+<?php namespace MusicCollection\Validation;
 
-use MusicCollection\Databases\Objects\Artist;
+use MusicCollection\Databases\Objects\Genre;
 use MusicCollection\Translation\Translator as T;
 
 /**
- * Class ArtistValidator
- * @package MusicCollection\Form\Validation
+ * Class GenreValidator
+ * @package MusicCollection\Validation
  */
-class ArtistValidator implements Validator
+class GenreValidator implements Validator
 {
     /**
      * @var string[]
@@ -15,11 +15,11 @@ class ArtistValidator implements Validator
     private array $errors = [];
 
     /**
-     * ArtistValidator constructor.
+     * GenreValidator constructor.
      *
-     * @param Artist $artist
+     * @param Genre $genre
      */
-    public function __construct(private readonly Artist $artist)
+    public function __construct(private readonly Genre $genre)
     {
     }
 
@@ -29,8 +29,8 @@ class ArtistValidator implements Validator
     public function validate(): void
     {
         //Check if data is valid & generate error if not so
-        if ($this->artist->name == '') {
-            $this->errors[] = T::__('artist.validation.name');
+        if ($this->genre->name == '') {
+            $this->errors[] = T::__('genre.validation.name');
         }
     }
 

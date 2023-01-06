@@ -1,11 +1,12 @@
 <?php namespace MusicCollection\Handlers;
 
-use MusicCollection\Translation\Translator as T;
-use MusicCollection\Utils\Logger;
 use MusicCollection\Databases\Objects\Album;
 use MusicCollection\Databases\Objects\Artist;
 use MusicCollection\Databases\Objects\Genre;
+use MusicCollection\Translation\Translator as T;
 use MusicCollection\Utils\Image;
+use MusicCollection\Utils\Logger;
+use MusicCollection\Validation\AlbumValidator;
 
 /**
  * Class AlbumHandler
@@ -13,8 +14,6 @@ use MusicCollection\Utils\Image;
  */
 class AlbumHandler extends BaseHandler
 {
-    use FillAndValidate\Album;
-
     private Album $album;
     private Image $image;
 
@@ -138,23 +137,23 @@ class AlbumHandler extends BaseHandler
     protected function save(): void
     {
         try {
-            //Get the record from the db & execute POST logic
+            //Prepare a new object & execute POST logic
             $this->album = new Album();
-            $this->executePostHandler();
+            $this->saveValidate();
             $isNew = $this->album->id === 0;
 
             //Database magic when no errors are found
-            if (isset($this->formData) && empty($this->errors)) {
+            if (empty($this->errors)) {
                 //If image is not empty, process the new image file
-                if ($_FILES['image']['error'] != 4 && !$isNew) {
+                if ($this->request->file('image')['error'] != 4 && !$isNew) {
                     //Remove old image
                     $this->image->delete($this->album->image);
 
                     //Store new image & retrieve name for database saving (override current image name)
-                    $this->album->image = $this->image->save($_FILES['image']);
+                    $this->album->image = $this->image->save($this->request->file('image'));
                 } elseif ($isNew) {
                     //Store image & retrieve name for database saving
-                    $this->album->image = $this->image->save($_FILES['image']);
+                    $this->album->image = $this->image->save($this->request->file('image'));
                 }
 
                 //Set user id in Album
@@ -182,8 +181,31 @@ class AlbumHandler extends BaseHandler
             $this->session->set('album', $this->album);
         }
 
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        header('Location: ' . $this->request->previousPath());
         exit;
+    }
+
+    public function saveValidate(): void
+    {
+        if ($this->request->hasInput('submit')) {
+            //Override object with new variables
+            $this->album->id = (int)$this->request->input('id');
+            $this->album->artist_id = (int)$this->request->input('artist-id');
+            $this->album->name = $this->request->input('name');
+            $this->album->year = $this->request->input('year');
+            $this->album->tracks = (int)$this->request->input('tracks');
+            $this->album->image = $this->request->input('current-image');
+            $this->album->setGenreIds($this->request->input('genre-ids'));
+
+            //Actual validation
+            $validator = new AlbumValidator($this->album);
+            $validator->validate();
+            $this->errors = $validator->getErrors();
+
+            if ($this->album->id === 0 && $this->request->file('image')['error'] == 4) {
+                $this->errors[] = T::__('album.validation.image');
+            }
+        }
     }
 
     /**
@@ -225,7 +247,7 @@ class AlbumHandler extends BaseHandler
             $album = Album::getById($id);
 
             //Only execute delete when confirmed
-            if (isset($_GET['continue'])) {
+            if ($this->request->hasQuery('continue')) {
                 //Delete genre
                 if (Album::delete($id)) {
                     //Remove image

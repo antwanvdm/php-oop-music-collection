@@ -1,6 +1,5 @@
 <?php namespace MusicCollection\Handlers;
 
-use MusicCollection\Form\Data;
 use MusicCollection\Translation\Translator as T;
 
 /**
@@ -11,11 +10,10 @@ class LanguageHandler extends BaseHandler
 {
     protected function change(): void
     {
-        $postData = new Data($_POST);
-        $language = $postData->getPostVar('language');
+        $language = $this->request->input('language');
         T::setLanguage($language);
 
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        header('Location: ' . $this->request->previousPath());
         exit;
     }
 }

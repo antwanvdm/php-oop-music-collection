@@ -1,8 +1,9 @@
 <?php namespace MusicCollection\Handlers;
 
+use MusicCollection\Databases\Objects\Genre;
 use MusicCollection\Translation\Translator as T;
 use MusicCollection\Utils\Logger;
-use MusicCollection\Databases\Objects\Genre;
+use MusicCollection\Validation\GenreValidator;
 
 /**
  * Class GenreHandler
@@ -10,8 +11,6 @@ use MusicCollection\Databases\Objects\Genre;
  */
 class GenreHandler extends BaseHandler
 {
-    use FillAndValidate\Genre;
-
     private Genre $genre;
 
     protected function initialize(): void
@@ -85,12 +84,12 @@ class GenreHandler extends BaseHandler
     protected function save(): void
     {
         try {
-            //Get the record from the db & execute POST logic
+            //Prepare a new object & execute POST logic
             $this->genre = new Genre();
-            $this->executePostHandler();
+            $this->saveValidate();
 
             //Database magic when no errors are found
-            if (isset($this->formData) && empty($this->errors)) {
+            if (empty($this->errors)) {
                 //Save the record to the db
                 $state = $this->genre->id === 0 ? 'create' : 'edit';
                 if ($this->genre->save()) {
@@ -105,8 +104,22 @@ class GenreHandler extends BaseHandler
         }
 
         $this->session->set('errors', $this->errors);
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        header('Location: ' . $this->request->previousPath());
         exit;
+    }
+
+    private function saveValidate(): void
+    {
+        if ($this->request->hasInput('submit')) {
+            //Override object with new variables
+            $this->genre->id = (int)$this->request->input('id');
+            $this->genre->name = $this->request->input('name');
+
+            //Actual validation
+            $validator = new GenreValidator($this->genre);
+            $validator->validate();
+            $this->errors = $validator->getErrors();
+        }
     }
 
     /**
@@ -145,7 +158,7 @@ class GenreHandler extends BaseHandler
             $genre = Genre::getById($id);
 
             //Only execute delete when confirmed
-            if (isset($_GET['continue'])) {
+            if ($this->request->hasQuery('continue')) {
                 //Delete genre
                 if (Genre::delete($id)) {
                     //Redirect to genre list after deletion & exit script

@@ -1,11 +1,11 @@
-<?php namespace MusicCollection\Form\Validation;
+<?php namespace MusicCollection\Validation;
 
 use MusicCollection\Databases\Objects\Album;
 use MusicCollection\Translation\Translator as T;
 
 /**
  * Class AlbumValidator
- * @package MusicCollection\Form\Validation
+ * @package MusicCollection\Validation
  */
 class AlbumValidator implements Validator
 {

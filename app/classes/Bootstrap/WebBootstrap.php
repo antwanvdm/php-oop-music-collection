@@ -2,12 +2,13 @@
 
 use MusicCollection\DI\Container;
 use MusicCollection\Handlers\BaseHandler;
+use MusicCollection\Handlers\Utils\Request;
+use MusicCollection\Handlers\Utils\Template;
 use MusicCollection\Routing\Route;
 use MusicCollection\Routing\Router;
-use MusicCollection\Utils\Logger;
 use MusicCollection\Translation\Translator as T;
+use MusicCollection\Utils\Logger;
 use MusicCollection\Utils\Session;
-use MusicCollection\Utils\Template;
 
 /**
  * Class WebBootstrap
@@ -23,6 +24,7 @@ class WebBootstrap implements BootstrapInterface
         'session' => Session::class,
         'template' => Template::class,
         'router' => Router::class,
+        'request' => Request::class,
     ];
     private Route $activeRoute;
 

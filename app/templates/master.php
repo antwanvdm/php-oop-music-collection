@@ -14,7 +14,7 @@
     <script type="text/javascript" src="<?= BASE_PATH ?>js/main.js" defer></script>
 </head>
 <body>
-<div class="container px-4">
+<div class="container px-4 mb-4">
     <?= ($content ?? ''); ?>
 </div>
 </body>

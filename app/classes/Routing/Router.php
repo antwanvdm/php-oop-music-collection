@@ -1,6 +1,7 @@
 <?php namespace MusicCollection\Routing;
 
-use MusicCollection\Utils\URL;
+use MusicCollection\Handlers\NotFoundHandler;
+use MusicCollection\Handlers\Utils\Request;
 
 /**
  * Class Router
@@ -18,9 +19,12 @@ class Router
      */
     private array $allowedMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
 
-    public function __construct()
+    /**
+     * @param Request $request
+     */
+    public function __construct(private readonly Request $request)
     {
-        $this->currentPath = URL::getCurrentPath();
+        $this->currentPath = $this->request->currentPath();
     }
 
     /**
@@ -144,7 +148,7 @@ class Router
             }
         }
 
-        if ($matchedRoute === false || $matchedRoute->method !== $_SERVER['REQUEST_METHOD']) {
+        if ($matchedRoute === false || $matchedRoute->method !== $this->request->requestedMethod()) {
             return $this->notFoundRoute();
         }
 
@@ -159,7 +163,7 @@ class Router
     {
         header('HTTP/1.0 404 Not Found');
 
-        return new Route('GET', $this->currentPath, '\\MusicCollection\\Handlers\\NotFoundHandler', 'index');
+        return new Route('GET', $this->currentPath, NotFoundHandler::class, 'index');
     }
 
     /**

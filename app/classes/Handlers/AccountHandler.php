@@ -1,10 +1,9 @@
 <?php namespace MusicCollection\Handlers;
 
+use MusicCollection\Databases\Objects\User;
 use MusicCollection\Translation\Translator as T;
 use MusicCollection\Utils\Logger;
-use MusicCollection\Databases\Objects\User;
-use MusicCollection\Form\Data;
-use MusicCollection\Form\Validation\LoginValidator;
+use MusicCollection\Validation\LoginValidator;
 
 /**
  * Class AccountHandler
@@ -37,7 +36,7 @@ class AccountHandler extends BaseHandler
         $this->renderTemplate([
             'pageTitle' => T::__('account.login.pageTitle'),
             'email' => $this->session->get('email'),
-            'location' => $_GET['location'] ?? '',
+            'location' => $this->request->query('location', ''),
             'errors' => $this->errors
         ]);
 
@@ -50,18 +49,15 @@ class AccountHandler extends BaseHandler
     protected function loginPost(): void
     {
         //Redirect any false entries
-        if (!isset($_POST['submit'])) {
+        if (!$this->request->hasInput('submit')) {
             header('Location: ' . BASE_PATH);
             exit;
         }
 
-        //Set form data
-        $formData = new Data($_POST);
-
         //Set post variables
-        $email = $formData->getPostVar('email');
-        $password = $formData->getPostVar('password');
-        $location = $formData->getPostVar('location');
+        $email = $this->request->input('email');
+        $password = $this->request->input('password');
+        $location = $this->request->input('location');
 
         //Get the record from the db
         try {
@@ -87,7 +83,7 @@ class AccountHandler extends BaseHandler
         //Whoops, we have errors and need to return
         $this->session->set('email', $email);
         $this->session->set('errors', $this->errors);
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        header('Location: ' . $this->request->previousPath());
         exit;
     }
 
