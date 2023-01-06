@@ -86,14 +86,22 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - ~~Make wrapper (request object!) for super globals $_GET/$_POST. Current state of
   handlers is a mess due to many floating request/state code~~
 - Extend Routing system with namespaces like api/non-api
-- Refactor some stuff in the ORM (see todos in code)
-- Add some kind of event dispatching system
+- Add middleware option for routes
+- Refactor some stuff in the ORM, Template & Handler (see TODO in code)
 - Create something like flash messages for the session
-- Rename namespaces to MVC terminology
+- Implement a basic migrations system to create tables
+- Add some kind of event dispatching system
 - Make an actual composer package for this (separate music collection from the core)
-- Comply with phpstan level 9
 
 ## Changelog
+
+### v2.3.0
+
+- Added support for multiple parameters in routes
+- Improved error handling to catch "Throwable" top level
+- Fixed all minor phpStorm warnings (typos, etc)
+- Added a Request object to wrap all Super Globals (except Session, which has its
+  own class). Removed the old Post Data object & Traits as they became irrelevant
 
 ### v2.2.0
 
