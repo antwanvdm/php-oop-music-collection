@@ -9,7 +9,7 @@
  */
 ?>
 <section class="columns">
-    <form class="column is-6" action="<?= $route('album.save') ?>" method="post" enctype="multipart/form-data">
+    <form class="column is-6" action="<?= $route('albums.save') ?>" method="post" enctype="multipart/form-data">
         <div class="field is-horizontal">
             <div class="field-label is-normal">
                 <label class="label" for="artist-id"><?= $t('album.form.artistLabel'); ?></label>

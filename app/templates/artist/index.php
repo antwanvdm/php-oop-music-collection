@@ -11,7 +11,7 @@
 <?= $yield('partials/errors'); ?>
 
 <a class="button is-primary" href="<?= $route('home'); ?>"><?= $t('general.backHomeLink'); ?></a>
-<a class="button" href="<?= $route('artist.create'); ?>"><?= $t('artist.index.createNewLink'); ?></a>
+<a class="button" href="<?= $route('artists.create'); ?>"><?= $t('artist.index.createNewLink'); ?></a>
 <table class="table is-striped mt-4 is-fullwidth">
     <thead>
     <tr>
@@ -32,9 +32,9 @@
             <td><?= $artist->id; ?></td>
             <td><?= $artist->name; ?></td>
             <td><?= count($artist->albums()); ?></td>
-            <td><a href="<?= $route('artist.detail', ['id' => $artist->id]); ?>"><?= $t('artist.index.detailsLink'); ?></a></td>
-            <td><a href="<?= $route('artist.edit', ['id' => $artist->id]); ?>"><?= $t('artist.index.editLink'); ?></a></td>
-            <td><a href="<?= $route('artist.delete', ['id' => $artist->id]); ?>"><?= $t('artist.index.deleteLink'); ?></a></td>
+            <td><a href="<?= $route('artists.detail', ['id' => $artist->id]); ?>"><?= $t('artist.index.detailsLink'); ?></a></td>
+            <td><a href="<?= $route('artists.edit', ['id' => $artist->id]); ?>"><?= $t('artist.index.editLink'); ?></a></td>
+            <td><a href="<?= $route('artists.delete', ['id' => $artist->id]); ?>"><?= $t('artist.index.deleteLink'); ?></a></td>
         </tr>
     <?php endforeach; ?>
     </tbody>

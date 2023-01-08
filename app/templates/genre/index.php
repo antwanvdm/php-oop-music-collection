@@ -11,7 +11,7 @@
 <?= $yield('partials/errors'); ?>
 
 <a class="button is-primary" href="<?= $route('home'); ?>"><?= $t('general.backHomeLink'); ?></a>
-<a class="button" href="<?= $route('genre.create'); ?>"><?= $t('genre.index.createNewLink'); ?></a>
+<a class="button" href="<?= $route('genres.create'); ?>"><?= $t('genre.index.createNewLink'); ?></a>
 <table class="table is-striped mt-4 is-fullwidth">
     <thead>
     <tr>
@@ -32,9 +32,9 @@
             <td><?= $genre->id; ?></td>
             <td><?= $genre->name; ?></td>
             <td><?= count($genre->albums()); ?></td>
-            <td><a href="<?= $route('genre.detail', ['id' => $genre->id]); ?>"><?= $t('genre.index.detailsLink'); ?></a></td>
-            <td><a href="<?= $route('genre.edit', ['id' => $genre->id]); ?>"><?= $t('genre.index.editLink'); ?></a></td>
-            <td><a href="<?= $route('genre.delete', ['id' => $genre->id]); ?>"><?= $t('genre.index.deleteLink'); ?></a></td>
+            <td><a href="<?= $route('genres.detail', ['id' => $genre->id]); ?>"><?= $t('genre.index.detailsLink'); ?></a></td>
+            <td><a href="<?= $route('genres.edit', ['id' => $genre->id]); ?>"><?= $t('genre.index.editLink'); ?></a></td>
+            <td><a href="<?= $route('genres.delete', ['id' => $genre->id]); ?>"><?= $t('genre.index.deleteLink'); ?></a></td>
         </tr>
     <?php endforeach; ?>
     </tbody>

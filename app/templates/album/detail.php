@@ -26,4 +26,4 @@
     </section>
 <?php endif; ?>
 
-<a class="button" href="<?= $route('album.index'); ?>"><?= $t('album.backToListLink'); ?></a>
+<a class="button" href="<?= $route('albums.index'); ?>"><?= $t('album.backToListLink'); ?></a>

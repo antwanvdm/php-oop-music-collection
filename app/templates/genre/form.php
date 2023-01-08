@@ -6,7 +6,7 @@
  */
 ?>
 <section class="columns">
-    <form class="column is-6" action="<?= $route('genre.save') ?>" method="post" enctype="multipart/form-data">
+    <form class="column is-6" action="<?= $route('genres.save') ?>" method="post" enctype="multipart/form-data">
         <div class="field is-horizontal">
             <div class="field-label is-normal">
                 <label class="label" for="name"><?= $t('genre.form.nameLabel'); ?></label>

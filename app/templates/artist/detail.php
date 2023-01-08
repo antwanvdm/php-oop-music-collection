@@ -23,4 +23,4 @@
     </section>
 <?php endif; ?>
 
-<a class="button" href="<?= $route('artist.index'); ?>"><?= $t('artist.backToListLink'); ?></a>
+<a class="button" href="<?= $route('artists.index'); ?>"><?= $t('artist.backToListLink'); ?></a>

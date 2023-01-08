@@ -31,20 +31,18 @@ class Router
 
     /**
      * @param string $path
-     * @param string $controllerAction
+     * @param string[] $handlerAction
      * @param string $method
      * @return Route
      * @throws \Exception
      */
-    public function addRoute(string $path, string $controllerAction, string $method): Route
+    public function addRoute(string $path, array $handlerAction, string $method): Route
     {
         if (!in_array($method, $this->allowedMethods)) {
             throw new \Exception("Method $method is not allowed");
         }
 
-        list($className, $action) = explode('@', $controllerAction);
-        $fullClassName = '\\MusicCollection\\Handlers\\' . $className;
-        $newRoute = new Route($method, $path, $fullClassName, $action);
+        $newRoute = new Route($method, $path, $handlerAction[0], $handlerAction[1]);
         $this->routes[] = $newRoute;
 
         return $newRoute;
@@ -52,24 +50,51 @@ class Router
 
     /**
      * @param string $path
-     * @param string $controllerAction
+     * @param string[] $handlerAction
      * @return Route
      * @throws \Exception
      */
-    public function get(string $path, string $controllerAction): Route
+    public function get(string $path, array $handlerAction): Route
     {
-        return $this->addRoute($path, $controllerAction, 'GET');
+        return $this->addRoute($path, $handlerAction, 'GET');
     }
 
     /**
      * @param string $path
-     * @param string $controllerAction
+     * @param string[] $handlerAction
      * @return Route
      * @throws \Exception
      */
-    public function post(string $path, string $controllerAction): Route
+    public function post(string $path, array $handlerAction): Route
     {
-        return $this->addRoute($path, $controllerAction, 'POST');
+        return $this->addRoute($path, $handlerAction, 'POST');
+    }
+
+    /**
+     * Wrapper to create all paths for a web based overview
+     *
+     * @param string $name
+     * @param string $handler
+     * @return Router
+     * @throws \Exception
+     * @example $router->resource('genres', 'GenreHandler'); creates
+     *              /genres points at 'index' method [GET]
+     *              /genres/{id} points at 'detail' method [GET]
+     *              /genres/create points at 'create' method [GET]
+     *              /genres/edit/{id} points at 'edit' method [GET]
+     *              /genres/save points at 'save' method [POST]
+     *              /genres/delete/{id} points at 'delete' method [POST]
+     */
+    public function resource(string $name, string $handler): self
+    {
+        $this->addRoute($name, [$handler, 'index'], 'GET')->name($name . '.index');
+        //@TODO /{id} resolves in an error due to conflict with /create
+        $this->addRoute($name . '/detail/{id}', [$handler, 'detail'], 'GET')->name($name . '.detail');
+        $this->addRoute($name . '/create', [$handler, 'create'], 'GET')->name($name . '.create');
+        $this->addRoute($name . '/{id}/edit', [$handler, 'edit'], 'GET')->name($name . '.edit');
+        $this->addRoute($name . '/save', [$handler, 'save'], 'POST')->name($name . '.save');
+        $this->addRoute($name . '/{id}/delete', [$handler, 'delete'], 'GET')->name($name . '.delete');
+        return $this;
     }
 
     /**
@@ -129,7 +154,7 @@ class Router
 
             //Build a new RegEx that can match the current URL (replace params with regEx lookup)
             $routeParts = array_map(function ($routePart) {
-                return str_contains($routePart, '{') ? "([a-zA-Z0-9]+)" : $routePart;
+                return str_contains($routePart, '{') ? '([a-zA-Z0-9]+)' : $routePart;
             }, explode('/', $route->path));
             $matchRegEx = implode('\/', $routeParts);
 

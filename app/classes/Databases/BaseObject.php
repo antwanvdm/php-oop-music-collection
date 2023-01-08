@@ -223,7 +223,8 @@ abstract class BaseObject
             foreach ($items as $key => $item) {
                 $items[$key] = self::buildFromPDO($item, $className);
             }
-        } catch (\Exception) {
+        } catch (\Exception $e) {
+            Logger::error($e);
             $items = [];
         }
         return $items;

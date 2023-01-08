@@ -14,4 +14,4 @@
     <?= $yield('genre/form'); ?>
 <?php endif; ?>
 
-<a class="button mt-4" href="<?= $route('genre.index'); ?>"><?= $t('genre.backToListLink'); ?></a>
+<a class="button mt-4" href="<?= $route('genres.index'); ?>"><?= $t('genre.backToListLink'); ?></a>

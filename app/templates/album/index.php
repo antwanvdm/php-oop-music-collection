@@ -11,7 +11,7 @@
 <?= $yield('partials/errors'); ?>
 
 <a class="button is-primary" href="<?= $route('home'); ?>"><?= $t('general.backHomeLink'); ?></a>
-<a class="button" href="<?= $route('album.create'); ?>"><?= $t('album.index.createNewLink'); ?></a>
+<a class="button" href="<?= $route('albums.create'); ?>"><?= $t('album.index.createNewLink'); ?></a>
 <table class="table is-striped mt-4 is-fullwidth">
     <thead>
     <tr>
@@ -48,9 +48,9 @@
             </td>
             <td class="is-vcentered"><?= $album->year; ?></td>
             <td class="is-vcentered"><?= $album->tracks; ?></td>
-            <td class="is-vcentered"><a href="<?= $route('album.detail', ['id' => $album->id]); ?>"><?= $t('album.index.detailsLink'); ?></a></td>
-            <td class="is-vcentered"><a href="<?= $route('album.edit', ['id' => $album->id]); ?>"><?= $t('album.index.editLink'); ?></a></td>
-            <td class="is-vcentered"><a href="<?= $route('album.delete', ['id' => $album->id]); ?>"><?= $t('album.index.deleteLink'); ?></a></td>
+            <td class="is-vcentered"><a href="<?= $route('albums.detail', ['id' => $album->id]); ?>"><?= $t('album.index.detailsLink'); ?></a></td>
+            <td class="is-vcentered"><a href="<?= $route('albums.edit', ['id' => $album->id]); ?>"><?= $t('album.index.editLink'); ?></a></td>
+            <td class="is-vcentered"><a href="<?= $route('albums.delete', ['id' => $album->id]); ?>"><?= $t('album.index.deleteLink'); ?></a></td>
         </tr>
     <?php endforeach; ?>
     </tbody>
