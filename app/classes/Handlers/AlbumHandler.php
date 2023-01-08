@@ -52,13 +52,6 @@ class AlbumHandler extends BaseHandler
      */
     protected function create(): void
     {
-        //If not logged in, redirect to login page
-        if (!$this->session->keyExists('user')) {
-            $location = $this->router->getFullPathByName('album.create');
-            header('Location: ' . BASE_PATH . 'user/login?location=' . $location);
-            exit;
-        }
-
         //Set default empty album & execute POST logic
         $this->album = $this->session->get('album') ?? new Album();
 
@@ -83,13 +76,6 @@ class AlbumHandler extends BaseHandler
      */
     protected function edit(int $id): void
     {
-        //If not logged in, redirect to login page
-        if (!$this->session->keyExists('user')) {
-            $location = $this->router->getFullPathByName('album.edit', ['id' => $id]);
-            header('Location: ' . BASE_PATH . 'user/login?location=' . $location);
-            exit;
-        }
-
         try {
             //Get the record from the db & execute POST logic
             $this->album = Album::getById($id);

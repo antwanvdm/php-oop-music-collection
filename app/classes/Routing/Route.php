@@ -1,5 +1,7 @@
 <?php namespace MusicCollection\Routing;
 
+use MusicCollection\Middleware\BaseMiddleware;
+
 /**
  * Class Route
  * @package MusicCollection\Routing
@@ -11,6 +13,10 @@ class Route
      */
     public array $params = [];
     public ?string $name = null;
+    /**
+     * @var class-string<BaseMiddleware>[]
+     */
+    public array $middleware = [];
 
     /**
      * Route constructor.
@@ -39,9 +45,27 @@ class Route
 
     /**
      * @param string $name
+     * @return Route
      */
-    public function name(string $name): void
+    public function name(string $name): self
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @param class-string|class-string[] $middleware
+     * @return Route
+     */
+    public function middleware(string|array $middleware): self
+    {
+        if (is_string($middleware)) {
+            $this->middleware[] = $middleware;
+        } else {
+            foreach ($middleware as $middlewareString) {
+                $this->middleware[] = $middlewareString;
+            }
+        }
+        return $this;
     }
 }

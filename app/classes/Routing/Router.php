@@ -1,5 +1,6 @@
 <?php namespace MusicCollection\Routing;
 
+use MusicCollection\DI\Container;
 use MusicCollection\Handlers\NotFoundHandler;
 use MusicCollection\Handlers\Utils\Request;
 
@@ -22,7 +23,7 @@ class Router
     /**
      * @param Request $request
      */
-    public function __construct(private readonly Request $request)
+    public function __construct(private readonly Request $request, private Container $di)
     {
         $this->currentPath = $this->request->currentPath();
     }
@@ -150,6 +151,10 @@ class Router
 
         if ($matchedRoute === false || $matchedRoute->method !== $this->request->requestedMethod()) {
             return $this->notFoundRoute();
+        }
+
+        foreach ($matchedRoute->middleware as $middleware) {
+            $this->di->set($middleware, $middleware)->handle();
         }
 
         return $matchedRoute;

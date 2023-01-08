@@ -43,13 +43,6 @@ class ArtistHandler extends BaseHandler
      */
     protected function create(): void
     {
-        //If not logged in, redirect to login page
-        if (!$this->session->keyExists('user')) {
-            $location = $this->router->getFullPathByName('artist.create');
-            header('Location: ' . BASE_PATH . 'user/login?location=' . $location);
-            exit;
-        }
-
         //Set default empty artist
         $this->artist = new Artist();
 
@@ -70,13 +63,6 @@ class ArtistHandler extends BaseHandler
      */
     protected function edit(int $id): void
     {
-        //If not logged in, redirect to login page
-        if (!$this->session->keyExists('user')) {
-            $location = $this->router->getFullPathByName('artist.edit', ['id' => $id]);
-            header('Location: ' . BASE_PATH . 'user/login?location=' . $location);
-            exit;
-        }
-
         try {
             //Get the record from the db & execute POST logic
             $this->artist = Artist::getById($id);
