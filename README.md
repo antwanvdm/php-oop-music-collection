@@ -39,7 +39,11 @@ const LANGUAGES = ['nl' => 'Nederlands', 'en' => 'English'];
 const DEFAULT_LANGUAGE = 'nl';
 
 //Custom error handler, so every error will throw a custom ErrorException
-set_error_handler(function (int $severity, string $message, string $file, int $line) {
+set_error_handler(function (int $severity, string $message, string $file, int $line): bool|null {
+    //Still respect the @ surpassing of errors. phpstan uses it and gave me weird caching errors
+    if ((error_reporting() & $severity) === 0) {
+        return null;
+    }
     throw new ErrorException($message, $severity, $severity, $file, $line);
 });
 ```
