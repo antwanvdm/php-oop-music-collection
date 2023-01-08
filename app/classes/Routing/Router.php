@@ -22,8 +22,9 @@ class Router
 
     /**
      * @param Request $request
+     * @param Container $di
      */
-    public function __construct(private readonly Request $request, private Container $di)
+    public function __construct(private readonly Request $request, private readonly Container $di)
     {
         $this->currentPath = $this->request->currentPath();
     }
@@ -43,9 +44,10 @@ class Router
 
         list($className, $action) = explode('@', $controllerAction);
         $fullClassName = '\\MusicCollection\\Handlers\\' . $className;
-        $this->routes[$path] = new Route($method, $path, $fullClassName, $action);
+        $newRoute = new Route($method, $path, $fullClassName, $action);
+        $this->routes[] = $newRoute;
 
-        return $this->routes[$path];
+        return $newRoute;
     }
 
     /**
@@ -110,41 +112,41 @@ class Router
     {
         $matchedRoute = false;
 
-        //First check a 1-on-1 match for simple routes
-        if (isset($this->routes[$this->currentPath])) {
-            $matchedRoute = $this->routes[$this->currentPath];
-        } else {
-            //We need to check all the routes for dynamic parameters
-            foreach ($this->routes as $route) {
-                //Since we are making modifications, we need to assure the rest of the application can work as intended
-                $route = clone($route);
+        foreach ($this->routes as $route) {
+            //First check a 1-on-1 match for simple routes
+            if ($route->path === $this->currentPath) {
+                $matchedRoute = $route;
+                break;
+            }
 
-                //If no replacement strings for parameters are found, we can continue
-                if (!str_contains($route->path, '{')) {
-                    continue;
+            //Since we are making modifications, we need to assure the rest of the application can work as intended
+            $route = clone($route);
+
+            //If no replacement strings for parameters are found, we can continue
+            if (!str_contains($route->path, '{')) {
+                continue;
+            }
+
+            //Build a new RegEx that can match the current URL (replace params with regEx lookup)
+            $routeParts = array_map(function ($routePart) {
+                return str_contains($routePart, '{') ? "([a-zA-Z0-9]+)" : $routePart;
+            }, explode('/', $route->path));
+            $matchRegEx = implode('\/', $routeParts);
+
+            //Check if matches are found based on the current visited path
+            if (preg_match_all("/$matchRegEx/", $this->currentPath, $matches) > 0) {
+                //Replace the dynamic parameters with actual values
+                array_shift($matches);
+                $newPath = $route->path;
+                foreach ($matches as $index => $match) {
+                    $newPath = str_replace('{' . $route->params[$index] . '}', $match[0], $newPath);
+                    $route->params[$index] = $match[0];
                 }
 
-                //Build a new RegEx that can match the current URL (replace params with regEx lookup)
-                $routeParts = array_map(function ($routePart) {
-                    return str_contains($routePart, '{') ? "([a-zA-Z0-9]+)" : $routePart;
-                }, explode('/', $route->path));
-                $matchRegEx = implode('\/', $routeParts);
-
-                //Check if matches are found based on the current visited path
-                if (preg_match_all("/$matchRegEx/", $this->currentPath, $matches) > 0) {
-                    //Replace the dynamic parameters with actual values
-                    array_shift($matches);
-                    $newPath = $route->path;
-                    foreach ($matches as $index => $match) {
-                        $newPath = str_replace('{' . $route->params[$index] . '}', $match[0], $newPath);
-                        $route->params[$index] = $match[0];
-                    }
-
-                    //One last check to make sure the URL is now a 1-on-1 match
-                    if ($newPath === $this->currentPath) {
-                        $matchedRoute = $route;
-                        break;
-                    }
+                //One last check to make sure the URL is now a 1-on-1 match
+                if ($newPath === $this->currentPath) {
+                    $matchedRoute = $route;
+                    break;
                 }
             }
         }
@@ -177,5 +179,20 @@ class Router
     public function getRoutes(): array
     {
         return $this->routes;
+    }
+
+    /**
+     * @param class-string|class-string[] $middleware
+     * @param callable $callback
+     * @return Router
+     */
+    public function group(string|array $middleware, callable $callback): self
+    {
+        $currentTotalRoutes = count($this->routes);
+        $callback($this);
+        for ($i = $currentTotalRoutes; $i < count($this->routes); $i++) {
+            $this->routes[$i]->middleware($middleware);
+        }
+        return $this;
     }
 }

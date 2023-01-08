@@ -10,16 +10,20 @@ $router->get('', 'HomeHandler@index')->name('home');
 $router->post('language/change', 'LanguageHandler@change')->name('language.change');
 $router->get('artists', 'ArtistHandler@index')->name('artist.index');
 $router->get('artists/detail/{id}', 'ArtistHandler@detail')->name('artist.detail');
-$router->get('artists/create', 'ArtistHandler@create')->middleware(IsLoggedInMiddleware::class)->name('artist.create');
-$router->get('artists/edit/{id}', 'ArtistHandler@edit')->middleware(IsLoggedInMiddleware::class)->name('artist.edit');
-$router->get('artists/delete/{id}', 'ArtistHandler@delete')->middleware(IsLoggedInMiddleware::class)->name('artist.delete');
-$router->post('artists/save', 'ArtistHandler@save')->middleware(IsLoggedInMiddleware::class)->name('artist.save');
+$router->group(IsLoggedInMiddleware::class, function (Router $router) {
+    $router->get('artists/create', 'ArtistHandler@create')->name('artist.create');
+    $router->get('artists/edit/{id}', 'ArtistHandler@edit')->name('artist.edit');
+    $router->get('artists/delete/{id}', 'ArtistHandler@delete')->name('artist.delete');
+    $router->post('artists/save', 'ArtistHandler@save')->name('artist.save');
+});
 $router->get('albums', 'AlbumHandler@index')->name('album.index');
 $router->get('albums/detail/{id}', 'AlbumHandler@detail')->name('album.detail');
-$router->get('albums/create', 'AlbumHandler@create')->middleware(IsLoggedInMiddleware::class)->name('album.create');
-$router->get('albums/edit/{id}', 'AlbumHandler@edit')->middleware(IsLoggedInMiddleware::class)->name('album.edit');
-$router->get('albums/delete/{id}', 'AlbumHandler@delete')->middleware(IsLoggedInMiddleware::class)->name('album.delete');
-$router->post('albums/save', 'AlbumHandler@save')->middleware(IsLoggedInMiddleware::class)->name('album.save');
+$router->group(IsLoggedInMiddleware::class, function (Router $router) {
+    $router->get('albums/create', 'AlbumHandler@create')->name('album.create');
+    $router->get('albums/edit/{id}', 'AlbumHandler@edit')->name('album.edit');
+    $router->get('albums/delete/{id}', 'AlbumHandler@delete')->name('album.delete');
+    $router->post('albums/save', 'AlbumHandler@save')->name('album.save');
+});
 $router->get('genres', 'GenreHandler@index')->name('genre.index');
 $router->get('genres/create', 'GenreHandler@create')->name('genre.create');
 $router->get('genres/detail/{id}', 'GenreHandler@detail')->name('genre.detail');
