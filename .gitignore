@@ -15,4 +15,3 @@ app/config/settings.php
 public/images
 .php_cs.cache
 *.cache
-_tmp
