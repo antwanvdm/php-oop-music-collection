@@ -79,17 +79,17 @@ class Router
      * @throws \Exception
      * @example $router->resource('genres', 'GenreHandler'); creates
      *              /genres points at 'index' method [GET]
-     *              /genres/{id} points at 'detail' method [GET]
+     *              /genres/{id}/detail points at 'detail' method [GET]
      *              /genres/create points at 'create' method [GET]
-     *              /genres/edit/{id} points at 'edit' method [GET]
+     *              /genres/{id}/edit points at 'edit' method [GET]
      *              /genres/save points at 'save' method [POST]
-     *              /genres/delete/{id} points at 'delete' method [POST]
+     *              /genres/{id}/delete points at 'delete' method [GET]
      */
     public function resource(string $name, string $handler): self
     {
         $this->addRoute($name, [$handler, 'index'], 'GET')->name($name . '.index');
         //@TODO /{id} resolves in an error due to conflict with /create
-        $this->addRoute($name . '/detail/{id}', [$handler, 'detail'], 'GET')->name($name . '.detail');
+        $this->addRoute($name . '/{id}/detail', [$handler, 'detail'], 'GET')->name($name . '.detail');
         $this->addRoute($name . '/create', [$handler, 'create'], 'GET')->name($name . '.create');
         $this->addRoute($name . '/{id}/edit', [$handler, 'edit'], 'GET')->name($name . '.edit');
         $this->addRoute($name . '/save', [$handler, 'save'], 'POST')->name($name . '.save');

@@ -17,21 +17,21 @@ $router->get('', [HomeHandler::class, 'index'])->name('home');
 $router->post('language/change', [LanguageHandler::class, 'change'])->name('language.change');
 
 $router->get('artists', [ArtistHandler::class, 'index'])->name('artists.index');
-$router->get('artists/detail/{id}', [ArtistHandler::class, 'detail'])->name('artists.detail');
+$router->get('artists/{id}/detail', [ArtistHandler::class, 'detail'])->name('artists.detail');
 $router->group(IsLoggedInMiddleware::class, function (Router $router) {
     $router->get('artists/create', [ArtistHandler::class, 'create'])->name('artists.create');
-    $router->get('artists/edit/{id}', [ArtistHandler::class, 'edit'])->name('artists.edit');
-    $router->get('artists/delete/{id}', [ArtistHandler::class, 'delete'])->name('artists.delete');
+    $router->get('artists/{id}/edit', [ArtistHandler::class, 'edit'])->name('artists.edit');
     $router->post('artists/save', [ArtistHandler::class, 'save'])->name('artists.save');
+    $router->get('artists/{id}/delete', [ArtistHandler::class, 'delete'])->name('artists.delete');
 });
 
 $router->get('albums', [AlbumHandler::class, 'index'])->name('albums.index');
-$router->get('albums/detail/{id}', [AlbumHandler::class, 'detail'])->name('albums.detail');
+$router->get('albums/{id}/detail', [AlbumHandler::class, 'detail'])->name('albums.detail');
 $router->group(IsLoggedInMiddleware::class, function (Router $router) {
     $router->get('albums/create', [AlbumHandler::class, 'create'])->name('albums.create');
-    $router->get('albums/edit/{id}', [AlbumHandler::class, 'edit'])->name('albums.edit');
-    $router->get('albums/delete/{id}', [AlbumHandler::class, 'delete'])->name('albums.delete');
+    $router->get('albums/{id}/edit', [AlbumHandler::class, 'edit'])->name('albums.edit');
     $router->post('albums/save', [AlbumHandler::class, 'save'])->name('albums.save');
+    $router->get('albums/{id}/delete', [AlbumHandler::class, 'delete'])->name('albums.delete');
 });
 
 $router->resource('genres', GenreHandler::class);
