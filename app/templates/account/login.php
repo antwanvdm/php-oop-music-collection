@@ -11,7 +11,7 @@
 <?= $yield('partials/errors'); ?>
 
 <section class="columns">
-    <form class="column is-6" action="<?= $route('account.login.post'); ?>" method="post" enctype="multipart/form-data">
+    <form class="column is-6" action="<?= $route('user.login.post'); ?>" method="post" enctype="multipart/form-data">
         <div class="field is-horizontal">
             <div class="field-label is-normal">
                 <label class="label" for="email"><?= $t('account.login.emailLabel'); ?></label>

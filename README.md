@@ -89,8 +89,8 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - ~~Extend Routing system with multiple parameters & better errors~~
 - ~~Make wrapper (request object!) for super globals $_GET/$_POST. Current state of
   handlers is a mess due to many floating request/state code~~
-- Extend Routing system with namespaces like api/non-api
-- Add middleware option for routes
+- ~~Extend Routing system with namespaces like api/non-api~~
+- ~~Add middleware option for routes~~
 - Refactor some stuff in the ORM, Template & Handler (see TODO in code)
 - Create something like flash messages for the session
 - Implement a basic migrations system to create tables

@@ -12,4 +12,4 @@
 <?= $yield('artist/form'); ?>
 
 <a class="button mt-4" href="<?= $route('artists.index'); ?>"><?= $t('artist.backToListLink'); ?></a>
-<a class="button mt-4 is-danger" href="<?= $route('account.logout'); ?>"><?= $t('general.logoutLink'); ?></a>
+<a class="button mt-4 is-danger" href="<?= $route('user.logout'); ?>"><?= $t('general.logoutLink'); ?></a>

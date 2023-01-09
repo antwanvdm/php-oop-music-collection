@@ -207,16 +207,23 @@ class Router
     }
 
     /**
-     * @param class-string|class-string[] $middleware
+     * @param string|null $prefix
+     * @param class-string|class-string[]|null $middleware
      * @param callable $callback
      * @return Router
+     * @throws \Exception
      */
-    public function group(string|array $middleware, callable $callback): self
+    public function group(string|null $prefix, string|array|null $middleware, callable $callback): self
     {
         $currentTotalRoutes = count($this->routes);
         $callback($this);
         for ($i = $currentTotalRoutes; $i < count($this->routes); $i++) {
-            $this->routes[$i]->middleware($middleware);
+            if (!is_null($prefix)) {
+                $this->routes[$i]->prefix($prefix);
+            }
+            if (!is_null($middleware)) {
+                $this->routes[$i]->middleware($middleware);
+            }
         }
         return $this;
     }

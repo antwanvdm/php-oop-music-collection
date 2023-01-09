@@ -68,4 +68,20 @@ class Route
         }
         return $this;
     }
+
+    /**
+     * @param string $prefix
+     * @return Route
+     * @throws \Exception
+     */
+    public function prefix(string $prefix): self
+    {
+        if (is_null($this->name)) {
+            throw new \Exception("You cannot add a prefix if the route '$this->path' doesn't have a name");
+        }
+
+        $this->path = $this->path === '' ? $prefix : $prefix . '/' . $this->path;
+        $this->name = $prefix . '.' . $this->name;
+        return $this;
+    }
 }

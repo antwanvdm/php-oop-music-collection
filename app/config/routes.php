@@ -16,27 +16,37 @@ use MusicCollection\Routing\Router;
 $router->get('', [HomeHandler::class, 'index'])->name('home');
 $router->post('language/change', [LanguageHandler::class, 'change'])->name('language.change');
 
-$router->get('artists', [ArtistHandler::class, 'index'])->name('artists.index');
-$router->get('artists/{id}/detail', [ArtistHandler::class, 'detail'])->name('artists.detail');
-$router->group(IsLoggedInMiddleware::class, function (Router $router) {
-    $router->get('artists/create', [ArtistHandler::class, 'create'])->name('artists.create');
-    $router->get('artists/{id}/edit', [ArtistHandler::class, 'edit'])->name('artists.edit');
-    $router->post('artists/save', [ArtistHandler::class, 'save'])->name('artists.save');
-    $router->get('artists/{id}/delete', [ArtistHandler::class, 'delete'])->name('artists.delete');
+$router->group('artists', null, function ($router) {
+    $router->get('', [ArtistHandler::class, 'index'])->name('index');
+    $router->get('{id}/detail', [ArtistHandler::class, 'detail'])->name('detail');
+    $router->group(null, IsLoggedInMiddleware::class, function (Router $router) {
+        $router->get('create', [ArtistHandler::class, 'create'])->name('create');
+        $router->get('{id}/edit', [ArtistHandler::class, 'edit'])->name('edit');
+        $router->post('save', [ArtistHandler::class, 'save'])->name('save');
+        $router->get('{id}/delete', [ArtistHandler::class, 'delete'])->name('delete');
+    });
 });
 
-$router->get('albums', [AlbumHandler::class, 'index'])->name('albums.index');
-$router->get('albums/{id}/detail', [AlbumHandler::class, 'detail'])->name('albums.detail');
-$router->group(IsLoggedInMiddleware::class, function (Router $router) {
-    $router->get('albums/create', [AlbumHandler::class, 'create'])->name('albums.create');
-    $router->get('albums/{id}/edit', [AlbumHandler::class, 'edit'])->name('albums.edit');
-    $router->post('albums/save', [AlbumHandler::class, 'save'])->name('albums.save');
-    $router->get('albums/{id}/delete', [AlbumHandler::class, 'delete'])->name('albums.delete');
+$router->group('albums', null, function ($router) {
+    $router->get('', [AlbumHandler::class, 'index'])->name('index');
+    $router->get('{id}/detail', [AlbumHandler::class, 'detail'])->name('detail');
+    $router->group(null, IsLoggedInMiddleware::class, function (Router $router) {
+        $router->get('create', [AlbumHandler::class, 'create'])->name('create');
+        $router->get('{id}/edit', [AlbumHandler::class, 'edit'])->name('edit');
+        $router->post('save', [AlbumHandler::class, 'save'])->name('save');
+        $router->get('{id}/delete', [AlbumHandler::class, 'delete'])->name('delete');
+    });
 });
 
 $router->resource('genres', GenreHandler::class);
-$router->get('user/login', [AccountHandler::class, 'login'])->name('account.login');
-$router->post('user/login/post', [AccountHandler::class, 'loginPost'])->name('account.login.post');
-$router->get('user/logout', [AccountHandler::class, 'logout'])->name('account.logout');
-$router->get('user/register', [AccountHandler::class, 'register'])->name('account.register');
-$router->get('api', [APIHandler::class, 'index'])->name('api');
+
+$router->group('user', null, function ($router) {
+    $router->get('login', [AccountHandler::class, 'login'])->name('login');
+    $router->post('login/post', [AccountHandler::class, 'loginPost'])->name('login.post');
+    $router->get('logout', [AccountHandler::class, 'logout'])->name('logout');
+    $router->get('register', [AccountHandler::class, 'register'])->name('register');
+});
+
+$router->group('api', null, function ($router) {
+    $router->get('', [APIHandler::class, 'index'])->name('index');
+});
