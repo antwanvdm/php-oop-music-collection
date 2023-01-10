@@ -1,15 +1,15 @@
-<?php namespace MusicCollection\Handlers;
+<?php namespace MusicCollection\Controllers;
 
-use MusicCollection\Handlers\Utils\Request;
-use MusicCollection\Handlers\Utils\Template;
 use MusicCollection\Routing\Router;
+use MusicCollection\Utils\Request;
 use MusicCollection\Utils\Session;
+use MusicCollection\Utils\Template;
 
 /**
- * Class BaseHandler
- * @package MusicCollection\Handlers
+ * Class BaseController
+ * @package MusicCollection\Controllers
  */
-abstract class BaseHandler
+abstract class BaseController
 {
     protected string $templatePath;
     /**
@@ -22,7 +22,7 @@ abstract class BaseHandler
     protected array $errors = [];
 
     /**
-     * BaseHandler constructor.
+     * BaseController constructor.
      *
      * @param Session $session
      * @param Router $router
@@ -50,7 +50,7 @@ abstract class BaseHandler
     {
         //Use the dynamic action name to set the template path
         $className = (new \ReflectionClass($this))->getShortName();
-        $this->templatePath = str_replace('handler', '', strtolower($className)) . '/' . $name;
+        $this->templatePath = str_replace('controller', '', strtolower($className)) . '/' . $name;
 
         //Actual __call magic to call child protected method if it exists
         if (method_exists($this, $name)) {

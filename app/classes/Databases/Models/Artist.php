@@ -1,14 +1,14 @@
-<?php namespace MusicCollection\Databases\Objects;
+<?php namespace MusicCollection\Databases\Models;
 
-use MusicCollection\Databases\BaseObject;
+use MusicCollection\Databases\BaseModel;
 
 /**
  * Class Artist
- * @package MusicCollection\Databases\Objects
+ * @package MusicCollection\Databases\Models
  * @method static Artist[] getAll()
  * @method static Artist getById(int $id)
  */
-class Artist extends BaseObject
+class Artist extends BaseModel
 {
     protected static string $table = 'artists';
     /**
@@ -17,7 +17,7 @@ class Artist extends BaseObject
     protected static array $joinForeignKeys = [
         'user_id' => [
             'table' => 'users',
-            'object' => User::class
+            'model' => User::class
         ]
     ];
     public User $user;

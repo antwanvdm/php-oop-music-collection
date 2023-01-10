@@ -1,13 +1,11 @@
-<?php namespace MusicCollection\Handlers\Utils;
+<?php namespace MusicCollection\Utils;
 
 use MusicCollection\Routing\Router;
 use MusicCollection\Translation\Translator;
-use MusicCollection\Utils\Logger;
-use MusicCollection\Utils\Session;
 
 /**
  * Class Template
- * @package MusicCollection\Handler\Utils
+ * @package MusicCollection\Utils
  */
 class Template
 {

@@ -1,7 +1,7 @@
 <?php
 /**
  * @var int $totalArtists
- * @var \MusicCollection\Databases\Objects\Artist[] $artists
+ * @var \MusicCollection\Databases\Models\Artist[] $artists
  * @var callable $route
  * @var callable $yield
  * @var callable $t

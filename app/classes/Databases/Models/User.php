@@ -1,15 +1,15 @@
-<?php namespace MusicCollection\Databases\Objects;
+<?php namespace MusicCollection\Databases\Models;
 
-use MusicCollection\Databases\BaseObject;
+use MusicCollection\Databases\BaseModel;
 
 /**
  * Class User
- * @package MusicCollection\Databases\Objects
+ * @package MusicCollection\Databases\Models
  * @method static User[] getAll()
  * @method static User getById($id)
  * @method static User getByEmail($email)
  */
-class User extends BaseObject
+class User extends BaseModel
 {
     protected static string $table = 'users';
 

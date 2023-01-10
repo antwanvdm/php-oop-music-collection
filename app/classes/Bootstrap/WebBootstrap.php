@@ -1,14 +1,14 @@
 <?php namespace MusicCollection\Bootstrap;
 
+use MusicCollection\Controllers\BaseController;
 use MusicCollection\DI\Container;
-use MusicCollection\Handlers\BaseHandler;
-use MusicCollection\Handlers\Utils\Request;
-use MusicCollection\Handlers\Utils\Template;
 use MusicCollection\Routing\Route;
 use MusicCollection\Routing\Router;
 use MusicCollection\Translation\Translator as T;
 use MusicCollection\Utils\Logger;
+use MusicCollection\Utils\Request;
 use MusicCollection\Utils\Session;
+use MusicCollection\Utils\Template;
 
 /**
  * Class WebBootstrap
@@ -69,10 +69,10 @@ class WebBootstrap implements BootstrapInterface
             if (!class_exists($this->activeRoute->className)) {
                 throw new \Exception('Class ' . $this->activeRoute->className . ' does not exist!');
             }
-            /** @var BaseHandler $page */
-            $page = $this->di->set('handler', $this->activeRoute->className);
 
-            return $page->{$this->activeRoute->action}(...$this->activeRoute->params)->getResponse();
+            /** @var BaseController $controller */
+            $controller = $this->di->set('controller', $this->activeRoute->className);
+            return $controller->{$this->activeRoute->action}(...$this->activeRoute->params)->getResponse();
         } catch (\Throwable $e) {
             Logger::error($e);
             http_response_code(500);

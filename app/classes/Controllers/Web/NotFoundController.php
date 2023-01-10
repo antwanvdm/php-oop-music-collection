@@ -1,12 +1,13 @@
-<?php namespace MusicCollection\Handlers;
+<?php namespace MusicCollection\Controllers\Web;
 
+use MusicCollection\Controllers\BaseController;
 use MusicCollection\Translation\Translator as T;
 
 /**
- * Class NotFoundHandler
- * @package MusicCollection\Handlers
+ * Class NotFoundController
+ * @package MusicCollection\Controllers\Web
  */
-class NotFoundHandler extends BaseHandler
+class NotFoundController extends BaseController
 {
     protected function index(): void
     {

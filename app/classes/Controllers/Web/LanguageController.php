@@ -1,12 +1,13 @@
-<?php namespace MusicCollection\Handlers;
+<?php namespace MusicCollection\Controllers\Web;
 
+use MusicCollection\Controllers\BaseController;
 use MusicCollection\Translation\Translator as T;
 
 /**
- * Class LanguageHandler
- * @package MusicCollection\Handlers
+ * Class LanguageController
+ * @package MusicCollection\Controllers\Web
  */
-class LanguageHandler extends BaseHandler
+class LanguageController extends BaseController
 {
     protected function change(): void
     {

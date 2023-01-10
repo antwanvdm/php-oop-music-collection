@@ -1,15 +1,16 @@
-<?php namespace MusicCollection\Handlers;
+<?php namespace MusicCollection\Controllers\Web;
 
-use MusicCollection\Databases\Objects\Artist;
+use MusicCollection\Controllers\BaseController;
+use MusicCollection\Databases\Models\Artist;
 use MusicCollection\Translation\Translator as T;
 use MusicCollection\Utils\Logger;
 use MusicCollection\Validation\ArtistValidator;
 
 /**
- * Class ArtistHandler
- * @package MusicCollection\Handlers
+ * Class ArtistController
+ * @package MusicCollection\Controllers\Web
  */
-class ArtistHandler extends BaseHandler
+class ArtistController extends BaseController
 {
     private Artist $artist;
 

@@ -3,20 +3,20 @@
 use MusicCollection\Utils\Logger;
 
 /**
- * Class BaseObject
+ * Class BaseModel
  * @package MusicCollection\Databases
  * @property null|int $id
  *
  * @example To extend this class use the following format with nullable ID and empty default values
  *          Order of the parameters is extremely important as they need to match the columns in the DB
  *
- *  class MyObject extends BaseObject
+ *  class MyModel extends BaseModel
  *  {
  *      protected static string $table = '<name_of_table>';
  *      protected static array $joinForeignKeys = [
  *          '<name_of foreign_key>' => [
  *              'table' => '<name_of_table>',
- *              'object' => <ObjectName>::class
+ *              'model' => <ModelName>::class
  *          ]
  *      ];
  *
@@ -28,7 +28,7 @@ use MusicCollection\Utils\Logger;
  *      }
  *  }
  */
-abstract class BaseObject
+abstract class BaseModel
 {
     use Relationships;
 
@@ -42,7 +42,7 @@ abstract class BaseObject
     private Logger $logger;
 
     /**
-     * BaseObject constructor.
+     * BaseModel constructor.
      *
      * @throws \Exception
      */
@@ -126,7 +126,7 @@ abstract class BaseObject
 
             return $properties;
         } catch (\Exception $e) {
-            Logger::error(new \Exception('BaseObject getPublicProperties failed: ' . $e->getMessage()));
+            Logger::error(new \Exception('BaseModel getPublicProperties failed: ' . $e->getMessage()));
 
             return [];
         }
@@ -165,7 +165,7 @@ abstract class BaseObject
             $statement->bindValue(':' . $key, $value);
         }
 
-        //Add the ID to the object when it wasn't set yet after saving
+        //Add the ID to the model when it wasn't set yet after saving
         if ($statement->execute()) {
             $this->id = !empty($this->id) ? $this->id : $this->db->lastInsertId();
 
@@ -235,12 +235,12 @@ abstract class BaseObject
      *
      * @param string $field
      * @param string|int|float $value
-     * @return BaseObject
+     * @return BaseModel
      * @throws \ReflectionException
      * @throws \Exception
      * @noinspection SqlResolve
      */
-    private static function getBy(string $field, string|int|float $value): BaseObject
+    private static function getBy(string $field, string|int|float $value): BaseModel
     {
         $db = Database::i();
         $tableName = static::$table;
@@ -250,20 +250,20 @@ abstract class BaseObject
         $statement = $db->prepare("SELECT $select FROM `$tableName`$joinQuery WHERE `$tableName`.`$field` = :value");
         $statement->execute([':value' => $value]);
 
-        if (($object = $statement->fetch(\PDO::FETCH_ASSOC)) === false ||
-            ($object = self::buildFromPDO($object)) === false) {
+        if (($model = $statement->fetch(\PDO::FETCH_ASSOC)) === false ||
+            ($model = self::buildFromPDO($model)) === false) {
             throw new \Exception("DB Error: $field '$value' is not available in the table $tableName");
         }
 
-        return $object;
+        return $model;
     }
 
     /**
      * @param array<string|int, mixed> $params
      * @param string|null $className
-     * @return bool|BaseObject
+     * @return bool|BaseModel
      */
-    protected static function buildFromPDO(array $params, ?string $className = null): bool|BaseObject
+    protected static function buildFromPDO(array $params, ?string $className = null): bool|BaseModel
     {
         if (empty($params)) {
             return false;
@@ -271,7 +271,7 @@ abstract class BaseObject
 
         try {
             $class = $className ?? get_called_class();
-            /** @var BaseObject $class */
+            /** @var BaseModel $class */
             return (new $class(...array_merge(array_values($params))))->setRelations($params);
         } catch (\Exception $e) {
             Logger::error($e);

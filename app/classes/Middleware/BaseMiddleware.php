@@ -1,9 +1,10 @@
 <?php namespace MusicCollection\Middleware;
 
-use MusicCollection\Handlers\Utils\Request;
+use MusicCollection\Utils\Request;
 use MusicCollection\Utils\Session;
 
 /**
+ * Base class to inject dependencies that are required
  * @package MusicCollection\Middleware
  */
 abstract class BaseMiddleware

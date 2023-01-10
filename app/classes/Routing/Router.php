@@ -1,8 +1,8 @@
 <?php namespace MusicCollection\Routing;
 
+use MusicCollection\Controllers\Web\NotFoundController;
 use MusicCollection\DI\Container;
-use MusicCollection\Handlers\NotFoundHandler;
-use MusicCollection\Handlers\Utils\Request;
+use MusicCollection\Utils\Request;
 
 /**
  * Class Router
@@ -31,18 +31,18 @@ class Router
 
     /**
      * @param string $path
-     * @param string[] $handlerAction
+     * @param string[] $controllerAction
      * @param string $method
      * @return Route
      * @throws \Exception
      */
-    public function addRoute(string $path, array $handlerAction, string $method): Route
+    public function addRoute(string $path, array $controllerAction, string $method): Route
     {
         if (!in_array($method, $this->allowedMethods)) {
             throw new \Exception("Method $method is not allowed");
         }
 
-        $newRoute = new Route($method, $path, $handlerAction[0], $handlerAction[1]);
+        $newRoute = new Route($method, $path, $controllerAction[0], $controllerAction[1]);
         $this->routes[] = $newRoute;
 
         return $newRoute;
@@ -50,34 +50,34 @@ class Router
 
     /**
      * @param string $path
-     * @param string[] $handlerAction
+     * @param string[] $controllerAction
      * @return Route
      * @throws \Exception
      */
-    public function get(string $path, array $handlerAction): Route
+    public function get(string $path, array $controllerAction): Route
     {
-        return $this->addRoute($path, $handlerAction, 'GET');
+        return $this->addRoute($path, $controllerAction, 'GET');
     }
 
     /**
      * @param string $path
-     * @param string[] $handlerAction
+     * @param string[] $controllerAction
      * @return Route
      * @throws \Exception
      */
-    public function post(string $path, array $handlerAction): Route
+    public function post(string $path, array $controllerAction): Route
     {
-        return $this->addRoute($path, $handlerAction, 'POST');
+        return $this->addRoute($path, $controllerAction, 'POST');
     }
 
     /**
      * Wrapper to create all paths for a web based overview
      *
      * @param string $name
-     * @param string $handler
+     * @param string $controller
      * @return Router
      * @throws \Exception
-     * @example $router->resource('genres', 'GenreHandler'); creates
+     * @example $router->resource('genres', 'GenreController'); creates
      *              /genres points at 'index' method [GET]
      *              /genres/{id}/detail points at 'detail' method [GET]
      *              /genres/create points at 'create' method [GET]
@@ -85,15 +85,15 @@ class Router
      *              /genres/save points at 'save' method [POST]
      *              /genres/{id}/delete points at 'delete' method [GET]
      */
-    public function resource(string $name, string $handler): self
+    public function resource(string $name, string $controller): self
     {
-        $this->addRoute($name, [$handler, 'index'], 'GET')->name($name . '.index');
+        $this->addRoute($name, [$controller, 'index'], 'GET')->name($name . '.index');
         //@TODO /{id} resolves in an error due to conflict with /create
-        $this->addRoute($name . '/{id}/detail', [$handler, 'detail'], 'GET')->name($name . '.detail');
-        $this->addRoute($name . '/create', [$handler, 'create'], 'GET')->name($name . '.create');
-        $this->addRoute($name . '/{id}/edit', [$handler, 'edit'], 'GET')->name($name . '.edit');
-        $this->addRoute($name . '/save', [$handler, 'save'], 'POST')->name($name . '.save');
-        $this->addRoute($name . '/{id}/delete', [$handler, 'delete'], 'GET')->name($name . '.delete');
+        $this->addRoute($name . '/{id}/detail', [$controller, 'detail'], 'GET')->name($name . '.detail');
+        $this->addRoute($name . '/create', [$controller, 'create'], 'GET')->name($name . '.create');
+        $this->addRoute($name . '/{id}/edit', [$controller, 'edit'], 'GET')->name($name . '.edit');
+        $this->addRoute($name . '/save', [$controller, 'save'], 'POST')->name($name . '.save');
+        $this->addRoute($name . '/{id}/delete', [$controller, 'delete'], 'GET')->name($name . '.delete');
         return $this;
     }
 
@@ -195,7 +195,7 @@ class Router
     {
         header('HTTP/1.0 404 Not Found');
 
-        return new Route('GET', $this->currentPath, NotFoundHandler::class, 'index');
+        return new Route('GET', $this->currentPath, NotFoundController::class, 'index');
     }
 
     /**

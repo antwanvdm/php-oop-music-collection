@@ -1,14 +1,14 @@
-<?php namespace MusicCollection\Databases\Objects;
+<?php namespace MusicCollection\Databases\Models;
 
-use MusicCollection\Databases\BaseObject;
+use MusicCollection\Databases\BaseModel;
 
 /**
  * Class Genre
- * @package MusicCollection\Databases\Objects
+ * @package MusicCollection\Databases\Models
  * @method static Genre[] getAll()
  * @method static Genre getById(int $id)
  */
-class Genre extends BaseObject
+class Genre extends BaseModel
 {
     protected static string $table = 'genres';
 

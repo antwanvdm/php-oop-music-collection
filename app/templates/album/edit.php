@@ -1,7 +1,7 @@
 <?php
 /**
  * @var string|boolean $success
- * @var \MusicCollection\Databases\Objects\Album $album
+ * @var \MusicCollection\Databases\Models\Album $album
  * @var callable $route
  * @var callable $yield
  * @var callable $t

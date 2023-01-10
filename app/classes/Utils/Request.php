@@ -1,10 +1,8 @@
-<?php namespace MusicCollection\Handlers\Utils;
-
-use MusicCollection\Utils\URL;
+<?php namespace MusicCollection\Utils;
 
 /**
  * Wrapper for super globals (except Session)
- * @package MusicCollection\Handlers\Utils
+ * @package MusicCollection\Utils
  */
 class Request
 {

@@ -1,8 +1,8 @@
 <?php
 /**
- * @var \MusicCollection\Databases\Objects\Album $album
- * @var \MusicCollection\Databases\Objects\Artist[] $artists
- * @var \MusicCollection\Databases\Objects\Genre[] $genres
+ * @var \MusicCollection\Databases\Models\Album $album
+ * @var \MusicCollection\Databases\Models\Artist[] $artists
+ * @var \MusicCollection\Databases\Models\Genre[] $genres
  * @var int[] $genreIds
  * @var callable $route
  * @var callable $t

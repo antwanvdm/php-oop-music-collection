@@ -1,6 +1,6 @@
 <?php
 /**
- * @var \MusicCollection\Databases\Objects\Genre $genre
+ * @var \MusicCollection\Databases\Models\Genre $genre
  * @var callable $route
  * @var callable $t
  */

@@ -1,6 +1,7 @@
 <?php namespace MusicCollection\Middleware;
 
 /**
+ * Redirect users to relevant login page if not logged in yet
  * @package MusicCollection\Middleware
  */
 class IsLoggedInMiddleware extends BaseMiddleware

@@ -1,16 +1,17 @@
-<?php namespace MusicCollection\Handlers;
+<?php namespace MusicCollection\Controllers\Web;
 
-use MusicCollection\Databases\Objects\User;
+use MusicCollection\Controllers\BaseController;
+use MusicCollection\Databases\Models\User;
 use MusicCollection\Translation\Translator as T;
 use MusicCollection\Utils\Logger;
 use MusicCollection\Validation\LoginValidator;
 
 /**
- * Class AccountHandler
- * @package MusicCollection\Handlers
+ * Class AccountController
+ * @package MusicCollection\Controllers\Web
  * @noinspection PhpUnused
  */
-class AccountHandler extends BaseHandler
+class AccountController extends BaseController
 {
     protected function initialize(): void
     {

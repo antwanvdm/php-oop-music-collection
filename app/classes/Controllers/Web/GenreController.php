@@ -1,15 +1,16 @@
-<?php namespace MusicCollection\Handlers;
+<?php namespace MusicCollection\Controllers\Web;
 
-use MusicCollection\Databases\Objects\Genre;
+use MusicCollection\Controllers\BaseController;
+use MusicCollection\Databases\Models\Genre;
 use MusicCollection\Translation\Translator as T;
 use MusicCollection\Utils\Logger;
 use MusicCollection\Validation\GenreValidator;
 
 /**
- * Class GenreHandler
- * @package MusicCollection\Handlers
+ * Class GenreController
+ * @package MusicCollection\Controllers\Web
  */
-class GenreHandler extends BaseHandler
+class GenreController extends BaseController
 {
     private Genre $genre;
 

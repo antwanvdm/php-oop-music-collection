@@ -1,18 +1,19 @@
-<?php namespace MusicCollection\Handlers;
+<?php namespace MusicCollection\Controllers\Web;
 
-use MusicCollection\Databases\Objects\Album;
-use MusicCollection\Databases\Objects\Artist;
-use MusicCollection\Databases\Objects\Genre;
+use MusicCollection\Controllers\BaseController;
+use MusicCollection\Databases\Models\Album;
+use MusicCollection\Databases\Models\Artist;
+use MusicCollection\Databases\Models\Genre;
 use MusicCollection\Translation\Translator as T;
 use MusicCollection\Utils\Image;
 use MusicCollection\Utils\Logger;
 use MusicCollection\Validation\AlbumValidator;
 
 /**
- * Class AlbumHandler
- * @package MusicCollection\Handlers
+ * Class AlbumController
+ * @package MusicCollection\Controllers\Web
  */
-class AlbumHandler extends BaseHandler
+class AlbumController extends BaseController
 {
     private Album $album;
     private Image $image;

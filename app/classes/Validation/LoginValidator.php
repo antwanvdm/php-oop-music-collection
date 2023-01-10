@@ -1,6 +1,6 @@
 <?php namespace MusicCollection\Validation;
 
-use MusicCollection\Databases\Objects\User;
+use MusicCollection\Databases\Models\User;
 use MusicCollection\Translation\Translator as T;
 
 /**

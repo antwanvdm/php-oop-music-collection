@@ -9,16 +9,16 @@ use MusicCollection\Utils\Logger;
 trait Relationships
 {
     /**
-     * Transform the dynamic properties from the DB to actual Objects
+     * Transform the dynamic properties from the DB to actual Models
      *
      * @param array<string, string|int|float> $databaseColumns
-     * @return BaseObject
-     * @see BaseObject::buildFromPDO()
+     * @return BaseModel
+     * @see BaseModel::buildFromPDO()
      */
     private function setRelations(array $databaseColumns): object
     {
         if (empty($databaseColumns)) {
-            Logger::info('Variable $databaseColumns was empty while calling BaseObject->setRelations');
+            Logger::info('Variable $databaseColumns was empty while calling BaseModel->setRelations');
             return $this;
         }
 
@@ -34,10 +34,10 @@ trait Relationships
             }
 
             //Set the properties on the object if the property exists with the dynamic parameters
-            $namespaces = explode('\\', $properties['object']);
+            $namespaces = explode('\\', $properties['model']);
             $relationPropertyName = strtolower(end($namespaces));
             if (property_exists($this, $relationPropertyName)) {
-                $this->$relationPropertyName = new $properties['object'](...$relationValues);
+                $this->$relationPropertyName = new $properties['model'](...$relationValues);
             }
         }
 
@@ -55,7 +55,7 @@ trait Relationships
         $joinQuery = '';
 
         foreach (static::$joinForeignKeys as $joinForeignKey => $properties) {
-            $fields = (new \ReflectionClass($properties['object']))->getProperties(\ReflectionProperty::IS_PUBLIC);
+            $fields = (new \ReflectionClass($properties['model']))->getProperties(\ReflectionProperty::IS_PUBLIC);
             foreach ($fields as $field) {
                 if ($field->isPromoted()) {
                     $select .= ", {$properties['table']}.$field->name AS {$properties['table']}_$field->name";
@@ -69,7 +69,7 @@ trait Relationships
     }
 
     /**
-     * @param class-string<BaseObject> $relationClassName
+     * @param class-string<BaseModel> $relationClassName
      * @param string $foreignKey
      * @return object[]
      * @noinspection SqlResolve
@@ -87,7 +87,7 @@ trait Relationships
     }
 
     /**
-     * @param class-string<BaseObject> $relationClassName
+     * @param class-string<BaseModel> $relationClassName
      * @param string $pivotTable
      * @param string[] $foreignKeys
      * @return object[]
