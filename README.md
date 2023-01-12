@@ -92,7 +92,7 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - ~~Extend Routing system with namespaces like api/non-api~~
 - ~~Add middleware option for routes~~
 - ~~Rename Handlers & Objects to Controllers & Models~~
-- Make controller actions return something (View or JSON)
+- ~~Make controller actions return something (View or JSON)~~
 - Refactor some stuff in the ORM, Template, Router & Handler (see TODO in code)
 - Create something like flash messages for the session
 - Implement a basic migrations system to create tables
@@ -100,6 +100,15 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - Make an actual composer package for this (separate music collection from the core)
 
 ## Changelog
+
+### v2.4.0
+
+- Major refactoring code of Router/Route. Added middleware, groups (with middleware 
+  & prefix) & resource options for routes with clean notation in routes.php
+- Fixed phpStan generating cache errors (See custom error handling change)
+- Renamed Handlers to Controller & Objects to Models to act like a true MVC framework
+- Implemented Response classes for View & Json (replaced the old Template class) to
+  clean up the WebBootstrap and divide responsibilities
 
 ### v2.3.0
 
