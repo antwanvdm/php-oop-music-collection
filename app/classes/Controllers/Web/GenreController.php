@@ -2,6 +2,7 @@
 
 use MusicCollection\Controllers\BaseController;
 use MusicCollection\Databases\Models\Genre;
+use MusicCollection\Responses\View;
 use MusicCollection\Translation\Translator as T;
 use MusicCollection\Utils\Logger;
 use MusicCollection\Validation\GenreValidator;
@@ -24,41 +25,47 @@ class GenreController extends BaseController
     }
 
     /**
+     * @return View
      * @throws \Exception
      */
-    protected function index(): void
+    protected function index(): View
     {
         //Get all genres
         $genres = Genre::getAll();
 
         //Return formatted data
-        $this->renderTemplate([
+        return $this->view->render('genre.index', [
             'pageTitle' => T::__('genre.index.pageTitle'),
             'genres' => $genres,
             'totalGenres' => count($genres)
         ]);
     }
 
-    protected function create(): void
+    /**
+     * @return View
+     */
+    protected function create(): View
     {
         //Set default empty genre
         $this->genre = new Genre();
 
+        $success = $this->session->get('success');
+        $this->session->delete('success');
+
         //Return formatted data
-        $this->renderTemplate([
+        return $this->view->render('genre.create', [
             'pageTitle' => T::__('genre.create.pageTitle'),
             'genre' => $this->genre,
-            'success' => $this->session->get('success'),
+            'success' => $success,
             'errors' => $this->errors
         ]);
-
-        $this->session->delete('success');
     }
 
     /**
      * @param int $id
+     * @return View
      */
-    protected function edit(int $id): void
+    protected function edit(int $id): View
     {
         try {
             //Get the record from the db & execute POST logic
@@ -71,15 +78,16 @@ class GenreController extends BaseController
             $pageTitle = T::__('artist.notExists');
         }
 
+        $success = $this->session->get('success');
+        $this->session->delete('success');
+
         //Return formatted data
-        $this->renderTemplate([
+        return $this->view->render('genre.edit', [
             'pageTitle' => $pageTitle,
             'genre' => $this->genre,
-            'success' => $this->session->get('success'),
+            'success' => $success,
             'errors' => $this->errors
         ]);
-
-        $this->session->delete('success');
     }
 
     protected function save(): void
@@ -125,8 +133,9 @@ class GenreController extends BaseController
 
     /**
      * @param int $id
+     * @return View
      */
-    protected function detail(int $id): void
+    protected function detail(int $id): View
     {
         try {
             //Get the records from the db
@@ -142,7 +151,7 @@ class GenreController extends BaseController
         }
 
         //Return formatted data
-        $this->renderTemplate([
+        return $this->view->render('genre.detail', [
             'pageTitle' => $pageTitle,
             'genre' => $genre ?? false,
             'errors' => $this->errors
@@ -152,7 +161,7 @@ class GenreController extends BaseController
     /**
      * @param int $id
      */
-    protected function delete(int $id): void
+    protected function delete(int $id): View
     {
         try {
             //Get the record from the db
@@ -169,7 +178,7 @@ class GenreController extends BaseController
             }
 
             //Return formatted data
-            $this->renderTemplate([
+            return $this->view->render('genre.delete', [
                 'pageTitle' => T::__('genre.delete.title'),
                 'genre' => $genre,
                 'errors' => $this->errors

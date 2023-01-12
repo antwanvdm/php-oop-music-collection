@@ -4,6 +4,7 @@ use MusicCollection\Controllers\BaseController;
 use MusicCollection\Databases\Models\Album;
 use MusicCollection\Databases\Models\Artist;
 use MusicCollection\Databases\Models\Genre;
+use MusicCollection\Responses\View;
 use MusicCollection\Translation\Translator as T;
 use MusicCollection\Utils\Image;
 use MusicCollection\Utils\Logger;
@@ -33,15 +34,16 @@ class AlbumController extends BaseController
     }
 
     /**
+     * @return View
      * @throws \Exception
      */
-    protected function index(): void
+    protected function index(): View
     {
         //Get all albums
         $albums = Album::getAll();
 
         //Return formatted data
-        $this->renderTemplate([
+        return $this->view->render('album.index', [
             'pageTitle' => T::__('album.index.pageTitle'),
             'albums' => $albums,
             'totalAlbums' => count($albums)
@@ -49,33 +51,36 @@ class AlbumController extends BaseController
     }
 
     /**
+     * @return View
      * @throws \Exception
      */
-    protected function create(): void
+    protected function create(): View
     {
         //Set default empty album & execute POST logic
         $this->album = $this->session->get('album') ?? new Album();
 
+        $success = $this->session->get('success');
+        $this->session->delete('success');
+        $this->session->delete('album');
+
         //Return formatted data
-        $this->renderTemplate([
+        return $this->view->render('album.create', [
             'pageTitle' => T::__('album.create.pageTitle'),
             'album' => $this->album,
             'artists' => Artist::getAll(),
             'genres' => Genre::getAll(),
             'genreIds' => $this->album->getGenreIds(),
-            'success' => $this->session->get('success'),
+            'success' => $success,
             'errors' => $this->errors
         ]);
-
-        $this->session->delete('success');
-        $this->session->delete('album');
     }
 
     /**
      * @param int $id
+     * @return View
      * @throws \Exception
      */
-    protected function edit(int $id): void
+    protected function edit(int $id): View
     {
         try {
             //Get the record from the db & execute POST logic
@@ -106,19 +111,20 @@ class AlbumController extends BaseController
             $pageTitle = T::__('album.notExists');
         }
 
+        $success = $this->session->get('success');
+        $this->session->delete('success');
+        $this->session->delete('album');
+
         //Return formatted data
-        $this->renderTemplate([
+        return $this->view->render('album.edit', [
             'pageTitle' => $pageTitle,
             'album' => $this->album,
             'artists' => Artist::getAll(),
             'genres' => Genre::getAll(),
             'genreIds' => $this->album->getGenreIds(),
-            'success' => $this->session->get('success'),
+            'success' => $success,
             'errors' => $this->errors
         ]);
-
-        $this->session->delete('success');
-        $this->session->delete('album');
     }
 
     protected function save(): void
@@ -197,8 +203,9 @@ class AlbumController extends BaseController
 
     /**
      * @param int $id
+     * @return View
      */
-    protected function detail(int $id): void
+    protected function detail(int $id): View
     {
         try {
             //Get the records from the db
@@ -217,7 +224,7 @@ class AlbumController extends BaseController
         }
 
         //Return formatted data
-        $this->renderTemplate([
+        return $this->view->render('album.detail', [
             'pageTitle' => $pageTitle,
             'album' => $album ?? false,
             'errors' => $this->errors
@@ -226,8 +233,9 @@ class AlbumController extends BaseController
 
     /**
      * @param int $id
+     * @return View
      */
-    protected function delete(int $id): void
+    protected function delete(int $id): View
     {
         try {
             //Get the record from the db
@@ -247,7 +255,7 @@ class AlbumController extends BaseController
             }
 
             //Return formatted data
-            $this->renderTemplate([
+            return $this->view->render('album.delete', [
                 'pageTitle' => T::__('album.delete.title'),
                 'album' => $album,
                 'errors' => $this->errors

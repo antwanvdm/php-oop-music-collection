@@ -2,6 +2,7 @@
 
 use MusicCollection\Controllers\BaseController;
 use MusicCollection\Databases\Models\User;
+use MusicCollection\Responses\View;
 use MusicCollection\Translation\Translator as T;
 use MusicCollection\Utils\Logger;
 use MusicCollection\Validation\LoginValidator;
@@ -23,9 +24,10 @@ class AccountController extends BaseController
     }
 
     /**
+     * @return View
      * @noinspection PhpUnused
      */
-    protected function login(): void
+    protected function login(): View
     {
         //If already logged in, no need to be here
         if ($this->session->keyExists('user')) {
@@ -33,15 +35,16 @@ class AccountController extends BaseController
             exit;
         }
 
+        $email = $this->session->get('email');
+        $this->session->delete('email');
+
         //Return formatted data
-        $this->renderTemplate([
+        return $this->view->render('account.login', [
             'pageTitle' => T::__('account.login.pageTitle'),
-            'email' => $this->session->get('email'),
+            'email' => $email,
             'location' => $this->request->query('location', ''),
             'errors' => $this->errors
         ]);
-
-        $this->session->delete('email');
     }
 
     /**

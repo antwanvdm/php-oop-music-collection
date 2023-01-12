@@ -2,6 +2,7 @@
 
 use MusicCollection\Controllers\BaseController;
 use MusicCollection\Databases\Models\Artist;
+use MusicCollection\Responses\View;
 use MusicCollection\Translation\Translator as T;
 use MusicCollection\Utils\Logger;
 use MusicCollection\Validation\ArtistValidator;
@@ -24,15 +25,16 @@ class ArtistController extends BaseController
     }
 
     /**
+     * @return View
      * @throws \Exception
      */
-    protected function index(): void
+    protected function index(): View
     {
         //Get all artists
         $artists = Artist::getAll();
 
         //Return formatted data
-        $this->renderTemplate([
+        return $this->view->render('artist.index', [
             'pageTitle' => T::__('artist.index.pageTitle'),
             'artists' => $artists,
             'totalArtists' => count($artists)
@@ -40,29 +42,30 @@ class ArtistController extends BaseController
     }
 
     /**
-     * @throws \Exception
+     * @return View
      */
-    protected function create(): void
+    protected function create(): View
     {
         //Set default empty artist
         $this->artist = new Artist();
 
+        $success = $this->session->get('success');
+        $this->session->delete('success');
+
         //Return formatted data
-        $this->renderTemplate([
+        return $this->view->render('artist.create', [
             'pageTitle' => T::__('artist.create.pageTitle'),
             'artist' => $this->artist,
-            'success' => $this->session->get('success'),
+            'success' => $success,
             'errors' => $this->errors
         ]);
-
-        $this->session->delete('success');
     }
 
     /**
      * @param int $id
-     * @throws \Exception
+     * @return View
      */
-    protected function edit(int $id): void
+    protected function edit(int $id): View
     {
         try {
             //Get the record from the db & execute POST logic
@@ -75,15 +78,16 @@ class ArtistController extends BaseController
             $pageTitle = T::__('artist.notExists');
         }
 
+        $success = $this->session->get('success');
+        $this->session->delete('success');
+
         //Return formatted data
-        $this->renderTemplate([
+        return $this->view->render('artist.edit', [
             'pageTitle' => $pageTitle,
             'artist' => $this->artist,
-            'success' => $this->session->get('success'),
+            'success' => $success,
             'errors' => $this->errors
         ]);
-
-        $this->session->delete('success');
     }
 
     protected function save(): void
@@ -132,8 +136,9 @@ class ArtistController extends BaseController
 
     /**
      * @param int $id
+     * @return View
      */
-    protected function detail(int $id): void
+    protected function detail(int $id): View
     {
         try {
             //Get the records from the db
@@ -149,7 +154,7 @@ class ArtistController extends BaseController
         }
 
         //Return formatted data
-        $this->renderTemplate([
+        return $this->view->render('artist.detail', [
             'pageTitle' => $pageTitle,
             'artist' => $artist ?? false,
             'errors' => $this->errors
@@ -158,8 +163,9 @@ class ArtistController extends BaseController
 
     /**
      * @param int $id
+     * @return View
      */
-    protected function delete(int $id): void
+    protected function delete(int $id): View
     {
         try {
             //Get the record from the db
@@ -176,7 +182,7 @@ class ArtistController extends BaseController
             }
 
             //Return formatted data
-            $this->renderTemplate([
+            return $this->view->render('artist.delete', [
                 'pageTitle' => T::__('artist.delete.title'),
                 'artist' => $artist,
                 'errors' => $this->errors

@@ -2,13 +2,14 @@
 
 use MusicCollection\Controllers\BaseController;
 use MusicCollection\DI\Container;
+use MusicCollection\Responses\Json;
+use MusicCollection\Responses\View;
 use MusicCollection\Routing\Route;
 use MusicCollection\Routing\Router;
 use MusicCollection\Translation\Translator as T;
 use MusicCollection\Utils\Logger;
 use MusicCollection\Utils\Request;
 use MusicCollection\Utils\Session;
-use MusicCollection\Utils\Template;
 
 /**
  * Class WebBootstrap
@@ -22,9 +23,10 @@ class WebBootstrap implements BootstrapInterface
      */
     private array $diClasses = [
         'session' => Session::class,
-        'template' => Template::class,
         'router' => Router::class,
         'request' => Request::class,
+        'view' => View::class,
+        'json' => Json::class,
     ];
     private Route $activeRoute;
 

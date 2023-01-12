@@ -1,6 +1,7 @@
 <?php namespace MusicCollection\Controllers\Api;
 
 use MusicCollection\Controllers\BaseController;
+use MusicCollection\Responses\Json;
 
 /**
  * Class APIController
@@ -9,8 +10,8 @@ use MusicCollection\Controllers\BaseController;
  */
 class IndexController extends BaseController
 {
-    protected function index(): void
+    protected function index(): Json
     {
-        $this->setJSON(['api' => 'example']);
+        return $this->json->data(['api' => 'example']);
     }
 }

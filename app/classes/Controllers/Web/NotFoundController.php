@@ -1,6 +1,7 @@
 <?php namespace MusicCollection\Controllers\Web;
 
 use MusicCollection\Controllers\BaseController;
+use MusicCollection\Responses\View;
 use MusicCollection\Translation\Translator as T;
 
 /**
@@ -9,10 +10,9 @@ use MusicCollection\Translation\Translator as T;
  */
 class NotFoundController extends BaseController
 {
-    protected function index(): void
+    protected function index(): View
     {
-        //Return formatted data
-        $this->renderTemplate([
+        return $this->view->render('notfound.index', [
             'pageTitle' => T::__('notfound.pageTitle')
         ]);
     }

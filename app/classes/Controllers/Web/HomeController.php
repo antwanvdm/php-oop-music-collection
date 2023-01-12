@@ -1,6 +1,7 @@
 <?php namespace MusicCollection\Controllers\Web;
 
 use MusicCollection\Controllers\BaseController;
+use MusicCollection\Responses\View;
 use MusicCollection\Translation\Translator as T;
 
 /**
@@ -9,9 +10,9 @@ use MusicCollection\Translation\Translator as T;
  */
 class HomeController extends BaseController
 {
-    protected function index(): void
+    protected function index(): View
     {
-        $this->renderTemplate([
+        return $this->view->render('home.index', [
             'pageTitle' => T::__('home.pageTitle')
         ]);
     }
