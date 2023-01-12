@@ -5,10 +5,10 @@ technologies. It is a result of giving the "Advanced PHP" course at the Universi
 of Applied Sciences in Rotterdam. It challenges me to keep up to date on a yearly
 basis with new PHP releases and implementing new cool stuff.
 
-Without calling the current project "MVC", it is inspired on popular MVC frameworks
-like Laravel, Symfony and Phalcon. Intentionally I try to avoid the MVC name
-conventions, but I might change this in the future. Looking at the code it's definitely
-a base to build project upon, so we could call it a framework.
+The project is inspired by popular MVC frameworks like Laravel (mostly), Symfony and 
+Phalcon. In the first iterations I didn't use the MVC naming conventions but the current
+version feels 'mature' enough to use MVC terminology. Based on what the application does,
+you can safely call the core of the code a framework.
 
 The application itself has a simple [bulma.css](https://bulma.io) frontend to present
 artists, albums and other stuff related to Music. The goal it not to make a perfect
