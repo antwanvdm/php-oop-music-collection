@@ -51,7 +51,7 @@ abstract class BaseController
         if (method_exists($this, $name)) {
             call_user_func_array([$this, $name], $arguments);
         } else {
-            throw new \Exception("Route does not exist or invalid function ($name) was called");
+            throw new \Exception("Route does not exist or invalid function ($name) was called on " . get_called_class());
         }
 
         return $this;

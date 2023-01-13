@@ -260,7 +260,7 @@ abstract class BaseModel
 
     /**
      * @param array<string|int, mixed> $params
-     * @param string|null $className
+     * @param class-string<BaseModel>|null $className
      * @return bool|BaseModel
      */
     protected static function buildFromPDO(array $params, ?string $className = null): bool|BaseModel
@@ -270,9 +270,9 @@ abstract class BaseModel
         }
 
         try {
-            $class = $className ?? get_called_class();
-            /** @var BaseModel $class */
-            return (new $class(...array_merge(array_values($params))))->setRelations($params);
+            $model = $className ?? get_called_class();
+            /** @var BaseModel $model */
+            return (new $model(...array_merge(array_values($params))))->setRelations($params);
         } catch (\Exception $e) {
             Logger::error($e);
             return false;

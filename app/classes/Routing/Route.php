@@ -54,7 +54,7 @@ class Route
     }
 
     /**
-     * @param class-string|class-string[] $middleware
+     * @param class-string<BaseMiddleware>|class-string<BaseMiddleware>[] $middleware
      * @return Route
      */
     public function middleware(string|array $middleware): self

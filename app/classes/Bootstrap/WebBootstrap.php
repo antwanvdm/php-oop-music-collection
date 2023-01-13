@@ -49,8 +49,8 @@ class WebBootstrap implements BootstrapInterface
             }
 
             //Routing magic with dynamic file that has $router available
-            /** @var Router $router */
             $router = $this->di->get('router');
+            assert($router instanceof Router);
             require_once INCLUDES_PATH . 'config/routes.php';
             $this->activeRoute = $router->getRoute();
         } catch (\Throwable $e) {
@@ -72,8 +72,8 @@ class WebBootstrap implements BootstrapInterface
                 throw new \Exception('Class ' . $this->activeRoute->className . ' does not exist!');
             }
 
-            /** @var BaseController $controller */
             $controller = $this->di->set('controller', $this->activeRoute->className);
+            assert($controller instanceof BaseController);
             return $controller->{$this->activeRoute->action}(...$this->activeRoute->params)->getResponse();
         } catch (\Throwable $e) {
             Logger::error($e);

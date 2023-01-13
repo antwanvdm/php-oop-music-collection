@@ -69,8 +69,8 @@ class CLIBootstrap implements BootstrapInterface
             if (!class_exists($this->className)) {
                 throw new \Exception('Class ' . $this->className . ' does not exist!');
             }
-            /** @var BaseTask $task */
             $task = $this->di->set('bootstrap', $this->className);
+            assert($task instanceof BaseTask);
 
             return $task->{$this->action}(...$this->params);
         } catch (\Throwable $e) {
