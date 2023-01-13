@@ -44,7 +44,6 @@ $router->group('user', null, function ($router) {
     $router->get('login', [AccountController::class, 'login'])->name('login');
     $router->post('login/post', [AccountController::class, 'loginPost'])->name('login.post');
     $router->get('logout', [AccountController::class, 'logout'])->name('logout');
-    $router->get('register', [AccountController::class, 'register'])->name('register');
 });
 
 $router->group('api', null, function ($router) {

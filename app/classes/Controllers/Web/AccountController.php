@@ -100,20 +100,4 @@ class AccountController extends BaseController
         header('Location: ' . BASE_PATH);
         exit;
     }
-
-    protected function register(): void
-    {
-        //TEMP script just to add a user.
-        $user = new User();
-        $user->email = 'moora@hr.nl';
-        $user->password = password_hash('test', PASSWORD_ARGON2I);
-        $user->name = 'Antwan';
-        $user->save();
-        exit;
-
-//        $user = User::getByEmail('moora@hr.nl');
-//        $user->name = "Antwann";
-//        $user->save();
-//        exit;
-    }
 }

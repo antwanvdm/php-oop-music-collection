@@ -60,8 +60,8 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - If you just want to start the server with basic PHP, you can run
   `php -S localhost:8888 server.php` in the public folder. This way, you don't need
   an apache or nginx server to try out this application.
-- If you want to run the CLI, you can find 1 Task as example. You can run this
-  example: `php -d xdebug.mode=off app/cli.php main doSomething yes sir now`.
+- If you want to run the CLI, you can find 1 Task to register a user. You can run this
+  example: `php -d xdebug.mode=off app/cli.php account register new@test.com New secret`.
 - If you want an example of how to call an API endpoint, call the `/api` URL with
   the `Content-Type` header set to `application/json`.
 
