@@ -23,7 +23,7 @@ class Translator implements Singleton
 
     private function __construct()
     {
-        if (Session::i()->keyExists('language')) {
+        if (Session::i()->keyExists('language') && array_key_exists(Session::i()->get('language'), LANGUAGES)) {
             $this->language = Session::i()->get('language');
         } else {
             $this->language = DEFAULT_LANGUAGE;
