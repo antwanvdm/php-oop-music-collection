@@ -18,8 +18,7 @@ using one themselves.
 
 ## Getting the application running
 
-- Create a database called `music_collection`, in the `utf8_mb4_general_ci` encoding.
-- Make sure to import the database tables from the [_resources](_resources) folder.
+- Make sure to import the database from the [_resources](_resources) folder.
 - Create a `settings.php` file in the `app/config` folder with the following contents:
 
 ```php
@@ -62,8 +61,9 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
   an apache or nginx server to try out this application.
 - If you want to run the CLI, you can find 1 Task to register a user. You can run this
   example: `php -d xdebug.mode=off app/cli.php account register new@test.com New secret`.
-- If you want an example of how to call an API endpoint, call the `/api` URL with
-  the `Content-Type` header set to `application/json`.
+- There is also 1 API endpoint included to add a favorite, you can find this example in
+  `public/js/main.js`. Always make sure to set the `Content-Type` header to
+  `application/json` when you use the API controller with JSON response.
 
 ## Roadmap
 
@@ -93,13 +93,24 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - ~~Add middleware option for routes~~
 - ~~Rename Handlers & Objects to Controllers & Models~~
 - ~~Make controller actions return something (View or JSON)~~
-- Refactor some stuff in the ORM, Template, Router & Handler (see TODO in code)
+- ~~Implement the hasMany & manyToMany relations in a reusable way for future cases~~
+- Refactor some stuff in the Template, Router & Controller (see TODO in code)
 - Create something like flash messages for the session
 - Implement a basic migrations system to create tables
 - Add some kind of event dispatching system
 - Make an actual composer package for this (separate music collection from the core)
 
 ## Changelog
+
+### v2.5.0
+
+- Implement an actual Task to register a new user via the CLI
+- Implemented hasMany & manyToMany relations in the base classes. The Models are now
+  very clean and easy to implement!
+- Created a feature to add favorites on the album detail page via AJAX calls. This way
+  we have an actual working scenario for the `api` with JSON response.
+- Add some assert() functions to replace inline `@var` notations. This make the code
+  more reliable as it will raise an Exception
 
 ### v2.4.0
 

@@ -183,11 +183,12 @@ abstract class BaseModel
     }
 
     /**
+     * This code simple deletes 1 item. If you expect foreign key relations to be deleted, make sure your cascading is configured correctly
+     *
      * @param int $id
      * @return bool
      * @throws \Exception
      * @noinspection SqlResolve
-     * @TODO Connect to delete pivots as well (in case cascade is turned off on mysql table relations)
      */
     public static function delete(int $id): bool
     {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 17, 2023 at 08:24 PM
+-- Generation Time: Jan 17, 2023 at 08:32 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.1.6
 
@@ -98,6 +98,13 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `email`, `password`, `name`) VALUES
+(6, 'test@test.com', '$2y$10$ubPXcY6A/BPPTTmuHigAAOWIgXIEvBVhZzoX8js0QYzyz87lhlRw.', 'Testuser');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -171,7 +178,7 @@ ALTER TABLE `genres`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
