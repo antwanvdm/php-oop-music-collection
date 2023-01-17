@@ -33,13 +33,8 @@ abstract class BaseModel
     use Relationships;
 
     protected static string $table = '';
-    /**
-     * @var array<string, array<string, mixed>>
-     */
-    protected static array $joinForeignKeys = [];
-    private string $tableName;
+    protected string $tableName;
     protected \PDO $db;
-    private Logger $logger;
 
     /**
      * BaseModel constructor.
@@ -54,7 +49,6 @@ abstract class BaseModel
 
         $this->tableName = static::$table;
         $this->db = Database::i();
-        $this->logger = new Logger();
     }
 
     /**
@@ -65,12 +59,11 @@ abstract class BaseModel
      */
     public function __serialize(): array
     {
-        $methods = (new \ReflectionClass($this))->getMethods(\ReflectionProperty::IS_PUBLIC);
+        $properties = (new \ReflectionClass($this))->getProperties();
         $additionalFields = [];
-        foreach ($methods as $method) {
-            $methodName = $method->getName();
-            if (str_starts_with($methodName, 'get') && $method->class === get_called_class()) {
-                $fieldName = lcfirst(substr($methodName, 3));
+        foreach ($properties as $property) {
+            if (count($property->getAttributes(Serialized::class)) > 0) {
+                $fieldName = $property->getName();
                 $additionalFields[$fieldName] = $this->$fieldName;
             }
         }

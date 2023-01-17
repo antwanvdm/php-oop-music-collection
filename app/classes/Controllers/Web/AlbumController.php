@@ -69,7 +69,7 @@ class AlbumController extends BaseController
             'album' => $this->album,
             'artists' => Artist::getAll(),
             'genres' => Genre::getAll(),
-            'genreIds' => $this->album->getGenreIds(),
+            'genreIds' => $this->album->getGenresIds(),
             'success' => $success,
             'errors' => $this->errors
         ]);
@@ -85,14 +85,14 @@ class AlbumController extends BaseController
         try {
             //Get the record from the db & execute POST logic
             $this->album = Album::getById($id);
-            $this->album->setGenreIds(array_map(fn(Genre $genre) => $genre->id, $this->album->genres()));
+            $this->album->setGenresIds(array_map(fn(Genre $genre) => $genre->id, $this->album->genres));
 
             //Overwrite values from previous POST (form had errors)
             //TODO make this more beautiful because this stinks.
             if ($this->session->keyExists('album')) {
                 $this->album->artist_id = $this->session->get('album')->artist_id;
                 $this->album->name = $this->session->get('album')->name;
-                $this->album->setGenreIds($this->session->get('album')->getGenreIds());
+                $this->album->setGenresIds($this->session->get('album')->getGenresIds());
                 $this->album->year = $this->session->get('album')->year;
                 $this->album->tracks = $this->session->get('album')->tracks;
             }
@@ -121,7 +121,7 @@ class AlbumController extends BaseController
             'album' => $this->album,
             'artists' => Artist::getAll(),
             'genres' => Genre::getAll(),
-            'genreIds' => $this->album->getGenreIds(),
+            'genreIds' => $this->album->getGenresIds(),
             'success' => $success,
             'errors' => $this->errors
         ]);
@@ -188,7 +188,7 @@ class AlbumController extends BaseController
             $this->album->year = $this->request->input('year');
             $this->album->tracks = (int)$this->request->input('tracks');
             $this->album->image = $this->request->input('current-image');
-            $this->album->setGenreIds($this->request->input('genre-ids'));
+            $this->album->setGenresIds($this->request->input('genre-ids'));
 
             //Actual validation
             $validator = new AlbumValidator($this->album);

@@ -9,6 +9,68 @@ use MusicCollection\Utils\Logger;
 trait Relationships
 {
     /**
+     * @var array<string, string[]>
+     */
+    protected static array $joinForeignKeys = [];
+
+    /**
+     * @var array<string, array<string, string|string[]>>
+     */
+    protected static array $manyToMany = [];
+
+    /**
+     * @var array<string, int[]>
+     */
+    #[Serialized]
+    protected array $manyToManyIds = [];
+
+    /**
+     * @param string $name
+     * @param array<int, mixed> $arguments
+     * @return int[]|bool|void
+     * @throws \Exception
+     */
+    public function __call(string $name, array $arguments)
+    {
+        if (str_starts_with($name, 'get') && str_ends_with($name, 'Ids')) {
+            $fieldName = strtolower(substr($name, 3, -3));
+            return $this->manyToManyIds[$fieldName] ?? [];
+        }
+
+        if (str_starts_with($name, 'set') && str_ends_with($name, 'Ids')) {
+            $fieldName = strtolower(substr($name, 3, -3));
+            $this->manyToManyIds[$fieldName] = $arguments[0];
+            return;
+        }
+
+        if (str_starts_with($name, 'save')) {
+            $fieldName = strtolower(substr($name, 4));
+            if (array_key_exists($fieldName, static::$manyToMany)) {
+                $ids = $this->manyToManyIds[$fieldName] ?? [];
+                $manyToManyItem = static::$manyToMany[$fieldName];
+                return $this->saveManyToManyItems($manyToManyItem['pivotTable'], $manyToManyItem['foreignKeys'], $ids);
+            }
+        }
+
+        throw new \Exception("Invalid function ($name) was called");
+    }
+
+    /**
+     * @param string $name
+     * @return object[]
+     * @throws \Exception
+     */
+    public function __get(string $name): array
+    {
+        if (!array_key_exists($name, static::$manyToMany)) {
+            throw new \Exception("Many to many relation for $name doesn't exist");
+        }
+
+        $manyToManyItem = static::$manyToMany[$name];
+        return $this->getManyToManyItems($manyToManyItem['model'], $manyToManyItem['pivotTable'], $manyToManyItem['foreignKeys']);
+    }
+
+    /**
      * Transform the dynamic properties from the DB to actual Models
      *
      * @param array<string, string|int|float> $databaseColumns

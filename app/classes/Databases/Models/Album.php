@@ -6,13 +6,17 @@ use MusicCollection\Databases\BaseModel;
  * Class Album
  * @package MusicCollection\Databases\Models
  * @method static Album[] getAll()
- * @method static Album getById($id)
+ * @method static Album getById(int $id)
+ * @property Genre[] $genres
+ * @method bool saveGenres()
+ * @method int[] getGenresIds()
+ * @method bool setGenresIds(int[] $ids)
  */
 class Album extends BaseModel
 {
     protected static string $table = 'albums';
     /**
-     * @var array<string, array<string, mixed>>
+     * @var array<string, string[]>
      */
     protected static array $joinForeignKeys = [
         'artist_id' => [
@@ -26,10 +30,16 @@ class Album extends BaseModel
     ];
 
     /**
-     * @var int[]
-     * @TODO: Try to make this more dynamic for any future many-to-many situation?
+     * @var array<string, array<string, string|string[]>>
      */
-    protected array $genreIds = [];
+    protected static array $manyToMany = [
+        'genres' => [
+            'pivotTable' => 'album_genre',
+            'foreignKeys' => ['genre_id', 'album_id'],
+            'model' => Genre::class
+        ]
+    ];
+
     public Artist $artist;
     public User $user;
 
@@ -43,38 +53,5 @@ class Album extends BaseModel
         public string $image = ''
     ) {
         parent::__construct();
-    }
-
-    /**
-     * @return Genre[]
-     */
-    public function genres(): array
-    {
-        return $this->getManyToManyItems(Genre::class, 'album_genre', ['genre_id', 'album_id']);
-    }
-
-    /**
-     * @return bool
-     */
-    public function saveGenres(): bool
-    {
-        return $this->saveManyToManyItems('album_genre', ['genre_id', 'album_id'], $this->genreIds);
-    }
-
-    /**
-     * @return int[]
-     */
-    public function getGenreIds(): array
-    {
-        return $this->genreIds;
-    }
-
-    /**
-     * @param int[] $genreIds
-     * @return void
-     */
-    public function setGenreIds(array $genreIds): void
-    {
-        $this->genreIds = $genreIds;
     }
 }

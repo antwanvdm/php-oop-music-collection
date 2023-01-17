@@ -35,7 +35,7 @@ class AlbumValidator implements Validator
         if ($this->album->name == '') {
             $this->errors[] = T::__('album.validation.name');
         }
-        if (empty($this->album->getGenreIds())) {
+        if (empty($this->album->getGenresIds())) {
             $this->errors[] = T::__('album.validation.genre');
         }
         if ($this->album->year == '') {

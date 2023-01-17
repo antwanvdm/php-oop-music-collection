@@ -1,6 +1,7 @@
 <?php
 /**
  * @var \MusicCollection\Databases\Models\Album|false $album
+ * @var bool $isLoggedIn
  * @var callable $route
  * @var callable $yield
  * @var callable $t
@@ -15,7 +16,7 @@
         <ul>
             <li><?= $t('album.detail.genreLabel'); ?>
                 <ul>
-                    <?php foreach ($album->genres() as $genre): ?>
+                    <?php foreach ($album->genres as $genre): ?>
                         <li><?= $genre->name; ?></li>
                     <?php endforeach; ?>
                 </ul>

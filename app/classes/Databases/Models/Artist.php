@@ -12,7 +12,7 @@ class Artist extends BaseModel
 {
     protected static string $table = 'artists';
     /**
-     * @var array<string, array<string, mixed>>
+     * @var array<string, string[]>
      */
     protected static array $joinForeignKeys = [
         'user_id' => [
