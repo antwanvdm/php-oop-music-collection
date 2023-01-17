@@ -2,6 +2,7 @@
 /**
  * @var \MusicCollection\Databases\Models\Album|false $album
  * @var bool $isLoggedIn
+ * @var bool $isFavorite
  * @var callable $route
  * @var callable $yield
  * @var callable $t
@@ -28,3 +29,6 @@
 <?php endif; ?>
 
 <a class="button" href="<?= $route('albums.index'); ?>"><?= $t('album.backToListLink'); ?></a>
+<?php if ($isLoggedIn): ?>
+    <i id="favorite-button" class="button <?= $isFavorite ? 'favorite' : '' ?>" data-id="<?= $album->id; ?>"></i>
+<?php endif; ?>

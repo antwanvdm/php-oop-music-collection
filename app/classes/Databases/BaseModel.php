@@ -13,9 +13,16 @@ use MusicCollection\Utils\Logger;
  *  class MyModel extends BaseModel
  *  {
  *      protected static string $table = '<name_of_table>';
- *      protected static array $joinForeignKeys = [
+ *      protected static array $belongsTo = [
  *          '<name_of foreign_key>' => [
  *              'table' => '<name_of_table>',
+ *              'model' => <ModelName>::class
+ *          ]
+ *      ];
+ *      protected static array $manyToMany = [
+ *          '<name_to_define_data>' => [
+ *              'pivotTable' => '<name_of_pivot_table>',
+ *              'foreignKeys' => ['<foreign_key_relation_model>', '<foreign_key_current_model>'],
  *              'model' => <ModelName>::class
  *          ]
  *      ];

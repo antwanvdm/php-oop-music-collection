@@ -11,6 +11,7 @@
     <title><?= $t('general.siteName'); ?> | <?= ($pageTitle ?? ''); ?></title>
     <meta charset="utf-8"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="<?= BASE_PATH ?>css/style.css">
     <script type="text/javascript" src="<?= BASE_PATH ?>js/main.js" defer></script>
 </head>
 <body>

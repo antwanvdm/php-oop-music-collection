@@ -4,6 +4,7 @@ use MusicCollection\Controllers\BaseController;
 use MusicCollection\Databases\Models\Album;
 use MusicCollection\Databases\Models\Artist;
 use MusicCollection\Databases\Models\Genre;
+use MusicCollection\Databases\Models\User;
 use MusicCollection\Responses\View;
 use MusicCollection\Translation\Translator as T;
 use MusicCollection\Utils\Image;
@@ -216,6 +217,12 @@ class AlbumController extends BaseController
                 'NAME' => $album->name,
                 'ARTIST' => $album->artist->name
             ]);
+
+            $isLoggedIn = $this->session->keyExists('user');
+            if ($isLoggedIn) {
+                $user = User::getById($this->session->get('user')->id);
+                $isFavorite = in_array($album->id, array_map(fn(Album $album) => $album->id, $user->favoriteAlbums));
+            }
         } catch (\Exception $e) {
             //Something went wrong on this level
             Logger::error($e);
@@ -227,6 +234,8 @@ class AlbumController extends BaseController
         return $this->view->render('album.detail', [
             'pageTitle' => $pageTitle,
             'album' => $album ?? false,
+            'isLoggedIn' => $isLoggedIn ?? false,
+            'isFavorite' => $isFavorite ?? false,
             'errors' => $this->errors
         ]);
     }

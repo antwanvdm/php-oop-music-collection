@@ -1,0 +1,12 @@
+#favorite-button {
+    background-image: url("../img/unfavorite.png");
+    background-position: 0 0;
+    background-size: 30px;
+    margin: 2px 0 0 10px;
+    background-repeat: no-repeat;
+    border: none;
+}
+
+#favorite-button.favorite {
+    background-image: url("../img/favorite.png");
+}

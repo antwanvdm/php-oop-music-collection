@@ -14,7 +14,7 @@ class Artist extends BaseModel
     /**
      * @var array<string, string[]>
      */
-    protected static array $joinForeignKeys = [
+    protected static array $belongsTo = [
         'user_id' => [
             'table' => 'users',
             'model' => User::class

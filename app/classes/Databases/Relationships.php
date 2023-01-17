@@ -11,7 +11,7 @@ trait Relationships
     /**
      * @var array<string, string[]>
      */
-    protected static array $joinForeignKeys = [];
+    protected static array $belongsTo = [];
 
     /**
      * @var array<string, array<string, string|string[]>>
@@ -33,18 +33,18 @@ trait Relationships
     public function __call(string $name, array $arguments)
     {
         if (str_starts_with($name, 'get') && str_ends_with($name, 'Ids')) {
-            $fieldName = strtolower(substr($name, 3, -3));
+            $fieldName = lcfirst(substr($name, 3, -3));
             return $this->manyToManyIds[$fieldName] ?? [];
         }
 
         if (str_starts_with($name, 'set') && str_ends_with($name, 'Ids')) {
-            $fieldName = strtolower(substr($name, 3, -3));
+            $fieldName = lcfirst(substr($name, 3, -3));
             $this->manyToManyIds[$fieldName] = $arguments[0];
             return;
         }
 
         if (str_starts_with($name, 'save')) {
-            $fieldName = strtolower(substr($name, 4));
+            $fieldName = lcfirst(substr($name, 4));
             if (array_key_exists($fieldName, static::$manyToMany)) {
                 $ids = $this->manyToManyIds[$fieldName] ?? [];
                 $manyToManyItem = static::$manyToMany[$fieldName];
@@ -85,7 +85,7 @@ trait Relationships
         }
 
         //Loop through foreign keys, so we can check if properties have been passed dynamically
-        foreach (static::$joinForeignKeys as $properties) {
+        foreach (static::$belongsTo as $properties) {
             $relationValues = [];
 
             //Check all the database columns and only those that start with the relation name are stored
@@ -97,7 +97,7 @@ trait Relationships
 
             //Set the properties on the object if the property exists with the dynamic parameters
             $namespaces = explode('\\', $properties['model']);
-            $relationPropertyName = strtolower(end($namespaces));
+            $relationPropertyName = lcfirst(end($namespaces));
             if (property_exists($this, $relationPropertyName)) {
                 $this->$relationPropertyName = new $properties['model'](...$relationValues);
             }
@@ -116,7 +116,7 @@ trait Relationships
         $tableName = static::$table;
         $joinQuery = '';
 
-        foreach (static::$joinForeignKeys as $joinForeignKey => $properties) {
+        foreach (static::$belongsTo as $joinForeignKey => $properties) {
             $fields = (new \ReflectionClass($properties['model']))->getProperties(\ReflectionProperty::IS_PUBLIC);
             foreach ($fields as $field) {
                 if ($field->isPromoted()) {

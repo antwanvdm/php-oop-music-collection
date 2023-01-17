@@ -18,7 +18,7 @@ class Album extends BaseModel
     /**
      * @var array<string, string[]>
      */
-    protected static array $joinForeignKeys = [
+    protected static array $belongsTo = [
         'artist_id' => [
             'table' => 'artists',
             'model' => Artist::class
