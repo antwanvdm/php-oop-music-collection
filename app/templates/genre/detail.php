@@ -14,7 +14,7 @@
         <ul>
             <li><?= $t('genre.detail.albumLabel'); ?>
                 <ul>
-                    <?php foreach ($genre->albums() as $album): ?>
+                    <?php foreach ($genre->albums as $album): ?>
                         <li><?= $album->name; ?></li>
                     <?php endforeach; ?>
                 </ul>

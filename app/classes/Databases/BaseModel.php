@@ -14,13 +14,19 @@ use MusicCollection\Utils\Logger;
  *  {
  *      protected static string $table = '<name_of_table>';
  *      protected static array $belongsTo = [
- *          '<name_of foreign_key>' => [
+ *          '<name_of_foreign_key>' => [
  *              'table' => '<name_of_table>',
  *              'model' => <ModelName>::class
  *          ]
  *      ];
+ *      protected static array $hasMany = [
+ *          '<name_of_collection>' => [
+ *              'foreignKey' => '<name_of_foreign_key>',
+ *              'model' => <ModelName>::class
+ *          ]
+ *      ];
  *      protected static array $manyToMany = [
- *          '<name_to_define_data>' => [
+ *          '<name_of_collection>' => [
  *              'pivotTable' => '<name_of_pivot_table>',
  *              'foreignKeys' => ['<foreign_key_relation_model>', '<foreign_key_current_model>'],
  *              'model' => <ModelName>::class

@@ -7,10 +7,12 @@ use MusicCollection\Databases\BaseModel;
  * @package MusicCollection\Databases\Models
  * @method static Artist[] getAll()
  * @method static Artist getById(int $id)
+ * @property Album[] $albums
  */
 class Artist extends BaseModel
 {
     protected static string $table = 'artists';
+
     /**
      * @var array<string, string[]>
      */
@@ -20,6 +22,17 @@ class Artist extends BaseModel
             'model' => User::class
         ]
     ];
+
+    /**
+     * @var array<string, string[]>
+     */
+    protected static array $hasMany = [
+        'albums' => [
+            'foreignKey' => 'artist_id',
+            'model' => Album::class
+        ]
+    ];
+
     public User $user;
 
     public function __construct(
@@ -28,13 +41,5 @@ class Artist extends BaseModel
         public string $name = ''
     ) {
         parent::__construct();
-    }
-
-    /**
-     * @return Album[]
-     */
-    public function albums(): array
-    {
-        return $this->getOneToManyItems(Album::class, 'artist_id');
     }
 }

@@ -15,6 +15,7 @@ use MusicCollection\Databases\BaseModel;
 class Album extends BaseModel
 {
     protected static string $table = 'albums';
+
     /**
      * @var array<string, string[]>
      */

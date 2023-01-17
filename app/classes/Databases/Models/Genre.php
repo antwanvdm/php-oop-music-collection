@@ -7,10 +7,25 @@ use MusicCollection\Databases\BaseModel;
  * @package MusicCollection\Databases\Models
  * @method static Genre[] getAll()
  * @method static Genre getById(int $id)
+ * @property Album[] $albums
+ * @method bool saveAlbums()
+ * @method int[] getAlbumsIds()
+ * @method bool setAlbumsIds(int[] $ids)
  */
 class Genre extends BaseModel
 {
     protected static string $table = 'genres';
+
+    /**
+     * @var array<string, array<string, string|string[]>>
+     */
+    protected static array $manyToMany = [
+        'albums' => [
+            'pivotTable' => 'album_genre',
+            'foreignKeys' => ['album_id', 'genre_id'],
+            'model' => Album::class
+        ]
+    ];
 
     public function __construct(
         public ?int $id = null,
@@ -27,13 +42,5 @@ class Genre extends BaseModel
     public function __toString(): string
     {
         return $this->name;
-    }
-
-    /**
-     * @return Album[]
-     */
-    public function albums(): array
-    {
-        return $this->getManyToManyItems(Album::class, 'album_genre', ['album_id', 'genre_id']);
     }
 }

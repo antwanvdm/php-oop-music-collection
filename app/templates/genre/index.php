@@ -31,7 +31,7 @@
         <tr>
             <td><?= $genre->id; ?></td>
             <td><?= $genre->name; ?></td>
-            <td><?= count($genre->albums()); ?></td>
+            <td><?= count($genre->albums); ?></td>
             <td><a href="<?= $route('genres.detail', ['id' => $genre->id]); ?>"><?= $t('genre.index.detailsLink'); ?></a></td>
             <td><a href="<?= $route('genres.edit', ['id' => $genre->id]); ?>"><?= $t('genre.index.editLink'); ?></a></td>
             <td><a href="<?= $route('genres.delete', ['id' => $genre->id]); ?>"><?= $t('genre.index.deleteLink'); ?></a></td>

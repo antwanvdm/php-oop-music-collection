@@ -14,6 +14,11 @@ trait Relationships
     protected static array $belongsTo = [];
 
     /**
+     * @var array<string, string[]>
+     */
+    protected static array $hasMany = [];
+
+    /**
      * @var array<string, array<string, string|string[]>>
      */
     protected static array $manyToMany = [];
@@ -62,12 +67,17 @@ trait Relationships
      */
     public function __get(string $name): array
     {
-        if (!array_key_exists($name, static::$manyToMany)) {
-            throw new \Exception("Many to many relation for $name doesn't exist");
+        if (array_key_exists($name, static::$manyToMany)) {
+            $manyToManyItem = static::$manyToMany[$name];
+            return $this->getManyToManyItems($manyToManyItem['model'], $manyToManyItem['pivotTable'], $manyToManyItem['foreignKeys']);
         }
 
-        $manyToManyItem = static::$manyToMany[$name];
-        return $this->getManyToManyItems($manyToManyItem['model'], $manyToManyItem['pivotTable'], $manyToManyItem['foreignKeys']);
+        if (array_key_exists($name, static::$hasMany)) {
+            $hasManyItems = static::$hasMany[$name];
+            return $this->getOneToManyItems($hasManyItems['model'], $hasManyItems['foreignKey']);
+        }
+
+        throw new \Exception("There is no relation defined for $name doesn't exist");
     }
 
     /**
@@ -136,7 +146,7 @@ trait Relationships
      * @return object[]
      * @noinspection SqlResolve
      */
-    protected function getOneToManyItems(string $relationClassName, string $foreignKey): array
+    private function getOneToManyItems(string $relationClassName, string $foreignKey): array
     {
         $statement = $this->db->prepare(
             "SELECT r.* FROM `{$relationClassName::$table}` AS r
@@ -155,7 +165,7 @@ trait Relationships
      * @return object[]
      * @noinspection SqlResolve
      */
-    protected function getManyToManyItems(string $relationClassName, string $pivotTable, array $foreignKeys): array
+    private function getManyToManyItems(string $relationClassName, string $pivotTable, array $foreignKeys): array
     {
         $statement = $this->db->prepare(
             "SELECT r.* FROM `{$relationClassName::$table}` AS r
@@ -175,7 +185,7 @@ trait Relationships
      * @return bool
      * @noinspection SqlResolve
      */
-    protected function saveManyToManyItems(string $pivotTable, array $foreignKeys, array $itemIds): bool
+    private function saveManyToManyItems(string $pivotTable, array $foreignKeys, array $itemIds): bool
     {
         try {
             $this->db->beginTransaction();
