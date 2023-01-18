@@ -60,17 +60,15 @@ class View extends Response
         }
 
         $this->data = $data;
-        //TODO: See if this can be fixed in a nicer way..
-        $this->data['currentLanguage'] = Session::i()->get('language');
-        $this->data['languages'] = LANGUAGES;
         extract($data);
         ob_start();
 
         try {
-            //Make functions available for templates
+            //Make variables (including callables) available for templates
             $route = [$this->router, 'getFullPathByName'];
             $t = [Translator::class, '__'];
             $yield = [$this, 'getChildTemplate'];
+            $currentLanguage = Session::i()->get('language');
             require_once INCLUDES_PATH . 'templates/' . $templatePath . '.php';
         } catch (\Exception $e) {
             Logger::error($e);

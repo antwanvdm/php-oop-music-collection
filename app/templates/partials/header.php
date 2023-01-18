@@ -15,7 +15,7 @@
             <form action="<?= $route('language.change'); ?>" method="post">
                 <div class="select mr-2">
                     <select id="language-form-select" name="language" title="Choose Language">
-                        <?php foreach ($languages as $language => $languageLabel): ?>
+                        <?php foreach (LANGUAGES as $language => $languageLabel): ?>
                             <option value="<?= $language; ?>" <?= $currentLanguage === $language ? 'selected' : '' ?>><?= $languageLabel; ?></option>
                         <?php endforeach; ?>
                     </select>
