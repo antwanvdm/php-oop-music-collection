@@ -94,7 +94,7 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - ~~Rename Handlers & Objects to Controllers & Models~~
 - ~~Make controller actions return something (View or JSON)~~
 - ~~Implement the hasMany & manyToMany relations in a reusable way for future cases~~
-- Refactor some stuff in the Template, Router & Controller (see TODO in code)
+- Refactor some stuff in the Template, ~~Router~~ & Controller (see TODO in code)
 - Create something like flash messages for the session
 - Implement a basic migrations system to create tables
 - Add some kind of event dispatching system

@@ -88,8 +88,7 @@ class Router
     public function resource(string $name, string $controller): self
     {
         $this->addRoute($name, [$controller, 'index'], 'GET')->name($name . '.index');
-        //@TODO /{id} resolves in an error due to conflict with /create
-        $this->addRoute($name . '/{id}/detail', [$controller, 'detail'], 'GET')->name($name . '.detail');
+        $this->addRoute($name . '/{id}', [$controller, 'detail'], 'GET')->name($name . '.detail');
         $this->addRoute($name . '/create', [$controller, 'create'], 'GET')->name($name . '.create');
         $this->addRoute($name . '/{id}/edit', [$controller, 'edit'], 'GET')->name($name . '.edit');
         $this->addRoute($name . '/save', [$controller, 'save'], 'POST')->name($name . '.save');
@@ -137,6 +136,37 @@ class Router
     {
         $matchedRoute = false;
 
+        //First check a 1-on-1 match for simple routes
+        foreach ($this->routes as $route) {
+            if ($route->path === $this->currentPath) {
+                $matchedRoute = $route;
+                break;
+            }
+        }
+
+        //If the simple match isn't found, let's try a more complex version
+        if (!$matchedRoute) {
+            $matchedRoute = $this->getRouteMatch();
+        }
+
+        if ($matchedRoute === false || $matchedRoute->method !== $this->request->requestedMethod()) {
+            return $this->notFoundRoute();
+        }
+
+        foreach ($matchedRoute->middleware as $middleware) {
+            $this->di->set($middleware, $middleware)->handle();
+        }
+
+        return $matchedRoute;
+    }
+
+    /**
+     * @return false|Route
+     */
+    private function getRouteMatch(): false|Route
+    {
+        $matchedRoute = false;
+
         foreach ($this->routes as $route) {
             //First check a 1-on-1 match for simple routes
             if ($route->path === $this->currentPath) {
@@ -174,14 +204,6 @@ class Router
                     break;
                 }
             }
-        }
-
-        if ($matchedRoute === false || $matchedRoute->method !== $this->request->requestedMethod()) {
-            return $this->notFoundRoute();
-        }
-
-        foreach ($matchedRoute->middleware as $middleware) {
-            $this->di->set($middleware, $middleware)->handle();
         }
 
         return $matchedRoute;
