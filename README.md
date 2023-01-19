@@ -67,34 +67,34 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 
 ## Roadmap
 
-- [x] Routing class for named routes (to prevent refactoring urls in templates)
-- [x] Provide a parameter in the route dynamically
-- [x] Enable system to also return JSON response next to HTML
-- [x] Add a translator with translation files
-- [x] Implement CLI bootstrap
-- [x] Add cronjob support ("tasks")
-- [x] Implement basic dependency injection system
-- [x] Configure psalm, phpunit & php-cs-fixer in automated script
-- [x] Possibility to extend and re-use templates
-- [x] Add option to separate get & post routes
-- [x] Ok... Add some basic CSS framework to prevent tears
-- [x] Implement PHP8 Attributes (and other possible cool PHP8 stuff)
-- [x] Add option to use placeholders in translation strings
-- [x] Rebuild the ORM system to be more flexible/readable
-- [x] Implement Singleton patter for more objects that are needed throughout application,
-  like DB, Logger & Translator
-- [x] Extend the logging system to different logging levels (now only error)
-- [x] Comply with phpstan level 6
-- [x] Add actual multilingual support (EN/NL) with language switch
-- [x] Extend Routing system with multiple parameters & better errors
-- [x] Make wrapper (request object!) for super globals $_GET/$_POST. Current state of
-  handlers is a mess due to many floating request/state code
-- [x] Extend Routing system with namespaces like api/non-api
-- [x] Add middleware option for routes
-- [x] Rename Handlers & Objects to Controllers & Models
-- [x] Make controller actions return something (View or JSON)
-- [x] Implement the hasMany & manyToMany relations in a reusable way for future cases
-- [x] Fix some stuff in the Template, Router & Controller (see TODO in code)
+- [x] ~~Routing class for named routes (to prevent refactoring urls in templates)~~
+- [x] ~~Provide a parameter in the route dynamically~~
+- [x] ~~Enable system to also return JSON response next to HTML~~
+- [x] ~~Add a translator with translation files~~
+- [x] ~~Implement CLI bootstrap~~
+- [x] ~~Add cronjob support ("tasks")~~
+- [x] ~~Implement basic dependency injection system~~
+- [x] ~~Configure psalm, phpunit & php-cs-fixer in automated script~~
+- [x] ~~Possibility to extend and re-use templates~~
+- [x] ~~Add option to separate get & post routes~~
+- [x] ~~Ok... Add some basic CSS framework to prevent tears~~
+- [x] ~~Implement PHP8 Attributes (and other possible cool PHP8 stuff)~~
+- [x] ~~Add option to use placeholders in translation strings~~
+- [x] ~~Rebuild the ORM system to be more flexible/readable~~
+- [x] ~~Implement Singleton patter for more objects that are needed throughout
+  application, like DB, Logger & Translator~~
+- [x] ~~Extend the logging system to different logging levels (now only error)~~
+- [x] ~~Comply with phpstan level 6~~
+- [x] ~~Add actual multilingual support (EN/NL) with language switch~~
+- [x] ~~Extend Routing system with multiple parameters & better errors~~
+- [x] ~~Make wrapper (request object!) for super globals $_GET/$_POST. Current state
+  of handlers is a mess due to many floating request/state code~~
+- [x] ~~Extend Routing system with namespaces like api/non-api~~
+- [x] ~~Add middleware option for routes~~
+- [x] ~~Rename Handlers & Objects to Controllers & Models~~
+- [x] ~~Make controller actions return something (View or JSON)~~
+- [x] ~~Implement the hasMany & manyToMany relations in a reusable way for future cases~~
+- [x] ~~Fix some stuff in the Template, Router & Controller (see TODO in code)~~
 - [ ] Create something like flash messages for the session
 - [ ] Implement a basic migrations system to create tables
 - [ ] Add some kind of event dispatching system (maybe to easily add 'global' variables
