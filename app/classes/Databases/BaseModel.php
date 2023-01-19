@@ -217,10 +217,10 @@ abstract class BaseModel
 
     /**
      * @param string|\PDOStatement $query
-     * @param string|null $className
+     * @param class-string<BaseModel>|null $modelName
      * @return object[]
      */
-    protected static function fetchAll(string|\PDOStatement $query, ?string $className = null): array
+    protected static function fetchAll(string|\PDOStatement $query, ?string $modelName = null): array
     {
         try {
             $db = Database::i();
@@ -228,7 +228,7 @@ abstract class BaseModel
                 ? $db->query($query)->fetchAll(\PDO::FETCH_ASSOC)
                 : $query->fetchAll(\PDO::FETCH_ASSOC);
             foreach ($items as $key => $item) {
-                $items[$key] = self::buildFromPDO($item, $className);
+                $items[$key] = self::buildFromPDO($item, $modelName);
             }
         } catch (\Exception $e) {
             Logger::error($e);
@@ -267,19 +267,20 @@ abstract class BaseModel
 
     /**
      * @param array<string|int, mixed> $params
-     * @param class-string<BaseModel>|null $className
-     * @return bool|BaseModel
+     * @param class-string<BaseModel>|null $modelName
+     * @return false|BaseModel
      */
-    protected static function buildFromPDO(array $params, ?string $className = null): bool|BaseModel
+    protected static function buildFromPDO(array $params, ?string $modelName = null): false|BaseModel
     {
         if (empty($params)) {
             return false;
         }
 
         try {
-            $model = $className ?? get_called_class();
-            /** @var BaseModel $model */
-            return (new $model(...array_merge(array_values($params))))->setRelations($params);
+            $modelName = $modelName ?? get_called_class();
+            $model = new $modelName(...array_merge(array_values($params)));
+            assert($model instanceof BaseModel);
+            return $model->setRelations($params);
         } catch (\Exception $e) {
             Logger::error($e);
             return false;

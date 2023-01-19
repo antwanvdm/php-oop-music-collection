@@ -141,41 +141,41 @@ trait Relationships
     }
 
     /**
-     * @param class-string<BaseModel> $relationClassName
+     * @param class-string<BaseModel> $relationModelName
      * @param string $foreignKey
      * @return object[]
      * @noinspection SqlResolve
      */
-    private function getOneToManyItems(string $relationClassName, string $foreignKey): array
+    private function getOneToManyItems(string $relationModelName, string $foreignKey): array
     {
         $statement = $this->db->prepare(
-            "SELECT r.* FROM `{$relationClassName::$table}` AS r
+            "SELECT r.* FROM `{$relationModelName::$table}` AS r
                     LEFT JOIN `$this->tableName` t ON `t`.`id` = `r`.`$foreignKey`
                     WHERE `t`.`id` = :id"
         );
         $statement->execute([':id' => $this->id]);
 
-        return $this->fetchAll($statement, $relationClassName);
+        return $this->fetchAll($statement, $relationModelName);
     }
 
     /**
-     * @param class-string<BaseModel> $relationClassName
+     * @param class-string<BaseModel> $relationModelName
      * @param string $pivotTable
      * @param string[] $foreignKeys
      * @return object[]
      * @noinspection SqlResolve
      */
-    private function getManyToManyItems(string $relationClassName, string $pivotTable, array $foreignKeys): array
+    private function getManyToManyItems(string $relationModelName, string $pivotTable, array $foreignKeys): array
     {
         $statement = $this->db->prepare(
-            "SELECT r.* FROM `{$relationClassName::$table}` AS r
+            "SELECT r.* FROM `{$relationModelName::$table}` AS r
                     LEFT JOIN `$pivotTable` p ON r.id = p.$foreignKeys[0]
                     LEFT JOIN `$this->tableName` t on p.$foreignKeys[1] = t.id
                     WHERE `t`.`id` = :id"
         );
         $statement->execute([':id' => $this->id]);
 
-        return $this->fetchAll($statement, $relationClassName);
+        return $this->fetchAll($statement, $relationModelName);
     }
 
     /**
