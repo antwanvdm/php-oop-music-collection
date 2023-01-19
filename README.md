@@ -5,7 +5,7 @@ technologies. It is a result of giving the "Advanced PHP" course at the Universi
 of Applied Sciences in Rotterdam. It challenges me to keep up to date on a yearly
 basis with new PHP releases and implementing new cool stuff.
 
-The project is inspired by popular MVC frameworks like Laravel (mostly), Symfony and 
+The project is inspired by popular MVC frameworks like Laravel (mostly), Symfony and
 Phalcon. In the first iterations I didn't use the MVC naming conventions but the current
 version feels 'mature' enough to use MVC terminology. Based on what the application does,
 you can safely call the core of the code a framework.
@@ -67,40 +67,50 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 
 ## Roadmap
 
-- ~~Routing class for named routes (to prevent refactoring urls in templates)~~
-- ~~Provide a parameter in the route dynamically~~
-- ~~Enable system to also return JSON response next to HTML~~
-- ~~Add a translator with translation files~~
-- ~~Implement CLI bootstrap~~
-- ~~Add cronjob support ("tasks")~~
-- ~~Implement basic dependency injection system~~
-- ~~Configure psalm, phpunit & php-cs-fixer in automated script~~
-- ~~Possibility to extend and re-use templates~~
-- ~~Add option to separate get & post routes~~
-- ~~Ok... Add some basic CSS framework to prevent tears~~
-- ~~Implement PHP8 Attributes (and other possible cool PHP8 stuff)~~
-- ~~Add option to use placeholders in translation strings~~
-- ~~Rebuild the ORM system to be more flexible/readable~~
-- ~~Implement Singleton patter for more objects that are needed throughout application,
-  like DB, Logger & Translator~~
-- ~~Extend the logging system to different logging levels (now only error)~~
-- ~~Comply with phpstan level 6~~
-- ~~Add actual multilingual support (EN/NL) with language switch~~
-- ~~Extend Routing system with multiple parameters & better errors~~
-- ~~Make wrapper (request object!) for super globals $_GET/$_POST. Current state of
-  handlers is a mess due to many floating request/state code~~
-- ~~Extend Routing system with namespaces like api/non-api~~
-- ~~Add middleware option for routes~~
-- ~~Rename Handlers & Objects to Controllers & Models~~
-- ~~Make controller actions return something (View or JSON)~~
-- ~~Implement the hasMany & manyToMany relations in a reusable way for future cases~~
-- Refactor some stuff in the Template, ~~Router~~ & Controller (see TODO in code)
-- Create something like flash messages for the session
-- Implement a basic migrations system to create tables
-- Add some kind of event dispatching system
-- Make an actual composer package for this (separate music collection from the core)
+- [x] Routing class for named routes (to prevent refactoring urls in templates)
+- [x] Provide a parameter in the route dynamically
+- [x] Enable system to also return JSON response next to HTML
+- [x] Add a translator with translation files
+- [x] Implement CLI bootstrap
+- [x] Add cronjob support ("tasks")
+- [x] Implement basic dependency injection system
+- [x] Configure psalm, phpunit & php-cs-fixer in automated script
+- [x] Possibility to extend and re-use templates
+- [x] Add option to separate get & post routes
+- [x] Ok... Add some basic CSS framework to prevent tears
+- [x] Implement PHP8 Attributes (and other possible cool PHP8 stuff)
+- [x] Add option to use placeholders in translation strings
+- [x] Rebuild the ORM system to be more flexible/readable
+- [x] Implement Singleton patter for more objects that are needed throughout application,
+  like DB, Logger & Translator
+- [x] Extend the logging system to different logging levels (now only error)
+- [x] Comply with phpstan level 6
+- [x] Add actual multilingual support (EN/NL) with language switch
+- [x] Extend Routing system with multiple parameters & better errors
+- [x] Make wrapper (request object!) for super globals $_GET/$_POST. Current state of
+  handlers is a mess due to many floating request/state code
+- [x] Extend Routing system with namespaces like api/non-api
+- [x] Add middleware option for routes
+- [x] Rename Handlers & Objects to Controllers & Models
+- [x] Make controller actions return something (View or JSON)
+- [x] Implement the hasMany & manyToMany relations in a reusable way for future cases
+- [x] Fix some stuff in the Template, Router & Controller (see TODO in code)
+- [ ] Create something like flash messages for the session
+- [ ] Implement a basic migrations system to create tables
+- [ ] Add some kind of event dispatching system (maybe to easily add 'global' variables
+  to the template files)
+- [ ] Make an actual composer package for this (separate music collection from the core)
 
 ## Changelog
+
+### v2.5.1
+
+- Fixed the routes to prioritize fully named routes over routes with parameters to
+  prevent regular expression issues
+- Language variables are added in a cleaner way to templates
+- Fixed the last PHP-CS-Fixer issues to be 100% compliant
+- Serializing models can now be done without issues as the code always uses the
+  Singleton PDO resource, no need for complex magic methods anymore!
 
 ### v2.5.0
 
@@ -114,7 +124,7 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 
 ### v2.4.0
 
-- Major refactoring code of Router/Route. Added middleware, groups (with middleware 
+- Major refactoring code of Router/Route. Added middleware, groups (with middleware
   & prefix) & resource options for routes with clean notation in routes.php
 - Fixed phpStan generating cache errors (See custom error handling change)
 - Renamed Handlers to Controller & Objects to Models to act like a true MVC framework
