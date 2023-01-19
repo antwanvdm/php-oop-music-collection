@@ -45,7 +45,6 @@ class View extends Response
         return $this;
     }
 
-
     /**
      * @param array<string, mixed> $data
      * @param string $templatePath

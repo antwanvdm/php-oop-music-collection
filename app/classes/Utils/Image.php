@@ -32,26 +32,26 @@ class Image
         }
 
         //You should also check filesize here.
-        if ($uploadFile['size'] > 1000000) {
+        if ($uploadFile['size'] > 2000000) {
             throw new \RuntimeException('Exceeded filesize limit.');
         }
 
         //DO NOT TRUST $uploadFile['mime'] VALUE !!, check MIME Type by yourself.
         $fInfo = new \finfo(FILEINFO_MIME_TYPE);
-        if (false === $ext = array_search(
-                $fInfo->file($uploadFile['tmp_name']),
-                [
-                    'jpg' => 'image/jpeg',
-                    'png' => 'image/png'
-                ],
-                true
-            )
-        ) {
+        $extension = array_search(
+            $fInfo->file($uploadFile['tmp_name']),
+            [
+                'jpg' => 'image/jpeg',
+                'png' => 'image/png'
+            ],
+            true
+        );
+        if ($extension === false) {
             throw new \RuntimeException('Invalid file format.');
         }
 
         //You should name it uniquely., DO NOT USE $uploadFile['name'] WITHOUT ANY VALIDATION !!
-        $fileName = sha1_file($uploadFile['tmp_name']) . uniqid('', true) . '.' . $ext;
+        $fileName = sha1_file($uploadFile['tmp_name']) . uniqid('', true) . '.' . $extension;
         if (!move_uploaded_file($uploadFile['tmp_name'], sprintf('./images/%s', $fileName))) {
             throw new \RuntimeException('Failed to move uploaded file.');
         }

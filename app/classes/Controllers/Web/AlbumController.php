@@ -86,7 +86,7 @@ class AlbumController extends BaseController
         try {
             //Get the record from the db & execute POST logic
             $this->album = Album::getById($id);
-            $this->album->setGenresIds(array_map(fn(Genre $genre) => $genre->id, $this->album->genres));
+            $this->album->setGenresIds(array_map(fn (Genre $genre) => $genre->id, $this->album->genres));
 
             //Overwrite values from previous POST (form had errors)
             //TODO make this more beautiful because this stinks.
@@ -221,7 +221,7 @@ class AlbumController extends BaseController
             $isLoggedIn = $this->session->keyExists('user');
             if ($isLoggedIn) {
                 $user = User::getById($this->session->get('user')->id);
-                $isFavorite = in_array($album->id, array_map(fn(Album $album) => $album->id, $user->favoriteAlbums));
+                $isFavorite = in_array($album->id, array_map(fn (Album $album) => $album->id, $user->favoriteAlbums));
             }
         } catch (\Exception $e) {
             //Something went wrong on this level

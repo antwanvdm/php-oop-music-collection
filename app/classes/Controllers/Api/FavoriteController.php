@@ -15,7 +15,7 @@ class FavoriteController extends BaseController
     protected function toggle(int $id): Json
     {
         $user = User::getById(Session::i()->get('user')->id);
-        $currentItemIds = array_map(fn(Album $album) => $album->id, $user->favoriteAlbums);
+        $currentItemIds = array_map(fn (Album $album) => $album->id, $user->favoriteAlbums);
         if (($key = array_search($id, $currentItemIds)) !== false) {
             unset($currentItemIds[$key]);
         } else {

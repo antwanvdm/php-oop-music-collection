@@ -8,5 +8,4 @@
 #[\Attribute]
 class Serialized
 {
-
 }
