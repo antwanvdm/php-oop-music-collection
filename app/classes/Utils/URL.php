@@ -7,6 +7,7 @@
 class URL
 {
     /**
+     * @param string $fullUrl
      * @return string
      */
     public static function getCurrentPath(string $fullUrl): string

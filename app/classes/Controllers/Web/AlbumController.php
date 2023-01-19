@@ -85,17 +85,11 @@ class AlbumController extends BaseController
     {
         try {
             //Get the record from the db & execute POST logic
-            $this->album = Album::getById($id);
-            $this->album->setGenresIds(array_map(fn (Genre $genre) => $genre->id, $this->album->genres));
-
-            //Overwrite values from previous POST (form had errors)
-            //TODO make this more beautiful because this stinks.
             if ($this->session->keyExists('album')) {
-                $this->album->artist_id = $this->session->get('album')->artist_id;
-                $this->album->name = $this->session->get('album')->name;
-                $this->album->setGenresIds($this->session->get('album')->getGenresIds());
-                $this->album->year = $this->session->get('album')->year;
-                $this->album->tracks = $this->session->get('album')->tracks;
+                $this->album = $this->session->get('album');
+            } else {
+                $this->album = Album::getById($id);
+                $this->album->setGenresIds(array_map(fn (Genre $genre) => $genre->id, $this->album->genres));
             }
 
             $pageTitle = T::__('album.edit.pageTitle', [
@@ -132,20 +126,20 @@ class AlbumController extends BaseController
     {
         try {
             //Prepare a new object & execute POST logic
-            $this->album = new Album();
+            $id = (int)$this->request->input('id');
+            $this->album = $id === 0 ? new Album() : Album::getById($id);
             $this->saveValidate();
-            $isNew = $this->album->id === 0;
 
             //Database magic when no errors are found
             if (empty($this->errors)) {
                 //If image is not empty, process the new image file
-                if ($this->request->file('image')['error'] != 4 && !$isNew) {
+                if ($this->request->file('image')['error'] != 4 && $id !== 0) {
                     //Remove old image
                     $this->image->delete($this->album->image);
 
                     //Store new image & retrieve name for database saving (override current image name)
                     $this->album->image = $this->image->save($this->request->file('image'));
-                } elseif ($isNew) {
+                } elseif ($id === 0) {
                     //Store image & retrieve name for database saving
                     $this->album->image = $this->image->save($this->request->file('image'));
                 }
@@ -154,7 +148,7 @@ class AlbumController extends BaseController
                 $this->album->user_id = $this->session->get('user')->id;
 
                 //Save the record to the db
-                $state = $this->album->id === 0 ? 'create' : 'edit';
+                $state = $id === 0 ? 'create' : 'edit';
                 if ($this->album->save()) {
                     if ($this->album->saveGenres()) {
                         $this->session->set('success', T::__('album.' . $state . '.success'));
@@ -183,7 +177,6 @@ class AlbumController extends BaseController
     {
         if ($this->request->hasInput('submit')) {
             //Override object with new variables
-            $this->album->id = (int)$this->request->input('id');
             $this->album->artist_id = (int)$this->request->input('artist-id');
             $this->album->name = $this->request->input('name');
             $this->album->year = $this->request->input('year');

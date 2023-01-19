@@ -94,7 +94,8 @@ class ArtistController extends BaseController
     {
         try {
             //Prepare a new object & execute POST logic
-            $this->artist = new Artist();
+            $id = (int)$this->request->input('id');
+            $this->artist = $id === 0 ? new Artist() : Artist::getById($id);
             $this->saveValidate();
 
             //Database magic when no errors are found
@@ -103,7 +104,7 @@ class ArtistController extends BaseController
                 $this->artist->user_id = $this->session->get('user')->id;
 
                 //Save the record to the db
-                $state = $this->artist->id === 0 ? 'create' : 'edit';
+                $state = $id === 0 ? 'create' : 'edit';
                 if ($this->artist->save()) {
                     $this->session->set('success', T::__('artist.' . $state . '.success'));
                 } else {
@@ -124,7 +125,6 @@ class ArtistController extends BaseController
     {
         if ($this->request->hasInput('submit')) {
             //Override object with new variables
-            $this->artist->id = (int)$this->request->input('id');
             $this->artist->name = $this->request->input('name');
 
             //Actual validation

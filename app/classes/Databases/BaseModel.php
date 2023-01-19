@@ -47,7 +47,6 @@ abstract class BaseModel
 
     protected static string $table = '';
     protected string $tableName;
-    protected \PDO $db;
 
     /**
      * BaseModel constructor.
@@ -61,39 +60,6 @@ abstract class BaseModel
         }
 
         $this->tableName = static::$table;
-        $this->db = Database::i();
-    }
-
-    /**
-     * Implemented to prevent a fatal error on session storage due to PDO object being available
-     *
-     * @see https://wiki.php.net/rfc/custom_object_serialization
-     * @return array<string|int, mixed>
-     */
-    public function __serialize(): array
-    {
-        $properties = (new \ReflectionClass($this))->getProperties();
-        $additionalFields = [];
-        foreach ($properties as $property) {
-            if (count($property->getAttributes(Serialized::class)) > 0) {
-                $fieldName = $property->getName();
-                $additionalFields[$fieldName] = $this->$fieldName;
-            }
-        }
-        return array_merge($this->getDatabaseFieldPropertiesWithValues(), $additionalFields);
-    }
-
-    /**
-     * Implemented to prevent a fatal error on session storage due to PDO object being available
-     *
-     * @see https://wiki.php.net/rfc/custom_object_serialization
-     * @param array<string, mixed> $data
-     */
-    public function __unserialize(array $data): void
-    {
-        foreach ($data as $key => $value) {
-            $this->{$key} = $value;
-        }
     }
 
     /**
@@ -146,6 +112,13 @@ abstract class BaseModel
      */
     public function save(): bool
     {
+        try {
+            $db = Database::i();
+        } catch (\Exception $e) {
+            Logger::error($e);
+            return false;
+        }
+
         $fields = $this->getDatabaseFieldPropertiesWithValues();
         $keys = array_keys($fields);
 
@@ -166,18 +139,18 @@ abstract class BaseModel
         }
 
         //Create a prepared statement and bind all values individually
-        $statement = $this->db->prepare($query);
+        $statement = $db->prepare($query);
         foreach ($fields as $key => $value) {
             $statement->bindValue(':' . $key, $value);
         }
 
         //Add the ID to the model when it wasn't set yet after saving
         if ($statement->execute()) {
-            $this->id = !empty($this->id) ? $this->id : $this->db->lastInsertId();
+            $this->id = !empty($this->id) ? $this->id : $db->lastInsertId();
 
             return true;
         }
-        Logger::error(new \Exception("DB Error: {$this->db->errorInfo()[2]}"));
+        Logger::error(new \Exception("DB Error: {$db->errorInfo()[2]}"));
 
         return false;
     }

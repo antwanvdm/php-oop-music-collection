@@ -26,7 +26,6 @@ trait Relationships
     /**
      * @var array<string, int[]>
      */
-    #[Serialized]
     protected array $manyToManyIds = [];
 
     /**
@@ -148,7 +147,14 @@ trait Relationships
      */
     private function getOneToManyItems(string $relationModelName, string $foreignKey): array
     {
-        $statement = $this->db->prepare(
+        try {
+            $db = Database::i();
+        } catch (\Exception $e) {
+            Logger::error($e);
+            return [];
+        }
+
+        $statement = $db->prepare(
             "SELECT r.* FROM `{$relationModelName::$table}` AS r
                     LEFT JOIN `$this->tableName` t ON `t`.`id` = `r`.`$foreignKey`
                     WHERE `t`.`id` = :id"
@@ -167,7 +173,14 @@ trait Relationships
      */
     private function getManyToManyItems(string $relationModelName, string $pivotTable, array $foreignKeys): array
     {
-        $statement = $this->db->prepare(
+        try {
+            $db = Database::i();
+        } catch (\Exception $e) {
+            Logger::error($e);
+            return [];
+        }
+
+        $statement = $db->prepare(
             "SELECT r.* FROM `{$relationModelName::$table}` AS r
                     LEFT JOIN `$pivotTable` p ON r.id = p.$foreignKeys[0]
                     LEFT JOIN `$this->tableName` t on p.$foreignKeys[1] = t.id
@@ -188,15 +201,22 @@ trait Relationships
     private function saveManyToManyItems(string $pivotTable, array $foreignKeys, array $itemIds): bool
     {
         try {
-            $this->db->beginTransaction();
+            $db = Database::i();
+        } catch (\Exception $e) {
+            Logger::error($e);
+            return false;
+        }
+
+        try {
+            $db->beginTransaction();
 
             //Delete all current references
-            $statement = $this->db->prepare("DELETE FROM `$pivotTable` WHERE `$foreignKeys[1]` = :id");
+            $statement = $db->prepare("DELETE FROM `$pivotTable` WHERE `$foreignKeys[1]` = :id");
             $statement->execute([':id' => $this->id]);
 
             //Add the current references
             foreach ($itemIds as $itemId) {
-                $statement = $this->db->prepare(
+                $statement = $db->prepare(
                     "INSERT INTO `$pivotTable` (`$foreignKeys[0]`, `$foreignKeys[1]`)
                             VALUES (:item_id, :id)"
                 );
@@ -205,11 +225,11 @@ trait Relationships
                     ':id' => $this->id
                 ]);
             }
-            $this->db->commit();
+            $db->commit();
             return true;
         } catch (\PDOException $e) {
             Logger::error($e);
-            $this->db->rollBack();
+            $db->rollBack();
             return false;
         }
     }

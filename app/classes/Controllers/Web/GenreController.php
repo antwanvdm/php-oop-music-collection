@@ -94,13 +94,14 @@ class GenreController extends BaseController
     {
         try {
             //Prepare a new object & execute POST logic
-            $this->genre = new Genre();
+            $id = (int)$this->request->input('id');
+            $this->genre = $id === 0 ? new Genre() : Genre::getById($id);
             $this->saveValidate();
 
             //Database magic when no errors are found
             if (empty($this->errors)) {
                 //Save the record to the db
-                $state = $this->genre->id === 0 ? 'create' : 'edit';
+                $state = $id === 0 ? 'create' : 'edit';
                 if ($this->genre->save()) {
                     $this->session->set('success', T::__('genre.' . $state . '.success'));
                 } else {
@@ -121,7 +122,6 @@ class GenreController extends BaseController
     {
         if ($this->request->hasInput('submit')) {
             //Override object with new variables
-            $this->genre->id = (int)$this->request->input('id');
             $this->genre->name = $this->request->input('name');
 
             //Actual validation
