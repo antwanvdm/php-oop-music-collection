@@ -1,5 +1,7 @@
 <?php namespace MusicCollection\Databases;
 
+use MusicCollection\Utils\Logger;
+use MusicCollection\Utils\Request;
 use MusicCollection\Utils\Singleton;
 
 /**
@@ -41,5 +43,16 @@ class Database extends \PDO implements Singleton
         }
 
         return self::$instance;
+    }
+
+    /**
+     * Document the total queries in the logs
+     * @throws \Exception
+     */
+    public function __destruct()
+    {
+        $totalQueries = (int)self::i()->query('SHOW SESSION STATUS LIKE "Questions"')->fetchColumn(1) - 1;
+        $currentPage = (new Request())->currentPath();
+        Logger::info("Page with url '/$currentPage' executed $totalQueries queries");
     }
 }

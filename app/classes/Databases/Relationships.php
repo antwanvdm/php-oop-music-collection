@@ -9,19 +9,31 @@ use MusicCollection\Utils\Logger;
 trait Relationships
 {
     /**
-     * @var array<string, string[]>
+     * @var array<string, array<string|BaseModel>>
      */
     protected static array $belongsTo = [];
+    /**
+     * @var array<string, BaseModel>
+     */
+    protected array $belongsToModels = [];
 
     /**
-     * @var array<string, string[]>
+     * @var array<string, array<string|BaseModel[]>>
      */
     protected static array $hasMany = [];
+    /**
+     * @var array<string, BaseModel[]>
+     */
+    protected array $hasManyModels = [];
 
     /**
-     * @var array<string, array<string, string|string[]>>
+     * @var array<string, array<string, string|string[]|BaseModel[]>>
      */
     protected static array $manyToMany = [];
+    /**
+     * @var array<string, BaseModel[]>
+     */
+    protected array $manyToManyModels = [];
 
     /**
      * @var array<string, int[]>
@@ -61,19 +73,40 @@ trait Relationships
 
     /**
      * @param string $name
-     * @return object[]
+     * @return object|object[]
      * @throws \Exception
      */
-    public function __get(string $name): array
+    public function __get(string $name): object|array
     {
         if (array_key_exists($name, static::$manyToMany)) {
             $manyToManyItem = static::$manyToMany[$name];
-            return $this->getManyToManyItems($manyToManyItem['model'], $manyToManyItem['pivotTable'], $manyToManyItem['foreignKeys']);
+            if (isset($this->manyToManyModels[$name])) {
+                return $this->manyToManyModels[$name];
+            }
+            $this->manyToManyModels[$name] = $this->getManyToManyItems(
+                $manyToManyItem['model'],
+                $manyToManyItem['pivotTable'],
+                $manyToManyItem['foreignKeys']
+            );
+            return $this->manyToManyModels[$name];
         }
 
         if (array_key_exists($name, static::$hasMany)) {
-            $hasManyItems = static::$hasMany[$name];
-            return $this->getOneToManyItems($hasManyItems['model'], $hasManyItems['foreignKey']);
+            $hasManyItem = static::$hasMany[$name];
+            if (isset($this->hasManyModels[$name])) {
+                return $this->hasManyModels[$name];
+            }
+            $this->hasManyModels[$name] = $this->getHasManyItems($hasManyItem['model'], $hasManyItem['foreignKey']);
+            return $this->hasManyModels[$name];
+        }
+
+        if (array_key_exists($name, static::$belongsTo)) {
+            $belongsToItem = static::$belongsTo[$name];
+            if (isset($this->belongsToModels[$name])) {
+                return $this->belongsToModels[$name];
+            }
+            $this->belongsToModels[$name] = $this->getBelongsToItem($belongsToItem['model'], $belongsToItem['foreignKey']);
+            return $this->belongsToModels[$name];
         }
 
         throw new \Exception("There is no relation defined for $name doesn't exist");
@@ -94,22 +127,19 @@ trait Relationships
         }
 
         //Loop through foreign keys, so we can check if properties have been passed dynamically
-        foreach (static::$belongsTo as $properties) {
+        foreach (static::$belongsTo as $relationPropertyName => $properties) {
             $relationValues = [];
 
             //Check all the database columns and only those that start with the relation name are stored
+            $table = $properties['model']::$table;
             foreach ($databaseColumns as $databaseColumn => $value) {
-                if (str_starts_with($databaseColumn, $properties['table'])) {
+                if (str_starts_with($databaseColumn, $table)) {
                     $relationValues[] = $value;
                 }
             }
 
-            //Set the properties on the object if the property exists with the dynamic parameters
-            $namespaces = explode('\\', $properties['model']);
-            $relationPropertyName = lcfirst(end($namespaces));
-            if (property_exists($this, $relationPropertyName)) {
-                $this->$relationPropertyName = new $properties['model'](...$relationValues);
-            }
+            //Save data for later use
+            $this->belongsToModels[$relationPropertyName] = new $properties['model'](...$relationValues);
         }
 
         return $this;
@@ -125,15 +155,16 @@ trait Relationships
         $tableName = static::$table;
         $joinQuery = '';
 
-        foreach (static::$belongsTo as $joinForeignKey => $properties) {
+        foreach (static::$belongsTo as $properties) {
             $fields = (new \ReflectionClass($properties['model']))->getProperties(\ReflectionProperty::IS_PUBLIC);
+            $table = $properties['model']::$table;
             foreach ($fields as $field) {
                 if ($field->isPromoted()) {
-                    $select .= ", {$properties['table']}.$field->name AS {$properties['table']}_$field->name";
+                    $select .= ", {$table}.$field->name AS {$table}_$field->name";
                 }
             }
 
-            $joinQuery .= " LEFT JOIN `{$properties['table']}` ON `{$properties['table']}`.`id` = `$tableName`.`$joinForeignKey`";
+            $joinQuery .= " LEFT JOIN `{$table}` ON `{$table}`.`id` = `$tableName`.`{$properties['foreignKey']}`";
         }
 
         return $joinQuery;
@@ -142,10 +173,39 @@ trait Relationships
     /**
      * @param class-string<BaseModel> $relationModelName
      * @param string $foreignKey
+     * @return object
+     * @noinspection SqlResolve
+     */
+    private function getBelongsToItem(string $relationModelName, string $foreignKey): object
+    {
+        try {
+            $db = Database::i();
+
+            $statement = $db->prepare(
+                "SELECT * FROM `{$relationModelName::$table}`
+                        WHERE `id` = :id"
+            );
+            $statement->execute([':id' => $this->$foreignKey]);
+
+            if (($model = $statement->fetch(\PDO::FETCH_ASSOC)) === false ||
+                ($model = self::buildFromPDO($model, $relationModelName)) === false) {
+                throw new \Exception("DB Error: getBelongsTo item failed for relation '$relationModelName' and foreignKey '$foreignKey'");
+            }
+
+            return $model;
+        } catch (\Exception $e) {
+            Logger::error($e);
+            return new $relationModelName();
+        }
+    }
+
+    /**
+     * @param class-string<BaseModel> $relationModelName
+     * @param string $foreignKey
      * @return object[]
      * @noinspection SqlResolve
      */
-    private function getOneToManyItems(string $relationModelName, string $foreignKey): array
+    private function getHasManyItems(string $relationModelName, string $foreignKey): array
     {
         try {
             $db = Database::i();
