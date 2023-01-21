@@ -14,8 +14,8 @@ use MusicCollection\Utils\Logger;
  *  {
  *      protected static string $table = '<name_of_table>';
  *      protected static array $belongsTo = [
- *          '<name_of_foreign_key>' => [
- *              'table' => '<name_of_table>',
+ *          '<name_of_model>' => [
+ *              'foreign_key' => '<name_of_foreign_key>',
  *              'model' => <ModelName>::class
  *          ]
  *      ];
@@ -176,16 +176,17 @@ abstract class BaseModel
     }
 
     /**
+     * @param string[] $with
      * @return object[]
-     * @throws \Exception
+     * @throws \ReflectionException
      */
-    public static function getAll(): array
+    public static function getAll(array $with = []): array
     {
         $tableName = static::$table;
         $select = "$tableName.*";
-        $joinQuery = self::getJoinQuery($select);
+        $joinQuery = empty($with) ? '' : self::getJoinQuery($select, $with);
 
-        return self::fetchAll("SELECT $select FROM `$tableName`$joinQuery");
+        return self::fetchAll("SELECT $select FROM `$tableName`$joinQuery GROUP BY `$tableName`.`id`");
     }
 
     /**
@@ -215,19 +216,19 @@ abstract class BaseModel
      *
      * @param string $field
      * @param string|int|float $value
+     * @param string[] $with
      * @return BaseModel
      * @throws \ReflectionException
-     * @throws \Exception
      * @noinspection SqlResolve
      */
-    private static function getBy(string $field, string|int|float $value): BaseModel
+    private static function getBy(string $field, string|int|float $value, array $with = []): BaseModel
     {
         $db = Database::i();
         $tableName = static::$table;
         $select = "$tableName.*";
-        $joinQuery = self::getJoinQuery($select);
+        $joinQuery = empty($with) ? '' : self::getJoinQuery($select, $with);
 
-        $statement = $db->prepare("SELECT $select FROM `$tableName`$joinQuery WHERE `$tableName`.`$field` = :value");
+        $statement = $db->prepare("SELECT $select FROM `$tableName`$joinQuery WHERE `$tableName`.`$field` = :value GROUP BY `$tableName`.`id`");
         $statement->execute([':value' => $value]);
 
         if (($model = $statement->fetch(\PDO::FETCH_ASSOC)) === false ||

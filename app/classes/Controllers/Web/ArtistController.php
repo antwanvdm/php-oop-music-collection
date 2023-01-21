@@ -31,7 +31,7 @@ class ArtistController extends BaseController
     protected function index(): View
     {
         //Get all artists
-        $artists = Artist::getAll();
+        $artists = Artist::getAll(['albums']);
 
         //Return formatted data
         return $this->view->render('artist.index', [
@@ -142,7 +142,7 @@ class ArtistController extends BaseController
     {
         try {
             //Get the records from the db
-            $artist = Artist::getById($id);
+            $artist = Artist::getById($id, ['albums']);
 
             //Default page title
             $pageTitle = $artist->name;

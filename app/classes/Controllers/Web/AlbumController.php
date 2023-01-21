@@ -41,7 +41,7 @@ class AlbumController extends BaseController
     protected function index(): View
     {
         //Get all albums
-        $albums = Album::getAll();
+        $albums = Album::getAll(['artist', 'genres']);
 
         //Return formatted data
         return $this->view->render('album.index', [
@@ -88,7 +88,7 @@ class AlbumController extends BaseController
             if ($this->session->keyExists('album')) {
                 $this->album = $this->session->get('album');
             } else {
-                $this->album = Album::getById($id);
+                $this->album = Album::getById($id, ['artist', 'genres']);
                 $this->album->setGenresIds(array_map(fn (Genre $genre) => $genre->id, $this->album->genres));
             }
 
@@ -203,7 +203,7 @@ class AlbumController extends BaseController
     {
         try {
             //Get the records from the db
-            $album = Album::getById($id);
+            $album = Album::getById($id, ['artist', 'genres']);
 
             //Default page title
             $pageTitle = T::__('album.madeBy', [
@@ -213,7 +213,7 @@ class AlbumController extends BaseController
 
             $isLoggedIn = $this->session->keyExists('user');
             if ($isLoggedIn) {
-                $user = User::getById($this->session->get('user')->id);
+                $user = User::getById($this->session->get('user')->id, ['favoriteAlbums']);
                 $isFavorite = in_array($album->id, array_map(fn (Album $album) => $album->id, $user->favoriteAlbums));
             }
         } catch (\Exception $e) {

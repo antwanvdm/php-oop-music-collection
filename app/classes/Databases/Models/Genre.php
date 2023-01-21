@@ -5,8 +5,8 @@ use MusicCollection\Databases\BaseModel;
 /**
  * Class Genre
  * @package MusicCollection\Databases\Models
- * @method static Genre[] getAll()
- * @method static Genre getById(int $id)
+ * @method static Genre[] getAll(string[] $with = [])
+ * @method static Genre getById(int $id, string[] $with = [])
  * @property Album[] $albums
  * @method bool saveAlbums()
  * @method int[] getAlbumsIds()
@@ -16,9 +16,6 @@ class Genre extends BaseModel
 {
     protected static string $table = 'genres';
 
-    /**
-     * @var array<string, array<string, string|string[]>>
-     */
     protected static array $manyToMany = [
         'albums' => [
             'pivotTable' => 'album_genre',

@@ -9,7 +9,7 @@ use MusicCollection\Utils\Logger;
 trait Relationships
 {
     /**
-     * @var array<string, array<string|BaseModel>>
+     * @var array<string, array{foreignKey: string, model: class-string<BaseModel>}>
      */
     protected static array $belongsTo = [];
     /**
@@ -18,7 +18,7 @@ trait Relationships
     protected array $belongsToModels = [];
 
     /**
-     * @var array<string, array<string|BaseModel[]>>
+     * @var array<string, array{foreignKey: string, model: class-string<BaseModel>}>
      */
     protected static array $hasMany = [];
     /**
@@ -27,7 +27,7 @@ trait Relationships
     protected array $hasManyModels = [];
 
     /**
-     * @var array<string, array<string, string|string[]|BaseModel[]>>
+     * @var array<string, array{pivotTable: string, foreignKeys: string[], model: class-string<BaseModel>}>
      */
     protected static array $manyToMany = [];
     /**
@@ -139,7 +139,47 @@ trait Relationships
             }
 
             //Save data for later use
-            $this->belongsToModels[$relationPropertyName] = new $properties['model'](...$relationValues);
+            if (!empty($relationValues)) {
+                $this->belongsToModels[$relationPropertyName] = new $properties['model'](...$relationValues);
+            }
+        }
+
+        foreach (static::$manyToMany as $relationPropertyName => $properties) {
+            $models = [];
+
+            //Check all the database columns and only those that match the relation name are stored
+            $table = $properties['model']::$table;
+            foreach ($databaseColumns as $databaseColumn => $value) {
+                if ($databaseColumn === $table && $value !== null) {
+                    $relationItems = explode('||', $value);
+                    foreach ($relationItems as $relationItem) {
+                        $relationValues = explode(';;', $relationItem);
+                        $models[] = new $properties['model'](...$relationValues);
+                    }
+                }
+            }
+
+            //Save data for later use
+            $this->manyToManyModels[$relationPropertyName] = $models;
+        }
+
+        foreach (static::$hasMany as $relationPropertyName => $properties) {
+            $models = [];
+
+            //Check all the database columns and only those that match the relation name are stored
+            $table = $properties['model']::$table;
+            foreach ($databaseColumns as $databaseColumn => $value) {
+                if ($databaseColumn === $table && $value !== null) {
+                    $relationItems = explode('||', $value);
+                    foreach ($relationItems as $relationItem) {
+                        $relationValues = explode(';;', $relationItem);
+                        $models[] = new $properties['model'](...$relationValues);
+                    }
+                }
+            }
+
+            //Save data for later use
+            $this->hasManyModels[$relationPropertyName] = $models;
         }
 
         return $this;
@@ -147,15 +187,21 @@ trait Relationships
 
     /**
      * @param string $select
+     * @param string[] $with
      * @return string
      * @throws \ReflectionException
      */
-    private static function getJoinQuery(string &$select): string
+    private static function getJoinQuery(string &$select, array $with = []): string
     {
         $tableName = static::$table;
         $joinQuery = '';
 
-        foreach (static::$belongsTo as $properties) {
+        foreach (static::$belongsTo as $relationName => $properties) {
+            //Only set when actually available
+            if (!in_array($relationName, $with)) {
+                continue;
+            }
+
             $fields = (new \ReflectionClass($properties['model']))->getProperties(\ReflectionProperty::IS_PUBLIC);
             $table = $properties['model']::$table;
             foreach ($fields as $field) {
@@ -165,6 +211,47 @@ trait Relationships
             }
 
             $joinQuery .= " LEFT JOIN `{$table}` ON `{$table}`.`id` = `$tableName`.`{$properties['foreignKey']}`";
+        }
+
+        foreach (static::$manyToMany as $relationName => $properties) {
+            //Only set when actually available
+            if (!in_array($relationName, $with)) {
+                continue;
+            }
+
+            $fields = (new \ReflectionClass($properties['model']))->getProperties(\ReflectionProperty::IS_PUBLIC);
+            $table = $properties['model']::$table;
+            $columns = [];
+            foreach ($fields as $field) {
+                if ($field->isPromoted()) {
+                    $columns[] = "$table.$field->name";
+                }
+            }
+            $joinedColumns = implode(",';;',", $columns);
+            $select .= ", GROUP_CONCAT(DISTINCT CONCAT($joinedColumns) SEPARATOR '||') AS $table";
+
+            $joinQuery .= " LEFT JOIN `{$properties['pivotTable']}` ON `{$properties['pivotTable']}`.`{$properties['foreignKeys'][1]}` = `{$tableName}`.`id`";
+            $joinQuery .= " LEFT JOIN `{$table}` ON `{$table}`.`id` = `{$properties['pivotTable']}`.`{$properties['foreignKeys'][0]}`";
+        }
+
+        foreach (static::$hasMany as $relationName => $properties) {
+            //Only set when actually available
+            if (!in_array($relationName, $with)) {
+                continue;
+            }
+
+            $fields = (new \ReflectionClass($properties['model']))->getProperties(\ReflectionProperty::IS_PUBLIC);
+            $table = $properties['model']::$table;
+            $columns = [];
+            foreach ($fields as $field) {
+                if ($field->isPromoted()) {
+                    $columns[] = "$table.$field->name";
+                }
+            }
+            $joinedColumns = implode(",';;',", $columns);
+            $select .= ", GROUP_CONCAT(DISTINCT CONCAT($joinedColumns) SEPARATOR '||') AS $table";
+
+            $joinQuery .= " LEFT JOIN `{$table}` ON `{$table}`.`{$properties['foreignKey']}` = `{$tableName}`.`id`";
         }
 
         return $joinQuery;

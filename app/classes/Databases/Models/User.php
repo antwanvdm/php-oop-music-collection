@@ -5,9 +5,9 @@ use MusicCollection\Databases\BaseModel;
 /**
  * Class User
  * @package MusicCollection\Databases\Models
- * @method static User[] getAll()
- * @method static User getById(int $id)
- * @method static User getByEmail(string $email)
+ * @method static User[] getAll(string[] $with = [])
+ * @method static User getById(int $id, string[] $with = [])
+ * @method static User getByEmail(string $email, string[] $with = [])
  * @property Album[] $favoriteAlbums
  * @method bool saveFavoriteAlbums()
  * @method int[] getFavoriteAlbumsIds()
@@ -17,9 +17,6 @@ class User extends BaseModel
 {
     protected static string $table = 'users';
 
-    /**
-     * @var array<string, array<string, string|string[]>>
-     */
     protected static array $manyToMany = [
         'favoriteAlbums' => [
             'pivotTable' => 'album_user_favorites',

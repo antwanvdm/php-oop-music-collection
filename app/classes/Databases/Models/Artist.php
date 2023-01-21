@@ -5,8 +5,8 @@ use MusicCollection\Databases\BaseModel;
 /**
  * Class Artist
  * @package MusicCollection\Databases\Models
- * @method static Artist[] getAll()
- * @method static Artist getById(int $id)
+ * @method static Artist[] getAll(string[] $with = [])
+ * @method static Artist getById(int $id, string[] $with = [])
  * @property User $user
  * @property Album[] $albums
  */
@@ -14,9 +14,6 @@ class Artist extends BaseModel
 {
     protected static string $table = 'artists';
 
-    /**
-     * @var array<string, string[]>
-     */
     protected static array $belongsTo = [
         'user' => [
             'foreignKey' => 'user_id',
@@ -24,9 +21,6 @@ class Artist extends BaseModel
         ]
     ];
 
-    /**
-     * @var array<string, string[]>
-     */
     protected static array $hasMany = [
         'albums' => [
             'foreignKey' => 'artist_id',

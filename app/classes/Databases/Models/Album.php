@@ -5,8 +5,8 @@ use MusicCollection\Databases\BaseModel;
 /**
  * Class Album
  * @package MusicCollection\Databases\Models
- * @method static Album[] getAll()
- * @method static Album getById(int $id)
+ * @method static Album[] getAll(string[] $with = [])
+ * @method static Album getById(int $id, string[] $with = [])
  * @property Artist $artist
  * @property User $user
  * @property Genre[] $genres
@@ -18,9 +18,6 @@ class Album extends BaseModel
 {
     protected static string $table = 'albums';
 
-    /**
-     * @var array<string, string[]>
-     */
     protected static array $belongsTo = [
         'artist' => [
             'foreignKey' => 'artist_id',
@@ -32,9 +29,6 @@ class Album extends BaseModel
         ]
     ];
 
-    /**
-     * @var array<string, array<string, string|string[]>>
-     */
     protected static array $manyToMany = [
         'genres' => [
             'pivotTable' => 'album_genre',

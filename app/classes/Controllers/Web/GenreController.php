@@ -31,7 +31,7 @@ class GenreController extends BaseController
     protected function index(): View
     {
         //Get all genres
-        $genres = Genre::getAll();
+        $genres = Genre::getAll(['albums']);
 
         //Return formatted data
         return $this->view->render('genre.index', [
@@ -139,7 +139,7 @@ class GenreController extends BaseController
     {
         try {
             //Get the records from the db
-            $genre = Genre::getById($id);
+            $genre = Genre::getById($id, ['albums']);
 
             //Default page title
             $pageTitle = $genre->name;
@@ -160,6 +160,7 @@ class GenreController extends BaseController
 
     /**
      * @param int $id
+     * @return View
      */
     protected function delete(int $id): View
     {
