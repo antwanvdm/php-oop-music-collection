@@ -145,44 +145,43 @@ trait Relationships
         }
 
         foreach (static::$manyToMany as $relationPropertyName => $properties) {
-            $models = [];
-
-            //Check all the database columns and only those that match the relation name are stored
-            $table = $properties['model']::$table;
-            foreach ($databaseColumns as $databaseColumn => $value) {
-                if ($databaseColumn === $table && $value !== null) {
-                    $relationItems = explode('||', $value);
-                    foreach ($relationItems as $relationItem) {
-                        $relationValues = explode(';;', $relationItem);
-                        $models[] = new $properties['model'](...$relationValues);
-                    }
-                }
-            }
-
-            //Save data for later use
-            $this->manyToManyModels[$relationPropertyName] = $models;
+            $this->manyToManyModels[$relationPropertyName] = $this->getModelsForManyRelationTypes($databaseColumns, $properties['model']);
         }
 
         foreach (static::$hasMany as $relationPropertyName => $properties) {
-            $models = [];
-
-            //Check all the database columns and only those that match the relation name are stored
-            $table = $properties['model']::$table;
-            foreach ($databaseColumns as $databaseColumn => $value) {
-                if ($databaseColumn === $table && $value !== null) {
-                    $relationItems = explode('||', $value);
-                    foreach ($relationItems as $relationItem) {
-                        $relationValues = explode(';;', $relationItem);
-                        $models[] = new $properties['model'](...$relationValues);
-                    }
-                }
-            }
-
-            //Save data for later use
-            $this->hasManyModels[$relationPropertyName] = $models;
+            $this->hasManyModels[$relationPropertyName] = $this->getModelsForManyRelationTypes($databaseColumns, $properties['model']);
         }
 
         return $this;
+    }
+
+    /**
+     * When initially setting the relations, hasMany and manyToMany have very identical behaviour
+     * This method combines the logic and explodes the initial result set
+     *
+     * @param array<string, string|int|float> $databaseColumns
+     * @param class-string<BaseModel> $modelName
+     * @return BaseModel[]
+     * @see BaseModel::setRelations()
+     * @see BaseModel::getSelectGroupQueryForManyModels()
+     */
+    private function getModelsForManyRelationTypes(array $databaseColumns, string $modelName): array
+    {
+        $models = [];
+
+        //Check all the database columns and only those that match the relation name are stored
+        $table = $modelName::$table;
+        foreach ($databaseColumns as $databaseColumn => $value) {
+            if ($databaseColumn === $table && $value !== null) {
+                $relationItems = explode('||', $value);
+                foreach ($relationItems as $relationItem) {
+                    $relationValues = explode(';;', $relationItem);
+                    $models[] = new $modelName(...$relationValues);
+                }
+            }
+        }
+
+        return $models;
     }
 
     /**
@@ -218,17 +217,8 @@ trait Relationships
             if (!in_array($relationName, $with)) {
                 continue;
             }
-
-            $fields = (new \ReflectionClass($properties['model']))->getProperties(\ReflectionProperty::IS_PUBLIC);
+            $select .= self::getSelectGroupQueryForManyModels($properties['model']);
             $table = $properties['model']::$table;
-            $columns = [];
-            foreach ($fields as $field) {
-                if ($field->isPromoted()) {
-                    $columns[] = "$table.$field->name";
-                }
-            }
-            $joinedColumns = implode(",';;',", $columns);
-            $select .= ", GROUP_CONCAT(DISTINCT CONCAT($joinedColumns) SEPARATOR '||') AS $table";
 
             $joinQuery .= " LEFT JOIN `{$properties['pivotTable']}` ON `{$properties['pivotTable']}`.`{$properties['foreignKeys'][1]}` = `{$tableName}`.`id`";
             $joinQuery .= " LEFT JOIN `{$table}` ON `{$table}`.`id` = `{$properties['pivotTable']}`.`{$properties['foreignKeys'][0]}`";
@@ -239,22 +229,37 @@ trait Relationships
             if (!in_array($relationName, $with)) {
                 continue;
             }
-
-            $fields = (new \ReflectionClass($properties['model']))->getProperties(\ReflectionProperty::IS_PUBLIC);
+            $select .= self::getSelectGroupQueryForManyModels($properties['model']);
             $table = $properties['model']::$table;
-            $columns = [];
-            foreach ($fields as $field) {
-                if ($field->isPromoted()) {
-                    $columns[] = "$table.$field->name";
-                }
-            }
-            $joinedColumns = implode(",';;',", $columns);
-            $select .= ", GROUP_CONCAT(DISTINCT CONCAT($joinedColumns) SEPARATOR '||') AS $table";
 
             $joinQuery .= " LEFT JOIN `{$table}` ON `{$table}`.`{$properties['foreignKey']}` = `{$tableName}`.`id`";
         }
 
         return $joinQuery;
+    }
+
+    /**
+     * When creating the JOIN queries, hasMany and manyToMany have very identical behaviour
+     * Only the final JOIN queries differ, so the other logic is executed in this method
+     *
+     * @param class-string<BaseModel> $modelName
+     * @return string
+     * @throws \ReflectionException
+     * @see BaseModel::getJoinQuery()
+     * @see BaseModel::getModelsForManyRelationTypes()
+     */
+    private static function getSelectGroupQueryForManyModels(string $modelName): string
+    {
+        $fields = (new \ReflectionClass($modelName))->getProperties(\ReflectionProperty::IS_PUBLIC);
+        $table = $modelName::$table;
+        $columns = [];
+        foreach ($fields as $field) {
+            if ($field->isPromoted()) {
+                $columns[] = "$table.$field->name";
+            }
+        }
+        $joinedColumns = implode(",';;',", $columns);
+        return ", GROUP_CONCAT(DISTINCT CONCAT($joinedColumns) SEPARATOR '||') AS $table";
     }
 
     /**
