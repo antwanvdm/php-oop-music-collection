@@ -25,7 +25,7 @@ use MusicCollection\Utils\Logger;
  *              'model' => <ModelName>::class
  *          ]
  *      ];
- *      protected static array $manyToMany = [
+ *      protected static array $belongsToMany = [
  *          '<name_of_collection>' => [
  *              'pivotTable' => '<name_of_pivot_table>',
  *              'foreignKeys' => ['<foreign_key_relation_model>', '<foreign_key_current_model>'],
@@ -218,7 +218,7 @@ abstract class BaseModel
      * @param string|int|float $value
      * @param string[] $with
      * @return BaseModel
-     * @throws \ReflectionException
+     * @throws \Exception
      * @noinspection SqlResolve
      */
     private static function getBy(string $field, string|int|float $value, array $with = []): BaseModel

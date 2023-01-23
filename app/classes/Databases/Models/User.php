@@ -17,7 +17,7 @@ class User extends BaseModel
 {
     protected static string $table = 'users';
 
-    protected static array $manyToMany = [
+    protected static array $belongsToMany = [
         'favoriteAlbums' => [
             'pivotTable' => 'album_user_favorites',
             'foreignKeys' => ['album_id', 'user_id'],

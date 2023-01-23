@@ -29,7 +29,7 @@ class Album extends BaseModel
         ]
     ];
 
-    protected static array $manyToMany = [
+    protected static array $belongsToMany = [
         'genres' => [
             'pivotTable' => 'album_genre',
             'foreignKeys' => ['genre_id', 'album_id'],

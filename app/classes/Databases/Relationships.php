@@ -29,16 +29,16 @@ trait Relationships
     /**
      * @var array<string, array{pivotTable: string, foreignKeys: string[], model: class-string<BaseModel>}>
      */
-    protected static array $manyToMany = [];
+    protected static array $belongsToMany = [];
     /**
      * @var array<string, BaseModel[]>
      */
-    protected array $manyToManyModels = [];
+    protected array $belongsToManyModels = [];
 
     /**
      * @var array<string, int[]>
      */
-    protected array $manyToManyIds = [];
+    protected array $belongsToManyIds = [];
 
     /**
      * @param string $name
@@ -50,21 +50,21 @@ trait Relationships
     {
         if (str_starts_with($name, 'get') && str_ends_with($name, 'Ids')) {
             $fieldName = lcfirst(substr($name, 3, -3));
-            return $this->manyToManyIds[$fieldName] ?? [];
+            return $this->belongsToManyIds[$fieldName] ?? [];
         }
 
         if (str_starts_with($name, 'set') && str_ends_with($name, 'Ids')) {
             $fieldName = lcfirst(substr($name, 3, -3));
-            $this->manyToManyIds[$fieldName] = $arguments[0];
+            $this->belongsToManyIds[$fieldName] = $arguments[0];
             return;
         }
 
         if (str_starts_with($name, 'save')) {
             $fieldName = lcfirst(substr($name, 4));
-            if (array_key_exists($fieldName, static::$manyToMany)) {
-                $ids = $this->manyToManyIds[$fieldName] ?? [];
-                $manyToManyItem = static::$manyToMany[$fieldName];
-                return $this->saveManyToManyItems($manyToManyItem['pivotTable'], $manyToManyItem['foreignKeys'], $ids);
+            if (array_key_exists($fieldName, static::$belongsToMany)) {
+                $ids = $this->belongsToManyIds[$fieldName] ?? [];
+                $belongsToManyItem = static::$belongsToMany[$fieldName];
+                return $this->saveManyToManyItems($belongsToManyItem['pivotTable'], $belongsToManyItem['foreignKeys'], $ids);
             }
         }
 
@@ -78,17 +78,17 @@ trait Relationships
      */
     public function __get(string $name): object|array
     {
-        if (array_key_exists($name, static::$manyToMany)) {
-            $manyToManyItem = static::$manyToMany[$name];
-            if (isset($this->manyToManyModels[$name])) {
-                return $this->manyToManyModels[$name];
+        if (array_key_exists($name, static::$belongsToMany)) {
+            $belongsToManyItem = static::$belongsToMany[$name];
+            if (isset($this->belongsToManyModels[$name])) {
+                return $this->belongsToManyModels[$name];
             }
-            $this->manyToManyModels[$name] = $this->getManyToManyItems(
-                $manyToManyItem['model'],
-                $manyToManyItem['pivotTable'],
-                $manyToManyItem['foreignKeys']
+            $this->belongsToManyModels[$name] = $this->getManyToManyItems(
+                $belongsToManyItem['model'],
+                $belongsToManyItem['pivotTable'],
+                $belongsToManyItem['foreignKeys']
             );
-            return $this->manyToManyModels[$name];
+            return $this->belongsToManyModels[$name];
         }
 
         if (array_key_exists($name, static::$hasMany)) {
@@ -144,8 +144,8 @@ trait Relationships
             }
         }
 
-        foreach (static::$manyToMany as $relationPropertyName => $properties) {
-            $this->manyToManyModels[$relationPropertyName] = $this->getModelsForManyRelationTypes($databaseColumns, $properties['model']);
+        foreach (static::$belongsToMany as $relationPropertyName => $properties) {
+            $this->belongsToManyModels[$relationPropertyName] = $this->getModelsForManyRelationTypes($databaseColumns, $properties['model']);
         }
 
         foreach (static::$hasMany as $relationPropertyName => $properties) {
@@ -156,7 +156,7 @@ trait Relationships
     }
 
     /**
-     * When initially setting the relations, hasMany and manyToMany have very identical behaviour
+     * When initially setting the relations, hasMany and belongsToMany have very identical behaviour
      * This method combines the logic and explodes the initial result set
      *
      * @param array<string, string|int|float> $databaseColumns
@@ -212,7 +212,7 @@ trait Relationships
             $joinQuery .= " LEFT JOIN `{$table}` ON `{$table}`.`id` = `$tableName`.`{$properties['foreignKey']}`";
         }
 
-        foreach (static::$manyToMany as $relationName => $properties) {
+        foreach (static::$belongsToMany as $relationName => $properties) {
             //Only set when actually available
             if (!in_array($relationName, $with)) {
                 continue;
@@ -239,7 +239,7 @@ trait Relationships
     }
 
     /**
-     * When creating the JOIN queries, hasMany and manyToMany have very identical behaviour
+     * When creating the JOIN queries, hasMany and belongsToMany have very identical behaviour
      * Only the final JOIN queries differ, so the other logic is executed in this method
      *
      * @param class-string<BaseModel> $modelName
