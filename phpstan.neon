@@ -3,3 +3,6 @@ parameters:
 	paths:
 		- app
 		- tests
+	dynamicConstantNames:
+		- DEBUG
+		- DEFAULT_LANGUAGE

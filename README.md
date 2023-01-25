@@ -34,6 +34,9 @@ const BASE_PATH = '/';
 const INCLUDES_PATH = __DIR__ . '/../';
 const LOG_PATH = INCLUDES_PATH . 'logs/';
 const LANGUAGE_PATH = INCLUDES_PATH . 'languages/';
+
+//Others
+const DEBUG = true;
 const LANGUAGES = ['nl' => 'Nederlands', 'en' => 'English'];
 const DEFAULT_LANGUAGE = 'nl';
 
