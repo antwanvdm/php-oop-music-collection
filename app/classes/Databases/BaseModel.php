@@ -123,9 +123,7 @@ abstract class BaseModel
 
         //Check based on ID if we need to INSERT or UPDATE
         if (!empty($this->id)) {
-            $updateKeys = array_map(function ($key) {
-                return "`$key` = :$key";
-            }, $keys);
+            $updateKeys = array_map(fn ($key) => "`$key` = :$key", $keys);
             $implodedUpdateKeys = implode(',', $updateKeys);
             $query = "UPDATE `$this->tableName`
                       SET $implodedUpdateKeys
@@ -178,6 +176,7 @@ abstract class BaseModel
      * @param string[] $with
      * @return object[]
      * @throws \ReflectionException
+     * @noinspection SqlResolve
      */
     public static function getAll(array $with = []): array
     {

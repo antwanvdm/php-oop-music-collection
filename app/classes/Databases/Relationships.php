@@ -213,10 +213,10 @@ trait Relationships
             $fields = Reflection::getPromotedPublicProperties($properties['model']);
             $table = $properties['model']::$table;
             foreach ($fields as $field) {
-                $select .= ", {$table}.$field->name AS {$table}_$field->name";
+                $select .= ", `$table`.`$field->name` AS {$table}_$field->name";
             }
 
-            $joinQuery .= " LEFT JOIN `{$table}` ON `{$table}`.`id` = `$tableName`.`{$properties['foreignKey']}`";
+            $joinQuery .= " LEFT JOIN `$table` ON `$table`.`id` = `$tableName`.`{$properties['foreignKey']}`";
         }
 
         foreach (static::$belongsToMany as $relationName => $properties) {
@@ -227,8 +227,8 @@ trait Relationships
             $select .= self::getSelectGroupQueryForManyModels($properties['model']);
             $table = $properties['model']::$table;
 
-            $joinQuery .= " LEFT JOIN `{$properties['pivotTable']}` ON `{$properties['pivotTable']}`.`{$properties['foreignKeys'][1]}` = `{$tableName}`.`id`";
-            $joinQuery .= " LEFT JOIN `{$table}` ON `{$table}`.`id` = `{$properties['pivotTable']}`.`{$properties['foreignKeys'][0]}`";
+            $joinQuery .= " LEFT JOIN `{$properties['pivotTable']}` ON `{$properties['pivotTable']}`.`{$properties['foreignKeys'][1]}` = `$tableName`.`id`";
+            $joinQuery .= " LEFT JOIN `$table` ON `$table`.`id` = `{$properties['pivotTable']}`.`{$properties['foreignKeys'][0]}`";
         }
 
         foreach (static::$hasMany as $relationName => $properties) {
@@ -239,7 +239,7 @@ trait Relationships
             $select .= self::getSelectGroupQueryForManyModels($properties['model']);
             $table = $properties['model']::$table;
 
-            $joinQuery .= " LEFT JOIN `{$table}` ON `{$table}`.`{$properties['foreignKey']}` = `{$tableName}`.`id`";
+            $joinQuery .= " LEFT JOIN `$table` ON `$table`.`{$properties['foreignKey']}` = `$tableName`.`id`";
         }
 
         return $joinQuery;
@@ -280,7 +280,7 @@ trait Relationships
 
             $statement = $db->prepare(
                 "SELECT * FROM `{$relationModelName::$table}`
-                        WHERE `id` = :id"
+                        WHERE id = :id"
             );
             $statement->execute([':id' => $this->$foreignKey]);
 
@@ -313,8 +313,8 @@ trait Relationships
 
         $statement = $db->prepare(
             "SELECT r.* FROM `{$relationModelName::$table}` AS r
-                    LEFT JOIN `$this->tableName` t ON `t`.`id` = `r`.`$foreignKey`
-                    WHERE `t`.`id` = :id"
+                    LEFT JOIN `$this->tableName` t ON t.id = r.`$foreignKey`
+                    WHERE t.id = :id"
         );
         $statement->execute([':id' => $this->id]);
 
@@ -339,9 +339,9 @@ trait Relationships
 
         $statement = $db->prepare(
             "SELECT r.* FROM `{$relationModelName::$table}` AS r
-                    LEFT JOIN `$pivotTable` p ON r.id = p.$foreignKeys[0]
-                    LEFT JOIN `$this->tableName` t on p.$foreignKeys[1] = t.id
-                    WHERE `t`.`id` = :id"
+                    LEFT JOIN `$pivotTable` p ON r.id = p.`$foreignKeys[0]`
+                    LEFT JOIN `$this->tableName` t on p.`$foreignKeys[1]` = t.id
+                    WHERE t.id = :id"
         );
         $statement->execute([':id' => $this->id]);
 
