@@ -1,6 +1,7 @@
 <?php namespace MusicCollection\Databases;
 
 use MusicCollection\Utils\Logger;
+use MusicCollection\Utils\Reflection;
 
 /**
  * Trait Relationships
@@ -209,12 +210,10 @@ trait Relationships
                 continue;
             }
 
-            $fields = (new \ReflectionClass($properties['model']))->getProperties(\ReflectionProperty::IS_PUBLIC);
+            $fields = Reflection::getPromotedPublicProperties($properties['model']);
             $table = $properties['model']::$table;
             foreach ($fields as $field) {
-                if ($field->isPromoted()) {
-                    $select .= ", {$table}.$field->name AS {$table}_$field->name";
-                }
+                $select .= ", {$table}.$field->name AS {$table}_$field->name";
             }
 
             $joinQuery .= " LEFT JOIN `{$table}` ON `{$table}`.`id` = `$tableName`.`{$properties['foreignKey']}`";
@@ -258,13 +257,11 @@ trait Relationships
      */
     private static function getSelectGroupQueryForManyModels(string $modelName): string
     {
-        $fields = (new \ReflectionClass($modelName))->getProperties(\ReflectionProperty::IS_PUBLIC);
+        $fields = Reflection::getPromotedPublicProperties($modelName);
         $table = $modelName::$table;
         $columns = [];
         foreach ($fields as $field) {
-            if ($field->isPromoted()) {
-                $columns[] = "$table.$field->name";
-            }
+            $columns[] = "$table.$field->name";
         }
         $joinedColumns = implode(",';;',", $columns);
         return ", GROUP_CONCAT(DISTINCT CONCAT($joinedColumns) SEPARATOR '||') AS $table";

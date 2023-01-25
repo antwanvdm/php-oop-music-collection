@@ -1,6 +1,7 @@
 <?php namespace MusicCollection\Databases;
 
 use MusicCollection\Utils\Logger;
+use MusicCollection\Utils\Reflection;
 
 /**
  * Class BaseModel
@@ -87,13 +88,11 @@ abstract class BaseModel
     private function getDatabaseFieldPropertiesWithValues(): array
     {
         try {
-            $dynamicProperties = (new \ReflectionClass($this))->getProperties(\ReflectionProperty::IS_PUBLIC);
+            $dynamicProperties = Reflection::getPromotedPublicProperties($this);
             $objectVars = get_object_vars($this);
             $properties = [];
             foreach ($dynamicProperties as $dynamicProperty) {
-                if ($dynamicProperty->isPromoted()) {
-                    $properties[$dynamicProperty->name] = $objectVars[$dynamicProperty->name];
-                }
+                $properties[$dynamicProperty->name] = $objectVars[$dynamicProperty->name];
             }
 
             return $properties;
