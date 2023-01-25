@@ -89,7 +89,6 @@ class AlbumController extends BaseController
                 $this->album = $this->session->get('album');
             } else {
                 $this->album = Album::getById($id, ['artist', 'genres']);
-                $this->album->setGenresIds(array_map(fn (Genre $genre) => $genre->id, $this->album->genres));
             }
 
             $pageTitle = T::__('album.edit.pageTitle', [

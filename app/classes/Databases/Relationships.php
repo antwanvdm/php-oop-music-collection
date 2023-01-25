@@ -64,7 +64,7 @@ trait Relationships
             if (array_key_exists($fieldName, static::$belongsToMany)) {
                 $ids = $this->belongsToManyIds[$fieldName] ?? [];
                 $belongsToManyItem = static::$belongsToMany[$fieldName];
-                return $this->saveManyToManyItems($belongsToManyItem['pivotTable'], $belongsToManyItem['foreignKeys'], $ids);
+                return $this->saveBelongsToManyItems($belongsToManyItem['pivotTable'], $belongsToManyItem['foreignKeys'], $ids);
             }
         }
 
@@ -78,16 +78,26 @@ trait Relationships
      */
     public function __get(string $name): object|array
     {
+        if (array_key_exists($name, static::$belongsTo)) {
+            $belongsToItem = static::$belongsTo[$name];
+            if (isset($this->belongsToModels[$name])) {
+                return $this->belongsToModels[$name];
+            }
+            $this->belongsToModels[$name] = $this->getBelongsToItem($belongsToItem['model'], $belongsToItem['foreignKey']);
+            return $this->belongsToModels[$name];
+        }
+
         if (array_key_exists($name, static::$belongsToMany)) {
             $belongsToManyItem = static::$belongsToMany[$name];
             if (isset($this->belongsToManyModels[$name])) {
                 return $this->belongsToManyModels[$name];
             }
-            $this->belongsToManyModels[$name] = $this->getManyToManyItems(
+            $this->belongsToManyModels[$name] = $this->getBelongsToManyItems(
                 $belongsToManyItem['model'],
                 $belongsToManyItem['pivotTable'],
                 $belongsToManyItem['foreignKeys']
             );
+            $this->belongsToManyIds[$name] = array_map(fn (BaseModel $model) => $model->id, $this->belongsToManyModels[$name]);
             return $this->belongsToManyModels[$name];
         }
 
@@ -98,15 +108,6 @@ trait Relationships
             }
             $this->hasManyModels[$name] = $this->getHasManyItems($hasManyItem['model'], $hasManyItem['foreignKey']);
             return $this->hasManyModels[$name];
-        }
-
-        if (array_key_exists($name, static::$belongsTo)) {
-            $belongsToItem = static::$belongsTo[$name];
-            if (isset($this->belongsToModels[$name])) {
-                return $this->belongsToModels[$name];
-            }
-            $this->belongsToModels[$name] = $this->getBelongsToItem($belongsToItem['model'], $belongsToItem['foreignKey']);
-            return $this->belongsToModels[$name];
         }
 
         throw new \Exception("There is no relation defined for $name doesn't exist");
@@ -145,11 +146,18 @@ trait Relationships
         }
 
         foreach (static::$belongsToMany as $relationPropertyName => $properties) {
-            $this->belongsToManyModels[$relationPropertyName] = $this->getModelsForManyRelationTypes($databaseColumns, $properties['model']);
+            $models = $this->getModelsForManyRelationTypes($databaseColumns, $properties['model']);
+            if (!empty($models)) {
+                $this->belongsToManyModels[$relationPropertyName] = $models;
+                $this->belongsToManyIds[$relationPropertyName] = array_map(fn (BaseModel $model) => $model->id, $models);
+            }
         }
 
         foreach (static::$hasMany as $relationPropertyName => $properties) {
-            $this->hasManyModels[$relationPropertyName] = $this->getModelsForManyRelationTypes($databaseColumns, $properties['model']);
+            $models = $this->getModelsForManyRelationTypes($databaseColumns, $properties['model']);
+            if (!empty($models)) {
+                $this->hasManyModels[$relationPropertyName] = $this->getModelsForManyRelationTypes($databaseColumns, $properties['model']);
+            }
         }
 
         return $this;
@@ -323,7 +331,7 @@ trait Relationships
      * @return object[]
      * @noinspection SqlResolve
      */
-    private function getManyToManyItems(string $relationModelName, string $pivotTable, array $foreignKeys): array
+    private function getBelongsToManyItems(string $relationModelName, string $pivotTable, array $foreignKeys): array
     {
         try {
             $db = Database::i();
@@ -350,7 +358,7 @@ trait Relationships
      * @return bool
      * @noinspection SqlResolve
      */
-    private function saveManyToManyItems(string $pivotTable, array $foreignKeys, array $itemIds): bool
+    private function saveBelongsToManyItems(string $pivotTable, array $foreignKeys, array $itemIds): bool
     {
         try {
             $db = Database::i();
