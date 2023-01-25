@@ -106,6 +106,12 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 
 ## Changelog
 
+### 2.5.2
+
+- Drastically improved queries with "with" feature to eager load relations
+- Every action now logs total database queries executed per page when debug is true
+- Some naming & consistency refactoring in Model related classes
+
 ### v2.5.1
 
 - Fixed the routes to prioritize fully named routes over routes with parameters to
