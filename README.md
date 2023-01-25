@@ -98,6 +98,9 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - [x] ~~Make controller actions return something (View or JSON)~~
 - [x] ~~Implement the hasMany & manyToMany relations in a reusable way for future cases~~
 - [x] ~~Fix some stuff in the Template, Router & Controller (see TODO in code)~~
+- [x] ~~Improve total queries executed per page with eager loading for ALL relations~~
+- [ ] Check if the Validation class logic can be improved to not be dependent on
+  models, but on input (Request) only
 - [ ] Create something like flash messages for the session
 - [ ] Implement a basic migrations system to create tables
 - [ ] Add some kind of event dispatching system (maybe to easily add 'global' variables
@@ -106,7 +109,7 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 
 ## Changelog
 
-### 2.5.2
+### v2.5.2
 
 - Drastically improved queries with "with" feature to eager load relations
 - Every action now logs total database queries executed per page when debug is true
