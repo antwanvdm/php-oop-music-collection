@@ -9,7 +9,7 @@ use MusicCollection\Translation\Translator as T;
  */
 class LanguageController extends BaseController
 {
-    protected function change(): void
+    protected function change(): never
     {
         $language = $this->request->input('language');
         T::setLanguage($language);

@@ -121,7 +121,7 @@ class AlbumController extends BaseController
         ]);
     }
 
-    protected function save(): void
+    protected function save(): never
     {
         try {
             //Prepare a new object & execute POST logic

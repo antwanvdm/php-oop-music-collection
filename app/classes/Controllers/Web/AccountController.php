@@ -50,7 +50,7 @@ class AccountController extends BaseController
     /**
      * @noinspection PhpUnused
      */
-    protected function loginPost(): void
+    protected function loginPost(): never
     {
         //Redirect any false entries
         if (!$this->request->hasInput('submit')) {
@@ -94,7 +94,7 @@ class AccountController extends BaseController
     /**
      * @noinspection PhpUnused
      */
-    protected function logout(): void
+    protected function logout(): never
     {
         $this->session->destroy();
         header('Location: ' . BASE_PATH);

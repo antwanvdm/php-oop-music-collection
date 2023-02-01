@@ -33,6 +33,7 @@ class Route
         public string $className,
         public string $action
     ) {
+        //Filter out the parameters based on dynamic names like {id}
         if (preg_match_all("/\{([a-zA-Z0-9]+)\}/", $path, $matches)) {
             foreach ($matches[1] as $match) {
                 if (in_array($match, $this->params)) {

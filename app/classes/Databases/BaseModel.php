@@ -250,7 +250,7 @@ abstract class BaseModel
 
         try {
             $modelName = $modelName ?? get_called_class();
-            $model = new $modelName(...array_merge(array_values($params)));
+            $model = new $modelName(...array_values($params));
             assert($model instanceof BaseModel);
             return $model->setRelations($params);
         } catch (\Exception $e) {
