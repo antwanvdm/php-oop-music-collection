@@ -99,6 +99,7 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - [x] ~~Implement the hasMany & manyToMany relations in a reusable way for future cases~~
 - [x] ~~Fix some stuff in the Template, Router & Controller (see TODO in code)~~
 - [x] ~~Improve total queries executed per page with eager loading for ALL relations~~
+- [x] ~~Implemented enums for a column of the Album~~
 - [ ] Check if the Validation class logic can be improved to not be dependent on
   models, but on input (Request) only
 - [ ] Create something like flash messages for the session
@@ -111,11 +112,11 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 
 ### v2.6.0
 
-- Upgraded to PHP 8.2, everything works fine. phpStan still complies
+- Upgraded to PHP8.2, everything works fine. phpStan still complies
 - Added enum for AlbumRecording. Works nice as state, only difficult with ORM as it will
   always be an int resolving from the database
 - If you want PHP CS Fixer, run `PHP_CS_FIXER_IGNORE_ENV=1 composer run php-cs-fixer:dry`
-  as it doesn't support PHP 8.2 yet
+  as it doesn't support PHP8.2 yet
 
 ### v2.5.2
 
