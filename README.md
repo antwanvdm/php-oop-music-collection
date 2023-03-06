@@ -109,6 +109,14 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 
 ## Changelog
 
+### v2.6.0
+
+- Upgraded to PHP 8.2, everything works fine. phpStan still complies
+- Added enum for AlbumRecording. Works nice as state, only difficult with ORM as it will
+  always be an int resolving from the database
+- If you want PHP CS Fixer, run `PHP_CS_FIXER_IGNORE_ENV=1 composer run php-cs-fixer:dry`
+  as it doesn't support PHP 8.2 yet
+
 ### v2.5.2
 
 - Drastically improved queries with "with" feature to eager load relations
