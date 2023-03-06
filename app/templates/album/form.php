@@ -3,6 +3,7 @@
  * @var \MusicCollection\Databases\Models\Album $album
  * @var \MusicCollection\Databases\Models\Artist[] $artists
  * @var \MusicCollection\Databases\Models\Genre[] $genres
+ * @var iterable<\MusicCollection\Databases\Models\Enums\AlbumRecording> $recordingCases
  * @var int[] $genreIds
  * @var callable $route
  * @var callable $t
@@ -28,6 +29,18 @@
             </div>
             <div class="field-body">
                 <input class="input" id="name" type="text" name="name" value="<?= $album->name; ?>"/>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label is-normal">
+                <label class="label" for="recording"><?= $t('album.form.recordingLabel'); ?></label>
+            </div>
+            <div class="field-body select is-fullwidth">
+                <select name="recording" id="recording">
+                    <?php foreach ($recordingCases as $recordingCase): ?>
+                        <option value="<?= $recordingCase->value; ?>" <?= $recordingCase === $album->recording ? 'selected' : '' ?>><?= $recordingCase->label(); ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
         </div>
         <div class="field is-horizontal">

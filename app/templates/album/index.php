@@ -19,9 +19,8 @@
         <th>#</th>
         <th><?= $t('album.form.artistLabel'); ?></th>
         <th><?= $t('album.form.nameLabel'); ?></th>
+        <th><?= $t('album.form.recordingLabel'); ?></th>
         <th><?= $t('album.form.genreLabel'); ?></th>
-        <th><?= $t('album.form.yearLabel'); ?></th>
-        <th><?= $t('album.form.tracksLabel'); ?></th>
         <th colspan="3"></th>
     </tr>
     </thead>
@@ -39,6 +38,7 @@
             <td class="is-vcentered"><?= $album->id; ?></td>
             <td class="is-vcentered"><?= $album->artist->name; ?></td>
             <td class="is-vcentered"><?= $album->name; ?></td>
+            <td class="is-vcentered"><?= $album->recording->label(); ?></td>
             <td class="is-vcentered">
                 <ul>
                     <?php foreach ($album->genres as $genre): ?>
@@ -46,8 +46,6 @@
                     <?php endforeach; ?>
                 </ul>
             </td>
-            <td class="is-vcentered"><?= $album->year; ?></td>
-            <td class="is-vcentered"><?= $album->tracks; ?></td>
             <td class="is-vcentered"><a href="<?= $route('albums.detail', ['id' => $album->id]); ?>"><?= $t('album.index.detailsLink'); ?></a></td>
             <td class="is-vcentered"><a href="<?= $route('albums.edit', ['id' => $album->id]); ?>"><?= $t('album.index.editLink'); ?></a></td>
             <td class="is-vcentered"><a href="<?= $route('albums.delete', ['id' => $album->id]); ?>"><?= $t('album.index.deleteLink'); ?></a></td>

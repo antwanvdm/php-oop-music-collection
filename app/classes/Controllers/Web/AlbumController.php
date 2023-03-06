@@ -3,6 +3,7 @@
 use MusicCollection\Controllers\BaseController;
 use MusicCollection\Databases\Models\Album;
 use MusicCollection\Databases\Models\Artist;
+use MusicCollection\Databases\Models\Enums\AlbumRecording;
 use MusicCollection\Databases\Models\Genre;
 use MusicCollection\Databases\Models\User;
 use MusicCollection\Responses\View;
@@ -69,6 +70,7 @@ class AlbumController extends BaseController
             'pageTitle' => T::__('album.create.pageTitle'),
             'album' => $this->album,
             'artists' => Artist::getAll(),
+            'recordingCases' => AlbumRecording::cases(),
             'genres' => Genre::getAll(),
             'genreIds' => $this->album->getGenresIds(),
             'success' => $success,
@@ -114,6 +116,7 @@ class AlbumController extends BaseController
             'pageTitle' => $pageTitle,
             'album' => $this->album,
             'artists' => Artist::getAll(),
+            'recordingCases' => AlbumRecording::cases(),
             'genres' => Genre::getAll(),
             'genreIds' => $this->album->getGenresIds(),
             'success' => $success,
@@ -178,6 +181,7 @@ class AlbumController extends BaseController
             //Override object with new variables
             $this->album->artist_id = (int)$this->request->input('artist-id');
             $this->album->name = $this->request->input('name');
+            $this->album->recording = AlbumRecording::from($this->request->input('recording'));
             $this->album->year = $this->request->input('year');
             $this->album->tracks = (int)$this->request->input('tracks');
             $this->album->image = $this->request->input('current-image');

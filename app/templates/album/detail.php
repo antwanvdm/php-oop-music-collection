@@ -22,6 +22,7 @@
                     <?php endforeach; ?>
                 </ul>
             </li>
+            <li><?= $t('album.detail.recordingLabel'); ?> <?= $album->recording->label(); ?></li>
             <li><?= $t('album.detail.yearLabel'); ?> <?= $album->year; ?></li>
             <li><?= $t('album.detail.tracksLabel'); ?> <?= $album->tracks; ?></li>
         </ul>

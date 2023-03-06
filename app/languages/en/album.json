@@ -13,6 +13,7 @@
   },
   "detail": {
     "genreLabel": "Genres:",
+    "recordingLabel": "Recording:",
     "yearLabel": "Year:",
     "tracksLabel": "Tracks:"
   },
@@ -28,6 +29,7 @@
   "form": {
     "artistLabel": "Artist",
     "nameLabel": "Name Album",
+    "recordingLabel": "Recording",
     "genreLabel": "Genre(s)",
     "yearLabel": "Year",
     "tracksLabel": "Tracks",
@@ -42,6 +44,12 @@
     "yearFormat": "Year has to be a number with 4 digits",
     "tracks": "Tracks needs to be a minimum of 1",
     "image": "Image cannot be empty"
+  },
+  "recordingLabels": {
+    "studio": "Studio",
+    "live": "Live",
+    "ep": "EP",
+    "compilation": "Compilation"
   },
   "madeBy": "[NAME] by [ARTIST]",
   "notExists": "This album doesn't exist",

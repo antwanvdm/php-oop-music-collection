@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 17, 2023 at 08:32 PM
+-- Generation Time: Mar 06, 2023 at 11:04 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.1.6
 
@@ -34,6 +34,7 @@ CREATE TABLE `albums` (
   `user_id` int(11) UNSIGNED NOT NULL,
   `artist_id` int(11) UNSIGNED NOT NULL,
   `name` varchar(50) NOT NULL,
+  `recording` tinyint(1) NOT NULL,
   `year` varchar(4) NOT NULL,
   `tracks` int(3) NOT NULL,
   `image` varchar(150) NOT NULL DEFAULT ''

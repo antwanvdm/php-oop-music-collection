@@ -48,6 +48,10 @@ abstract class BaseModel
 
     protected static string $table = '';
     protected string $tableName;
+    /**
+     * @var string[]
+     */
+    protected array $cast = [];
 
     /**
      * BaseModel constructor.
@@ -61,6 +65,35 @@ abstract class BaseModel
         }
 
         $this->tableName = static::$table;
+        foreach ($this->cast as $property => $castTo) {
+            $this->$property = $this->castProperty($this->$property, $castTo);
+        }
+    }
+
+    /**
+     * @param \BackedEnum|string|int|float $currentValue
+     * @param mixed $castTo
+     * @return \BackedEnum|string|int|float
+     */
+    private function castProperty(\BackedEnum|string|int|float $currentValue, mixed $castTo): \BackedEnum|string|int|float
+    {
+        if (enum_exists($castTo) && $currentValue instanceof \BackedEnum === false) {
+            return $castTo::from($currentValue);
+        }
+        return $currentValue;
+    }
+
+    /**
+     * @param \BackedEnum|string|int|float $currentValue
+     * @param string $fieldName
+     * @return string|int|float
+     */
+    private function revertCastProperty(\BackedEnum|string|int|float $currentValue, string $fieldName): string|int|float
+    {
+        if (isset($this->cast[$fieldName]) && enum_exists($this->cast[$fieldName]) && $currentValue instanceof \BackedEnum) {
+            return $currentValue->value;
+        }
+        return $currentValue;
     }
 
     /**
@@ -92,7 +125,7 @@ abstract class BaseModel
             $objectVars = get_object_vars($this);
             $properties = [];
             foreach ($dynamicProperties as $dynamicProperty) {
-                $properties[$dynamicProperty->name] = $objectVars[$dynamicProperty->name];
+                $properties[$dynamicProperty->name] = $this->revertCastProperty($objectVars[$dynamicProperty->name], $dynamicProperty->name);
             }
 
             return $properties;

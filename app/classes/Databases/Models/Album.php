@@ -1,6 +1,7 @@
 <?php namespace MusicCollection\Databases\Models;
 
 use MusicCollection\Databases\BaseModel;
+use MusicCollection\Databases\Models\Enums\AlbumRecording;
 
 /**
  * Class Album
@@ -37,11 +38,16 @@ class Album extends BaseModel
         ]
     ];
 
+    protected array $cast = [
+        'recording' => AlbumRecording::class
+    ];
+
     public function __construct(
         public ?int $id = null,
         public ?int $user_id = null,
         public ?int $artist_id = null,
         public string $name = '',
+        public int|AlbumRecording $recording = AlbumRecording::Studio, //TODO: Make this Enum only, instead of int option
         public string $year = '',
         public int $tracks = 0,
         public string $image = ''

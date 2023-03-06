@@ -13,6 +13,7 @@
   },
   "detail": {
     "genreLabel": "Genres:",
+    "recordingLabel": "Opname:",
     "yearLabel": "Jaartal:",
     "tracksLabel": "Tracks:"
   },
@@ -28,6 +29,7 @@
   "form": {
     "artistLabel": "Artiest",
     "nameLabel": "Naam Album",
+    "recordingLabel": "Opname",
     "genreLabel": "Genre(s)",
     "yearLabel": "Jaartal",
     "tracksLabel": "Tracks",
@@ -42,6 +44,12 @@
     "yearFormat": "Jaar moet een getal met 4 cijfers zijn",
     "tracks": "Tracks moet minimaal '1' zijn",
     "image": "Afbeelding mag niet leeg zijn"
+  },
+  "recordingLabels": {
+    "studio": "Studio",
+    "live": "Live",
+    "ep": "EP",
+    "compilation": "Compilatie"
   },
   "madeBy": "[NAME] door [ARTIST]",
   "notExists": "Dit album bestaat niet",
