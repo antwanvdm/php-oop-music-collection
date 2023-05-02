@@ -1,5 +1,7 @@
 <?php namespace MusicCollection\Utils;
 
+use MusicCollection\DTO\FileUpload;
+
 /**
  * Class Image
  * @package MusicCollection\Utils
@@ -7,19 +9,14 @@
 class Image
 {
     /**
-     * @param array<string, string|int> $uploadFile
+     * @param FileUpload $uploadFile
      * @return string
      * @throws \RuntimeException
      */
-    public function save(array $uploadFile): string
+    public function save(FileUpload $uploadFile): string
     {
-        //If this request falls under any (Undefined | Multiple Files | $_FILES Corruption Attack) of them, treat it invalid.
-        if (!isset($uploadFile['error']) || is_array($uploadFile['error'])) {
-            throw new \RuntimeException('Invalid parameters.');
-        }
-
-        //Check $uploadFile['error'] value.
-        switch ($uploadFile['error']) {
+        //Check error value.
+        switch ($uploadFile->error) {
             case UPLOAD_ERR_OK:
                 break;
             case UPLOAD_ERR_NO_FILE:
@@ -32,14 +29,14 @@ class Image
         }
 
         //You should also check filesize here.
-        if ($uploadFile['size'] > 2000000) {
+        if ($uploadFile->size > 2000000) {
             throw new \RuntimeException('Exceeded filesize limit.');
         }
 
-        //DO NOT TRUST $uploadFile['mime'] VALUE !!, check MIME Type by yourself.
+        //DO NOT TRUST mime VALUE !!, check MIME Type by yourself.
         $fInfo = new \finfo(FILEINFO_MIME_TYPE);
         $extension = array_search(
-            $fInfo->file($uploadFile['tmp_name']),
+            $fInfo->file($uploadFile->tmp_name),
             [
                 'jpg' => 'image/jpeg',
                 'png' => 'image/png'
@@ -50,9 +47,9 @@ class Image
             throw new \RuntimeException('Invalid file format.');
         }
 
-        //You should name it uniquely., DO NOT USE $uploadFile['name'] WITHOUT ANY VALIDATION !!
-        $fileName = sha1_file($uploadFile['tmp_name']) . uniqid('', true) . '.' . $extension;
-        if (!move_uploaded_file($uploadFile['tmp_name'], sprintf('./images/%s', $fileName))) {
+        //You should name it uniquely., DO NOT USE name value WITHOUT ANY VALIDATION !!
+        $fileName = sha1_file($uploadFile->tmp_name) . uniqid('', true) . '.' . $extension;
+        if (!move_uploaded_file($uploadFile->tmp_name, sprintf('./images/%s', $fileName))) {
             throw new \RuntimeException('Failed to move uploaded file.');
         }
 

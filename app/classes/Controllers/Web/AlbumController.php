@@ -6,6 +6,7 @@ use MusicCollection\Databases\Models\Artist;
 use MusicCollection\Databases\Models\Enums\AlbumRecording;
 use MusicCollection\Databases\Models\Genre;
 use MusicCollection\Databases\Models\User;
+use MusicCollection\DTO\FileUpload;
 use MusicCollection\Responses\View;
 use MusicCollection\Translation\Translator as T;
 use MusicCollection\Utils\Image;
@@ -135,15 +136,16 @@ class AlbumController extends BaseController
             //Database magic when no errors are found
             if (empty($this->errors)) {
                 //If image is not empty, process the new image file
-                if ($this->request->file('image')['error'] != 4 && $id !== 0) {
+                $image = FileUpload::fromArray($this->request->file('image'));
+                if ($image->error != 4 && $id !== 0) {
                     //Remove old image
                     $this->image->delete($this->album->image);
 
                     //Store new image & retrieve name for database saving (override current image name)
-                    $this->album->image = $this->image->save($this->request->file('image'));
+                    $this->album->image = $this->image->save($image);
                 } elseif ($id === 0) {
                     //Store image & retrieve name for database saving
-                    $this->album->image = $this->image->save($this->request->file('image'));
+                    $this->album->image = $this->image->save($image);
                 }
 
                 //Set user id in Album

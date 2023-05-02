@@ -100,6 +100,8 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - [x] ~~Fix some stuff in the Template, Router & Controller (see TODO in code)~~
 - [x] ~~Improve total queries executed per page with eager loading for ALL relations~~
 - [x] ~~Implemented enums for a column of the Album~~
+- [X] ~~Implemented Data Transfer Object (DTO) to make the code more stable (typed) and
+  have less errors. Found it due to phpStan update~~
 - [ ] Check if the Validation class logic can be improved to not be dependent on
   models, but on input (Request) only
 - [ ] Create something like flash messages for the session

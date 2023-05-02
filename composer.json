@@ -15,9 +15,9 @@
     "ext-json": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.5",
-    "phpstan/phpstan": "^1.9",
-    "friendsofphp/php-cs-fixer": "^v3.13"
+    "phpunit/phpunit": "^10.1",
+    "phpstan/phpstan": "^1.10",
+    "friendsofphp/php-cs-fixer": "^v3.16"
   },
   "autoload": {
     "psr-4": {
@@ -31,6 +31,6 @@
     "test": "export XDEBUG_MODE=coverage && phpunit --testdox",
     "php-cs-fixer:dry": "php-cs-fixer fix --diff --dry-run",
     "php-cs-fixer:fix": "php-cs-fixer fix",
-    "phpstan": "phpstan analyse -c phpstan.neon --xdebug"
+    "phpstan": "phpstan analyse -c phpstan.neon"
   }
 }
