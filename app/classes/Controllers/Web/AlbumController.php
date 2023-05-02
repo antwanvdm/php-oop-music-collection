@@ -194,7 +194,7 @@ class AlbumController extends BaseController
             $validator->validate();
             $this->errors = $validator->getErrors();
 
-            if ($this->album->id === 0 && $this->request->file('image')['error'] == 4) {
+            if ($this->album->id === null && $this->request->file('image')['error'] == 4) {
                 $this->errors[] = T::__('album.validation.image');
             }
         }

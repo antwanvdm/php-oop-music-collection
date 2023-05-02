@@ -71,11 +71,11 @@ abstract class BaseModel
     }
 
     /**
-     * @param \BackedEnum|string|int|float $currentValue
+     * @param \BackedEnum|string|int|float|null $currentValue
      * @param mixed $castTo
-     * @return \BackedEnum|string|int|float
+     * @return \BackedEnum|string|int|float|null
      */
-    private function castProperty(\BackedEnum|string|int|float $currentValue, mixed $castTo): \BackedEnum|string|int|float
+    private function castProperty(\BackedEnum|string|int|float|null $currentValue, mixed $castTo): \BackedEnum|string|int|float|null
     {
         if (enum_exists($castTo) && $currentValue instanceof \BackedEnum === false) {
             return $castTo::from($currentValue);
@@ -84,11 +84,11 @@ abstract class BaseModel
     }
 
     /**
-     * @param \BackedEnum|string|int|float $currentValue
+     * @param \BackedEnum|string|int|float|null $currentValue
      * @param string $fieldName
-     * @return string|int|float
+     * @return string|int|float|null
      */
-    private function revertCastProperty(\BackedEnum|string|int|float $currentValue, string $fieldName): string|int|float
+    private function revertCastProperty(\BackedEnum|string|int|float|null $currentValue, string $fieldName): string|int|float|null
     {
         if (isset($this->cast[$fieldName]) && enum_exists($this->cast[$fieldName]) && $currentValue instanceof \BackedEnum) {
             return $currentValue->value;
