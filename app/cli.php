@@ -3,5 +3,4 @@
 require_once 'vendor/autoload.php';
 
 //Initialize bootstrap & render the application
-$bootstrap = new \MusicCollection\Bootstrap\CLIBootstrap();
-echo $bootstrap->render();
+echo (new \MusicCollection\Bootstrap\CLIBootstrap())->render();

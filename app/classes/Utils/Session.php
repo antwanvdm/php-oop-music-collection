@@ -18,10 +18,12 @@ class Session implements Singleton
 
     /**
      * Initialize object
+     * Have a fallback for $_SESSION for CLI usage
+     * @TODO find a better way, as now we don't know it the actual $_SESSION is used or not
      */
     private function __construct()
     {
-        $this->data = $_SESSION;
+        $this->data = $_SESSION ?? [];
     }
 
     /**
