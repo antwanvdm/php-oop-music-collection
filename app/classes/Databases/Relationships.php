@@ -168,7 +168,7 @@ trait Relationships
      * When initially setting the relations, hasMany and belongsToMany have very identical behaviour
      * This method combines the logic and explodes the initial result set
      *
-     * @param array<string, string|int|float> $databaseColumns
+     * @param array<string, string|int|float|null> $databaseColumns
      * @param class-string<BaseModel> $modelName
      * @return BaseModel[]
      * @see BaseModel::setRelations()

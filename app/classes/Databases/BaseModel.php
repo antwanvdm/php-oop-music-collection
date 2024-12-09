@@ -77,7 +77,7 @@ abstract class BaseModel
      */
     private function castProperty(\BackedEnum|string|int|float|null $currentValue, mixed $castTo): \BackedEnum|string|int|float|null
     {
-        if (enum_exists($castTo) && $currentValue instanceof \BackedEnum === false) {
+        if (is_a($castTo, \BackedEnum::class, true) && $currentValue instanceof \BackedEnum === false) {
             return $castTo::from($currentValue);
         }
         return $currentValue;
@@ -283,7 +283,7 @@ abstract class BaseModel
 
         try {
             $modelName = $modelName ?? get_called_class();
-            $model = new $modelName(...array_values($params));
+            $model = class_exists($modelName) ? new $modelName(...array_values($params)) : false;
             assert($model instanceof BaseModel);
             return $model->setRelations($params);
         } catch (\Exception $e) {

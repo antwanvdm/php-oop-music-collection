@@ -1,5 +1,6 @@
 <?php namespace System\Utils;
 
+use MusicCollection\DTO\FileUpload;
 use MusicCollection\Utils\Image;
 use PHPUnit\Framework\TestCase;
 
@@ -30,7 +31,8 @@ class ImageTest extends TestCase
         $this->expectExceptionMessage('Failed to move uploaded file.');
 
         $image = new Image();
-        $this->assertStringEndsWith($_FILES['image']['name'], $image->save($_FILES['image']));
+        $upload = FileUpload::fromArray($_FILES['image']);
+        $this->assertStringEndsWith($_FILES['image']['name'], $image->save($upload));
     }
 
     public function testSaveSize(): void
@@ -40,7 +42,8 @@ class ImageTest extends TestCase
         $this->expectExceptionMessage('Exceeded filesize limit.');
 
         $image = new Image();
-        $this->assertStringEndsWith($_FILES['image']['name'], $image->save($_FILES['image']));
+        $upload = FileUpload::fromArray($_FILES['image']);
+        $this->assertStringEndsWith($_FILES['image']['name'], $image->save($upload));
     }
 
     public function testSaveSizeStatus1(): void
@@ -50,7 +53,8 @@ class ImageTest extends TestCase
         $this->expectExceptionMessage('Exceeded filesize limit.');
 
         $image = new Image();
-        $this->assertStringEndsWith($_FILES['image']['name'], $image->save($_FILES['image']));
+        $upload = FileUpload::fromArray($_FILES['image']);
+        $this->assertStringEndsWith($_FILES['image']['name'], $image->save($upload));
     }
 
     public function testSaveSizeStatus2(): void
@@ -59,7 +63,8 @@ class ImageTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Exceeded filesize limit.');
         $image = new Image();
-        $this->assertStringEndsWith($_FILES['image']['name'], $image->save($_FILES['image']));
+        $upload = FileUpload::fromArray($_FILES['image']);
+        $this->assertStringEndsWith($_FILES['image']['name'], $image->save($upload));
     }
 
     public function testSaveUnknownErrors(): void
@@ -69,7 +74,8 @@ class ImageTest extends TestCase
         $this->expectExceptionMessage('Unknown errors.');
 
         $image = new Image();
-        $this->assertStringEndsWith($_FILES['image']['name'], $image->save($_FILES['image']));
+        $upload = FileUpload::fromArray($_FILES['image']);
+        $this->assertStringEndsWith($_FILES['image']['name'], $image->save($upload));
     }
 
     public function testSaveNoFile(): void
@@ -79,7 +85,8 @@ class ImageTest extends TestCase
         $this->expectExceptionMessage('No file sent.');
 
         $image = new Image();
-        $this->assertStringEndsWith($_FILES['image']['name'], $image->save($_FILES['image']));
+        $upload = FileUpload::fromArray($_FILES['image']);
+        $this->assertStringEndsWith($_FILES['image']['name'], $image->save($upload));
     }
 
     public function testSaveInvalidFormat(): void
@@ -89,6 +96,7 @@ class ImageTest extends TestCase
         $this->expectExceptionMessage('Invalid file format.');
 
         $image = new Image();
-        $this->assertStringEndsWith($_FILES['image']['name'], $image->save($_FILES['image']));
+        $upload = FileUpload::fromArray($_FILES['image']);
+        $this->assertStringEndsWith($_FILES['image']['name'], $image->save($upload));
     }
 }

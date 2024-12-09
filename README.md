@@ -41,10 +41,10 @@ const LANGUAGES = ['nl' => 'Nederlands', 'en' => 'English'];
 const DEFAULT_LANGUAGE = 'nl';
 
 //Custom error handler, so every error will throw a custom ErrorException
-set_error_handler(function (int $severity, string $message, string $file, int $line): bool|null {
+set_error_handler(function (int $severity, string $message, string $file, int $line): bool {
     //Still respect the @ surpassing of errors. phpstan uses it and gave me weird caching errors
     if ((error_reporting() & $severity) === 0) {
-        return null;
+        return false;
     }
     throw new ErrorException($message, $severity, $severity, $file, $line);
 });
@@ -102,6 +102,7 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - [x] ~~Implemented enums for a column of the Album~~
 - [X] ~~Implemented Data Transfer Object (DTO) to make the code more stable (typed) and
   have less errors. Found it due to phpStan update~~
+- [ ] Check PHP8.3/8.4 features and see which are cool/relevant to implement
 - [ ] Check if the Validation class logic can be improved to not be dependent on
   models, but on input (Request) only
 - [ ] Create something like flash messages for the session
@@ -111,6 +112,15 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - [ ] Make an actual composer package for this (separate music collection from the core)
 
 ## Changelog
+
+### v2.7.0
+
+- Upgraded to PHP8.3, everything works fine.
+- Upgraded phpStan to v2.0, which needed some minor fixes to be back on lv6 again
+- Upgraded phpUnit to v11.0, needed an upgraded XML. Also fixed the ImageTest as it
+  was broken due to earlier DTO refactoring
+- Upgraded PHP-CS-Fixed to v3.65, needed to add blank_lines_before_namespace rule to
+  replace the deprecated single_blank_line_before_namespace rule
 
 ### v2.6.0
 
