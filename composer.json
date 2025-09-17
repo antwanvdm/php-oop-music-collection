@@ -31,6 +31,6 @@
     "test": "export XDEBUG_MODE=coverage && phpunit --testdox --coverage-text",
     "php-cs-fixer:dry": "export XDEBUG_MODE=off && php-cs-fixer fix --diff --dry-run",
     "php-cs-fixer:fix": "export XDEBUG_MODE=off && php-cs-fixer fix",
-    "phpstan": "export XDEBUG_MODE=off && phpstan analyse -c phpstan.neon"
+    "phpstan": "export XDEBUG_MODE=off && phpstan --memory-limit=256M analyse -c phpstan.neon"
   }
 }
