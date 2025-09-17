@@ -2,12 +2,16 @@
 
 use MusicCollection\DTO\FileUpload;
 use MusicCollection\Utils\Image;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class ImageTest
  * @package System\Utils
  */
+#[CoversClass(Image::class)]
+#[UsesClass(FileUpload::class)]
 class ImageTest extends TestCase
 {
     public function setUp(): void

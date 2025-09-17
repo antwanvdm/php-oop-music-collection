@@ -1,12 +1,14 @@
 <?php namespace System\Utils;
 
 use MusicCollection\Utils\Session;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class SessionTest
  * @package System\Utils
  */
+#[CoversClass(Session::class)]
 class SessionTest extends TestCase
 {
     /**
