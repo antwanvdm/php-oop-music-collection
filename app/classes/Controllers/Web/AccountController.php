@@ -75,7 +75,7 @@ class AccountController extends BaseController
         //Actual validation
         $validator = new LoginValidator($user, $password);
         $validator->validate();
-        $this->errors = $validator->getErrors();
+        $this->errors = $validator->errors;
 
         //When no error, set session variable, redirect & exit script
         if (empty($this->errors)) {

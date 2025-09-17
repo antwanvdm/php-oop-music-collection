@@ -12,7 +12,12 @@ class GenreValidator implements Validator
     /**
      * @var string[]
      */
-    private array $errors = [];
+    private array $errorList = [];
+    public array $errors {
+        get {
+            return $this->errorList;
+        }
+    }
 
     /**
      * GenreValidator constructor.
@@ -30,15 +35,7 @@ class GenreValidator implements Validator
     {
         //Check if data is valid & generate error if not so
         if ($this->genre->name == '') {
-            $this->errors[] = T::__('genre.validation.name');
+            $this->errorList[] = T::__('genre.validation.name');
         }
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getErrors(): array
-    {
-        return $this->errors;
     }
 }

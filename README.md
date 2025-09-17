@@ -102,7 +102,7 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - [x] ~~Implemented enums for a column of the Album~~
 - [X] ~~Implemented Data Transfer Object (DTO) to make the code more stable (typed) and
   have less errors. Found it due to phpStan update~~
-- [ ] Check PHP8.3/8.4 features and see which are cool/relevant to implement
+- [X] ~~Check PHP8.3/8.4 features and see which are cool/relevant to implement~~
 - [ ] Check if the Validation class logic can be improved to not be dependent on
   models, but on input (Request) only
 - [ ] Create something like flash messages for the session
@@ -112,6 +112,14 @@ set_error_handler(function (int $severity, string $message, string $file, int $l
 - [ ] Make an actual composer package for this (separate music collection from the core)
 
 ## Changelog
+
+### v2.8.0
+
+- Upgraded to PHP8.4, everything works fine.
+- Upgraded phpStan to v2.1, which needed some minor fixes to be back on lv6 again
+- Upgraded phpUnit to v12.3, with updated config
+- Upgraded PHP-CS-Fixed to v3.87
+- Implemented Property Hooks for Validation classes
 
 ### v2.7.0
 

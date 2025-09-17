@@ -12,7 +12,12 @@ class ArtistValidator implements Validator
     /**
      * @var string[]
      */
-    private array $errors = [];
+    private array $errorList = [];
+    public array $errors {
+        get {
+            return $this->errorList;
+        }
+    }
 
     /**
      * ArtistValidator constructor.
@@ -30,15 +35,7 @@ class ArtistValidator implements Validator
     {
         //Check if data is valid & generate error if not so
         if ($this->artist->name == '') {
-            $this->errors[] = T::__('artist.validation.name');
+            $this->errorList[] = T::__('artist.validation.name');
         }
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getErrors(): array
-    {
-        return $this->errors;
     }
 }

@@ -13,7 +13,7 @@ class Reflection
      */
     public static function getPromotedPublicProperties(object|string $objectOrString): array
     {
-        $publicProperties = (new \ReflectionClass($objectOrString))->getProperties(\ReflectionProperty::IS_PUBLIC);
+        $publicProperties = new \ReflectionClass($objectOrString)->getProperties(\ReflectionProperty::IS_PUBLIC);
         return array_filter($publicProperties, fn (\ReflectionProperty $property) => $property->isPromoted());
     }
 }

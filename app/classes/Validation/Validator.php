@@ -12,7 +12,7 @@ interface Validator
     public function validate(): void;
 
     /**
-     * @return string[]
+     * @var string[]
      */
-    public function getErrors(): array;
+    public array $errors { get; }
 }

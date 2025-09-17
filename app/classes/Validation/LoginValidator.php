@@ -12,7 +12,12 @@ class LoginValidator implements Validator
     /**
      * @var string[]
      */
-    private array $errors = [];
+    private array $errorList = [];
+    public array $errors {
+        get {
+            return $this->errorList;
+        }
+    }
 
     /**
      * LoginValidator constructor.
@@ -33,18 +38,10 @@ class LoginValidator implements Validator
         if (!empty($this->user->email)) {
             //Validate password
             if (!password_verify($this->password, $this->user->password)) {
-                $this->errors[] = T::__('account.validation.loginError');
+                $this->errorList[] = T::__('account.validation.loginError');
             }
         } else {
-            $this->errors[] = T::__('account.validation.loginError');
+            $this->errorList[] = T::__('account.validation.loginError');
         }
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getErrors(): array
-    {
-        return $this->errors;
     }
 }

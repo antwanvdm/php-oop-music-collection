@@ -127,7 +127,7 @@ class GenreController extends BaseController
             //Actual validation
             $validator = new GenreValidator($this->genre);
             $validator->validate();
-            $this->errors = $validator->getErrors();
+            $this->errors = $validator->errors;
         }
     }
 

@@ -12,7 +12,10 @@ class AlbumValidator implements Validator
     /**
      * @var string[]
      */
-    private array $errors = [];
+    private array $errorList = [];
+    public array $errors {
+        get => $this->errorList;
+    }
 
     /**
      * AlbumValidator constructor.
@@ -30,30 +33,22 @@ class AlbumValidator implements Validator
     {
         //Check if data is valid & generate error if not so
         if ($this->album->artist_id == '') {
-            $this->errors[] = T::__('album.validation.artist');
+            $this->errorList[] = T::__('album.validation.artist');
         }
         if ($this->album->name == '') {
-            $this->errors[] = T::__('album.validation.name');
+            $this->errorList[] = T::__('album.validation.name');
         }
         if (empty($this->album->getGenresIds())) {
-            $this->errors[] = T::__('album.validation.genre');
+            $this->errorList[] = T::__('album.validation.genre');
         }
         if ($this->album->year == '') {
-            $this->errors[] = T::__('album.validation.year');
+            $this->errorList[] = T::__('album.validation.year');
         }
         if (!is_numeric($this->album->year) || strlen($this->album->year) != 4) {
-            $this->errors[] = T::__('album.validation.yearFormat');
+            $this->errorList[] = T::__('album.validation.yearFormat');
         }
         if ($this->album->tracks == 0 || $this->album->tracks < 1) {
-            $this->errors[] = T::__('album.validation.tracks');
+            $this->errorList[] = T::__('album.validation.tracks');
         }
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getErrors(): array
-    {
-        return $this->errors;
     }
 }

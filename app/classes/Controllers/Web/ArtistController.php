@@ -130,7 +130,7 @@ class ArtistController extends BaseController
             //Actual validation
             $validator = new ArtistValidator($this->artist);
             $validator->validate();
-            $this->errors = $validator->getErrors();
+            $this->errors = $validator->errors;
         }
     }
 

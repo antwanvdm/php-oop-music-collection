@@ -192,7 +192,7 @@ class AlbumController extends BaseController
             //Actual validation
             $validator = new AlbumValidator($this->album);
             $validator->validate();
-            $this->errors = $validator->getErrors();
+            $this->errors = $validator->errors;
 
             if ($this->album->id === null && $this->request->file('image')['error'] == 4) {
                 $this->errors[] = T::__('album.validation.image');

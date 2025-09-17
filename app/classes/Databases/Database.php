@@ -56,7 +56,7 @@ class Database extends \PDO implements Singleton
         }
 
         $totalQueries = (int)self::i()->query('SHOW SESSION STATUS LIKE "Questions"')->fetchColumn(1) - 1;
-        $currentPage = (new Request())->currentPath();
+        $currentPage = new Request()->currentPath();
         Logger::info("Page with url '/$currentPage' executed $totalQueries queries");
     }
 }

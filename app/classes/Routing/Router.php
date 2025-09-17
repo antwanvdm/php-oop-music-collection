@@ -221,14 +221,6 @@ class Router
     }
 
     /**
-     * @return Route[]
-     */
-    public function getRoutes(): array
-    {
-        return $this->routes;
-    }
-
-    /**
      * @param string|null $prefix
      * @param class-string|class-string[]|null $middleware
      * @param callable $callback
